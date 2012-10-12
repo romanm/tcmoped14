@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/webflow 
+		http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+
+	<input name="id" required="true" />
+	<input name="a" required="true" />
+
+	<action-state id="aHandle">
+		<evaluate expression="a"/>
+		<transition on="ed_drug" to="ed_drug" />
+		<transition on="ed_dose" to="ed_dose" />
+		<transition on="ed_day" to="ed_day" />
+		<transition on="ed_times" to="ed_times" />
+	</action-state>
+
+	<view-state id="ed_drug" view="cere/ed_drug">
+		<transition on="next" to="ed_dose"/> 
+	</view-state>
+
+	<view-state id="ed_dose" view="cere/ed_dose">
+		<transition on="previous" to="ed_drug"/>
+		<transition on="next" to="ed_day"/> 
+	</view-state>
+
+	<view-state id="ed_day" view="cere/ed_day">
+		<transition on="previous" to="ed_dose"/>
+		<transition on="next" to="ed_times"/> 
+	</view-state>
+
+	<view-state id="ed_times" view="cere/ed_times">
+		<transition on="previous" to="ed_day"/>
+	</view-state>
+
+	<end-state id="success" view="externalRedirect:doc-cere-ed-#{id}?result=success"/>
+
+	<end-state id="cancel" view="externalRedirect:doc-cere-ed-#{id}?result=cancel"/>
+
+	<global-transitions>
+		<transition on="edDrug" to="ed_drug"/>
+		<transition on="edDose" to="ed_dose"/>
+		<transition on="edDay" to="ed_day"/>
+		<transition on="edTimes" to="ed_times"/>
+		<transition on="save" to="success"/>
+		<transition on="cancel" to="cancel"/>
+	</global-transitions>
+</flow>

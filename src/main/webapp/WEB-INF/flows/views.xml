@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+<!-- 
+	<definition name="doc-*" extends="standardLayout">
+		<put-attribute name="title" value="Welcome cere" />
+		<put-attribute name="body" value="/WEB-INF/flows/doc-{1}.jspx" />
+	</definition>
+ -->
+
+	<definition name="doc-cere-ed-*" extends="tcmopet15_layout">
+		<put-attribute name="headline" value="/WEB-INF/flows/headline-cere-ed.jspx" />
+		<put-attribute name="body" value="/WEB-INF/flows/doc-cere-ed.jspx" />
+	</definition>
+
+	<definition name="doc-*" extends="tcmopet15_layout">
+		<put-attribute name="title" value="Welcome cere" />
+		<put-attribute name="body" value="/WEB-INF/flows/doc-{1}.jspx" />
+	</definition>
+</tiles-definitions>

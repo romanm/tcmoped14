@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+      	http://www.springframework.org/schema/webflow
+      	http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+	<secured attributes="ROLE_USER" />
+
+	<input name="id" required="true" />
+	<input name="a" required="true" />
+
+	<action-state id="aHandle">
+		<evaluate expression="a"/>
+		<transition on="edDrug" to="edpDrug" />
+		<transition on="edDay" to="edpDay" />
+		<transition on="edTimes" to="edpTimes" />
+	</action-state>
+
+	<view-state id="edpDrug">
+	</view-state>
+	<view-state id="edpDay">
+	</view-state>
+	<view-state id="edpTimes">
+		<transition on="edpDay" to="edpDay"/>
+	</view-state>
+
+	<end-state id="cancel"	view="externalRedirect:/chemoregime-#{id}" />
+
+	<global-transitions>
+		<transition on="cancel" to="cancel"/>
+	</global-transitions>
+
+</flow>

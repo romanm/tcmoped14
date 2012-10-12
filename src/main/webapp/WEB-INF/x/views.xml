@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+	<definition name="chemoregime-*" extends="tcmopet_doc"/>
+	<definition name="chemoregime_*-*" extends="tcmopet_doc"/>
+	
+	<definition name="tcmopet_doc" extends="tcmopet14_layout">
+		<put-attribute name="content" value="/WEB-INF/x/chemoregime.jspx" />
+		<put-attribute name="dialog" value="/WEB-INF/x/dialog_panel.jspx" />
+	</definition>
+	
+	<definition name="tcmintro" extends="tcmopet14_layout">
+		<put-attribute name="content" value="/WEB-INF/x/intro.jspx" />
+		<put-attribute name="dialog" value="/WEB-INF/x/dialog_panel.jspx" />
+	</definition>
+	
+	<definition name="tcmopet14_layout" template="/WEB-INF/layouts/tcmopet14.jspx" />
+	<definition name="tcmopet15_layout" template="/WEB-INF/layouts/tcmopet15.jspx" />
+	
+</tiles-definitions>

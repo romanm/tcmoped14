@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	>
+<h2>content</h2>
+	<div>
+		<a href="${contextPath}/ed/cere?id=${id}&amp;a=edDrug">edDrug</a>
+	</div>
+	<div>
+		<a href="${contextPath}/ed/cere?id=${id}&amp;a=edDay">edDay</a>
+	</div>
+	<div>
+		<a href="${contextPath}/ed/cere?id=${id}&amp;a=edTimes">edTimes</a>
+	</div>
+	---
+	<div>
+		<a id="popupEdTimes" href="${contextPath}/ed/cere?id=${id}&amp;a=edTimes">edTimes popup</a>
+			<script type="text/javascript">
+		Spring.addDecoration(new Spring.AjaxEventDecoration({
+			elementId: "popupEdTimes",
+			event: "onclick",
+			popup: true,
+			params: {fragments: "dialog"}
+		}));
+	</script>
+		
+	</div>
+	-------
+	<div>
+		<a id="popupTest1" href="${contextPath}/ed/cerep?id=${id}&amp;a=edTimes">edpTimes popup</a>
+			<script type="text/javascript">
+		Spring.addDecoration(new Spring.AjaxEventDecoration({
+			elementId: "popupTest1",
+			event: "onclick",
+			popup: true,
+			params: {fragments: "dialog",mode:"embedded"}
+		}));
+	</script>
+		
+	</div>
+</jsp:root>

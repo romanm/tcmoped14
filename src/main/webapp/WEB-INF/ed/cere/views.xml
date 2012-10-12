@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+	
+<tiles-definitions>
+
+	<definition name="edDrug" extends="tcmopet14_layout">
+		<put-attribute name="content" value="/WEB-INF/x/chemoregime.jspx" />
+		<put-attribute name="dialog" value="/WEB-INF/ed/edDrug.jspx" />
+	</definition>
+	<definition name="edDay" extends="tcmopet14_layout">
+		<put-attribute name="content" value="/WEB-INF/x/chemoregime.jspx" />
+		<put-attribute name="dialog" value="/WEB-INF/ed/edDay.jspx" />
+	</definition>
+	<definition name="edTimes" extends="tcmopet14_layout">
+		<put-attribute name="content" value="/WEB-INF/x/chemoregime.jspx" />
+		<put-attribute name="dialog" value="/WEB-INF/ed/edTimes.jspx" />
+	</definition>
+
+
+	<definition name="edpDrug" extends="tcmopet14_layout">
+		<put-attribute name="content" value="/WEB-INF/x/popupContent.jspx" />
+		<put-attribute name="dialog" value="/WEB-INF/ed/edDrug.jspx" />
+	</definition>
+	<definition name="edpDay" extends="tcmopet14_layout">
+		<put-attribute name="content" value="/WEB-INF/x/popupContent.jspx" />
+		<put-attribute name="dialog" value="/WEB-INF/ed/edDay.jspx" />
+	</definition>
+	<definition name="edpTimes" extends="tcmopet14_layout">
+		<put-attribute name="content" value="/WEB-INF/x/popupContent.jspx" />
+		<put-attribute name="dialog" value="/WEB-INF/ed/edTimes.jspx" />
+	</definition>
+
+</tiles-definitions>

@@ -1,0 +1,21 @@
+<div>
+edTimes dialog
+
+	<div>
+		<a href="${ flowExecutionUrl}&amp;_eventId=cancel">cancel</a>
+	</div>
+	${ flowExecutionUrl}
+	
+	<div>
+		<a id="edpDay" href="${ flowExecutionUrl}&amp;_eventId=edpDay">edpTimes popup</a>
+			<script type="text/javascript">
+		Spring.addDecoration(new Spring.AjaxEventDecoration({
+			elementId: "edpDay",
+			event: "onclick",
+			popup: true,
+			params: {fragments: "dialog"}
+		}));
+	</script>
+		
+	</div>
+</div>
