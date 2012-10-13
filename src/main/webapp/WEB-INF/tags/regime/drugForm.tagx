@@ -4,30 +4,22 @@
 	>
 <div id="modalDialogContainer">
 	<form id="regimeDrugForm" action="${flowExecutionUrl}" method="POST">
-	<table>
-		<tr>
-			<td>
 		<button class="${'ed_drug'==flowRequestContext.currentState.id?'notice':''}"
 			id="edDrug" type="submit" name="_eventId_edDrug">ed drug</button>
-			</td>
-			<td>
 		<button class="${'ed_dose'==flowRequestContext.currentState.id?'notice':''}"
 			id="edDose" type="submit" name="_eventId_edDose">ed dose</button>
-			</td>
-			<td>
 		<button class="${'ed_day'==flowRequestContext.currentState.id?'notice':''}"
 			id="edDay" type="submit" name="_eventId_edDay">ed day</button>
-			</td>
-			<td>
 		<button class="${'ed_times'==flowRequestContext.currentState.id?'notice':''}"
 			id="edTimes" type="submit" name="_eventId_edTimes">ed times</button>
-			</td>
-		</tr>
-	</table>
+	<div class="nofloat"/>
+	<p>
+<jsp:doBody/>
+	</p>
 	<p class="notice">
 	${flowRequestContext.currentState.id}
 	</p>
-<jsp:doBody/>
+	,
 		<c:if test="${'ed_drug'!=flowRequestContext.currentState.id}">
 			<button id="previous" type="submit" name="_eventId_previous">&lt;&lt; Previous</button>
 		</c:if>
@@ -35,8 +27,10 @@
 			<button id="next" type="submit" name="_eventId_next">Next &gt;&gt;</button>
 		</c:if>
 		<br/>
+		<div class="nowrap">
 		<button id="cancel" type="submit" name="_eventId_cancel">Cancel</button>
 		<button id="save" type="submit" name="_eventId_save">Save</button>
+		</div>
 		<script type="text/javascript">
 			drugFormButton('previous');
 			drugFormButton('next');
@@ -46,12 +40,6 @@
 			drugFormButton('edDose');
 			drugFormButton('edDay');
 			drugFormButton('edTimes');
-			function drugFormButton(elementId){
-			Spring.addDecoration(new Spring.AjaxEventDecoration({
-				elementId:elementId,event:'onclick',formId:'regimeDrugForm'
-				,params:{fragments:"body"}}));
-				
-			}
 		</script>
 	</form>
 </div>

@@ -30,13 +30,16 @@
 		<transition on="next" to="ed_times"/> 
 	</view-state>
 
+	<view-state id="ed_day_abs" view="cere/ed_day_abs">
+	</view-state>
+
 	<view-state id="ed_times" view="cere/ed_times">
 		<transition on="previous" to="ed_day"/>
 	</view-state>
 
-	<end-state id="success" view="externalRedirect:doc-cere-ed-#{id}?result=success"/>
+	<end-state id="success" view="externalRedirect:doc-cere-ed=#{id}?result=success"/>
 
-	<end-state id="cancel" view="externalRedirect:doc-cere-ed-#{id}?result=cancel"/>
+	<end-state id="cancel" view="externalRedirect:doc-cere-ed=#{id}?result=cancel"/>
 
 	<global-transitions>
 		<transition on="edDrug" to="ed_drug"/>

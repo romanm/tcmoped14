@@ -10,9 +10,8 @@
 		<put-attribute name="title" value="Welcome cere" />
 		<put-attribute name="body" value="/WEB-INF/flows/doc-{1}.jspx" />
 	</definition>
- -->
 
-	<definition name="doc-cere-ed-*" extends="tcmopet15_layout">
+	<definition name="doc-cere-ed=*" extends="tcmopet15_layout">
 		<put-attribute name="headline" value="/WEB-INF/flows/headline-cere-ed.jspx" />
 		<put-attribute name="body" value="/WEB-INF/flows/doc-cere-ed.jspx" />
 	</definition>
@@ -20,5 +19,26 @@
 	<definition name="doc-*" extends="tcmopet15_layout">
 		<put-attribute name="title" value="Welcome cere" />
 		<put-attribute name="body" value="/WEB-INF/flows/doc-{1}.jspx" />
+	</definition>
+ -->
+
+	<definition name="s=*/doc-*=*" extends="tcmopet15_layout">
+		<put-attribute name="headline" value="/WEB-INF/flows/headline-{2}.jspx" />
+		<put-attribute name="body" value="/WEB-INF/flows/doc-{2}.jspx" />
+	</definition>
+
+	<definition name="doc-*=*" extends="tcmopet15_layout">
+		<put-attribute name="headline" value="/WEB-INF/flows/headline-{1}.jspx" />
+		<put-attribute name="body" value="/WEB-INF/flows/doc-{1}.jspx" />
+	</definition>
+
+	<definition name="folder=*" extends="tcmopet15_layout">
+		<put-attribute name="headline" value="/WEB-INF/folder/headline-folder.jspx" />
+		<put-attribute name="body" value="/WEB-INF/folder/folder.jspx" />
+	</definition>
+
+	<definition name="home" extends="tcmopet15_layout">
+		<put-attribute name="headline" value="/WEB-INF/headline-home.jspx" />
+		<put-attribute name="body" value="/WEB-INF/home.jspx" />
 	</definition>
 </tiles-definitions>

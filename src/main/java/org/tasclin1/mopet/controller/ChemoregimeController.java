@@ -12,7 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ChemoregimeController {
     protected final Log log = LogFactory.getLog(getClass());
 
-    @RequestMapping(value = "/doc-cere-ed-{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "s={idStudy}/doc-cere-ed={id}", method = RequestMethod.GET)
+    public void scereEd(@PathVariable
+    Integer id, Model model) {
+	log.debug("id=" + id);
+	model.addAttribute(id);
+    }
+
+    @RequestMapping(value = "/doc-cere-ed={id}", method = RequestMethod.GET)
     public void cereEd(@PathVariable
     Integer id, Model model) {
 	log.debug("id=" + id);

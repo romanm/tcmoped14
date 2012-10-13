@@ -40,6 +40,8 @@
     <script type="text/javascript" src="${dojoJs }"> <!-- //required for FF3 and Opera --> </script>
     <script type="text/javascript" src="${springJs }"> <!-- //required for FF3 and Opera --> </script>
     <script type="text/javascript" src="${springDojoJs }"> <!-- //required for FF3 and Opera --> </script>
+	<c:url var="mopetJs" value="/resources/js/mopet.js" />
+    <script type="text/javascript" src="${mopetJs }"> <!-- //required for FF3 and Opera --> </script>
 </head>
 <body class="tundra">
 	<div id="headline">

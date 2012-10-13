@@ -3,7 +3,10 @@
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 >
 	<rg:drugForm>
-	inere text
+		<button class="${'ed_day'==flowRequestContext.currentState.id?'notice':''}"
+		id="edDay" type="submit" name="_eventId_edDay">ed day</button>
+		<div class="nofloat"/>
+	innere text
 	dialog ed day
 	</rg:drugForm>
 </jsp:root>
