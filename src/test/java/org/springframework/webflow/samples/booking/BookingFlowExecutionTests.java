@@ -19,7 +19,8 @@ public class BookingFlowExecutionTests extends AbstractXmlFlowExecutionTests {
 
     @Override
     protected FlowDefinitionResource getResource(FlowDefinitionResourceFactory resourceFactory) {
-	return resourceFactory.createFileResource("src/main/webapp/WEB-INF/hotels/booking/booking-flow.xml");
+	return resourceFactory.createFileResource("src/main/webapp/WEB-INF/flows/booking/flow.xml");
+	// .createFileResource("src/main/webapp/WEB-INF/hotels/booking/booking-flow.xml");
     }
 
     @Override
@@ -28,7 +29,9 @@ public class BookingFlowExecutionTests extends AbstractXmlFlowExecutionTests {
     }
 
     public void testStartBookingFlow() {
+	System.out.println("------------------------");
 	Booking booking = createTestBooking();
+	System.out.println("------------------------" + booking);
 
 	EasyMock.expect(bookingService.createBooking(1L, "keith")).andReturn(booking);
 

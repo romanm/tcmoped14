@@ -3,7 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.webflow.samples</groupId>
-	<artifactId>tcmopet14</artifactId>
+	<artifactId>tcm14</artifactId>
+	<!--artifactId>tcmopet14</artifactId-->
 	<packaging>war</packaging>
 	<name>Hotel Booking : Spring MVC + Web Flow + JSP</name>
 	<version>2.3.1.RELEASE</version>
@@ -210,7 +211,8 @@
 		</repository>
 	</repositories>
 	<build>
-		<finalName>tcmopet14</finalName>
+		<finalName>tcm14</finalName>
+		<!--finalName>tcmopet14</finalName-->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

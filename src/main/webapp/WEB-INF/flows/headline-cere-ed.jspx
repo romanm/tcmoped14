@@ -1,9 +1,9 @@
 <div>
 	<a href="/"> home </a>
 	&gt;
-	<a href="folder=321"> folder </a>
+	<a href="${contextPath }/id=${idFolder}"> folder </a>
 	&gt;
-	<a href="doc-study=112211"> Protokol </a>
+	<a href="${contextPath }/id=${idStudy}"> Protokol </a>
 	&gt;
-	<a href="doc-cere-ed=112211"> regime </a>
+	<a href="${contextPath }/id=${idRegime}"> regime </a>
 </div>
