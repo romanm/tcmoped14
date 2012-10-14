@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
+>
+<rg:drugForm>
+		<button class="${'ed_times_abs'==flowRequestContext.currentState.id?'notice':''}"
+		id="edTimesAbs" type="submit" name="_eventId_edTimesAbs"
+		>ed times abs</button>
+		<button class="${'ed_times_relative'==flowRequestContext.currentState.id?'notice':''}"
+		id="edTimesRelative" type="submit" name="_eventId_edTimesRelative"
+		>ed times period</button>
+		<button class="${'ed_times_meal'==flowRequestContext.currentState.id?'notice':''}"
+		id="edTimesMeal" type="submit" name="_eventId_edTimesMeal"
+		>ed times week</button>
+		<div class="nofloat"/>
+	innere text
+	dialog ed day
+	<script type="text/javascript">
+		drugFormButton('edTimesAbs');
+		drugFormButton('edTimesMeal');
+		drugFormButton('edTimesRelative');
+	</script>
+</rg:drugForm>
+</jsp:root>

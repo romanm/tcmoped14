@@ -3,6 +3,7 @@
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 >
 	<rg:drugTimesForm>
-innere times edit dialog
+	innere text
+	dialog ed times week
 	</rg:drugTimesForm>
 </jsp:root>

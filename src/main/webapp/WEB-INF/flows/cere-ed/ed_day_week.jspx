@@ -2,7 +2,8 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 >
-	<rg:drugTimesForm>
-innere times edit dialog
-	</rg:drugTimesForm>
+	<rg:drugDayForm>
+	innere text
+	dialog ed day week
+	</rg:drugDayForm>
 </jsp:root>

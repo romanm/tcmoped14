@@ -4,9 +4,16 @@
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/webflow 
 		http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+		
+		<var name="dayPeriod"	class="org.tasclin1.mopet.regime.DayPeriod" />
 
-	<input name="id" required="true" />
+	<input name="idRegime" required="true" />
 	<input name="a" required="true" />
+	
+	<on-start>
+		<evaluate expression="regimedrugService.getDayPeriod()"
+		 result="flowScope.dayPeriod" />
+	</on-start>
 
 	<action-state id="aHandle">
 		<evaluate expression="a"/>
@@ -28,18 +35,93 @@
 	<view-state id="ed_day" view="cere/ed_day">
 		<transition on="previous" to="ed_dose"/>
 		<transition on="next" to="ed_times"/> 
+		<transition on="edDayAbs" to="ed_day_abs"/>
+		<transition on="edDayWeek" to="ed_day_week"/>
+		<transition on="edDayPeriod" to="ed_day_period"/>
 	</view-state>
 
-	<view-state id="ed_day_abs" view="cere/ed_day_abs">
+	<view-state id="ed_day_abs" model="dayPeriod" view="cere/ed_day_abs">
+		<binder>
+			<binding property="absset" />
+		</binder>
+		<on-entry>
+			<set name="dayPeriod.type"			value="'a'" />
+			<evaluate expression="dayPeriod.initAbs()" />
+		</on-entry>
+		<on-render>
+			<render fragments="body" />
+		</on-render>
+		<transition on="previous" to="ed_dose"/>
+		<transition on="next" to="ed_times"/> 
+		<transition on="edDayAbs" to="ed_day_abs"/>
+		<transition on="edDayPeriod" to="ed_day_period"/>
+		<transition on="edDayWeek" to="ed_day_week"/>
+	</view-state>
+
+	<view-state id="ed_day_period" model="dayPeriod" view="cere/ed_day_period">
+		<binder>
+			<binding property="fromday" />
+			<binding property="totheday" />
+		</binder>
+		<on-entry>
+			<set name="dayPeriod.type"			value="'p'" />
+			<evaluate expression="dayPeriod.initPeriod()" />
+		</on-entry>
+		<on-render>
+			<render fragments="body" />
+		</on-render>
+		<transition on="previous" to="ed_dose"/>
+		<transition on="next" to="ed_times"/> 
+		<transition on="edDayAbs" to="ed_day_abs"/>
+		<transition on="edDayPeriod" to="ed_day_period"/>
+		<transition on="edDayWeek" to="ed_day_week"/>
+	</view-state>
+
+	<view-state id="ed_day_week" view="cere/ed_day_week">
+		<on-entry>
+			<set name="dayPeriod.type"			value="'w'" />
+		</on-entry>
+		<on-render>
+			<render fragments="body" />
+		</on-render>
+		<transition on="previous" to="ed_dose"/>
+		<transition on="next" to="ed_times"/> 
+		<transition on="edDayAbs" to="ed_day_abs"/>
+		<transition on="edDayWeek" to="ed_day_week"/>
+		<transition on="edDayPeriod" to="ed_day_period"/>
 	</view-state>
 
 	<view-state id="ed_times" view="cere/ed_times">
 		<transition on="previous" to="ed_day"/>
+		<transition on="edTimesAbs" to="ed_times_abs"/>
+		<transition on="edTimesRelative" to="ed_times_relative"/>
+		<transition on="edTimesMeal" to="ed_times_meal"/>
 	</view-state>
 
-	<end-state id="success" view="externalRedirect:doc-cere-ed=#{id}?result=success"/>
+	<view-state id="ed_times_abs" view="cere/ed_times_abs">
+		<transition on="previous" to="ed_day"/>
+		<transition on="edTimesAbs" to="ed_times_abs"/>
+		<transition on="edTimesRelative" to="ed_times_relative"/>
+		<transition on="edTimesMeal" to="ed_times_meal"/>
+	</view-state>
 
-	<end-state id="cancel" view="externalRedirect:doc-cere-ed=#{id}?result=cancel"/>
+	<view-state id="ed_times_relative" view="cere/ed_times_relative">
+		<transition on="previous" to="ed_day"/>
+		<transition on="edTimesAbs" to="ed_times_abs"/>
+		<transition on="edTimesRelative" to="ed_times_relative"/>
+		<transition on="edTimesMeal" to="ed_times_meal"/>
+	</view-state>
+
+	<view-state id="ed_times_meal" view="cere/ed_times_meal">
+		<transition on="previous" to="ed_day"/>
+		<transition on="edTimesAbs" to="ed_times_abs"/>
+		<transition on="edTimesRelative" to="ed_times_relative"/>
+		<transition on="edTimesMeal" to="ed_times_meal"/>
+	</view-state>
+
+	<end-state id="success" view="externalRedirect:id=#{idRegime}?result=success"/>
+
+	<end-state id="cancel" view="externalRedirect:id=#{idRegime}?result=cancel"/>
 
 	<global-transitions>
 		<transition on="edDrug" to="ed_drug"/>

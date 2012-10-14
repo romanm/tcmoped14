@@ -5,9 +5,11 @@
 	
 <tiles-definitions>
 	
+	<!-- 
 	<definition name="s=*/cere/*" extends="standardLayout">
 		<put-attribute name="body" value="/WEB-INF/flows/cere-ed/{2}.jspx" />
 	</definition>
+	 -->
 	
 	<definition name="cere/*" extends="standardLayout">
 		<put-attribute name="body" value="/WEB-INF/flows/cere-ed/{1}.jspx" />

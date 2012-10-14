@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+>
 	<h2>cere</h2>
 	<h4>Chemo Regime</h4>
-	id=${id}
+	idRegime=${idRegime}
 	<table>
 		<tr>
 			<td><a id="ed_drug" class="toMoDi"
-			 href="${contextPath}/cere-ed?id=${id}&amp;a=ed_drug">ed
+			 href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_drug">ed
 					drug</a></td>
-			<td><a id="ed_dose" class="toMoDi" href="${contextPath}/cere-ed?id=${id}&amp;a=ed_dose">ed
+			<td><a id="ed_dose" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_dose">ed
 					dose</a></td>
-			<td><a id="ed_day" class="toMoDi" href="${contextPath}/cere-ed?id=${id}&amp;a=ed_day">ed
+			<td><a id="ed_day" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_day">ed
 					day</a></td>
-			<td><a id="ed_times" class="toMoDi" href="${contextPath}/cere-ed?id=${id}&amp;a=ed_times">ed
+			<td><a id="ed_times" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_times">ed
 					times</a></td>
 		</tr>
 		<tr>
-			<td><a id="startFlow" class="toMoDi" href="cere-ed?id=${id}&amp;a=new_drug">new
+			<td><a id="startFlow" class="toMoDi" href="cere-ed?idRegime=${idRegime}&amp;a=new_drug">new
 					drug</a></td>
 		</tr>
 	</table>

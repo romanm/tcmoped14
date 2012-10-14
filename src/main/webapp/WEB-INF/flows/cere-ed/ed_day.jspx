@@ -2,11 +2,8 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 >
-	<rg:drugForm>
-		<button class="${'ed_day'==flowRequestContext.currentState.id?'notice':''}"
-		id="edDay" type="submit" name="_eventId_edDay">ed day</button>
-		<div class="nofloat"/>
+	<rg:drugDayForm>
 	innere text
 	dialog ed day
-	</rg:drugForm>
+	</rg:drugDayForm>
 </jsp:root>
