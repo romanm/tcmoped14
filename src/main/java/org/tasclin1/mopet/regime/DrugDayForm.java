@@ -7,7 +7,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class DayPeriod implements Serializable {
+public class DrugDayForm implements Serializable {
     private static final long serialVersionUID = 1L;
     protected final Log log = LogFactory.getLog(getClass());
 

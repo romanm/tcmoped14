@@ -3,8 +3,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 >
-<jsp:directive.attribute name="modelAttribute" type="java.lang.Object" required="false" description="The form attribute model"/>
-<rg:drugForm modelAttribute="${modelAttribute }">
+<rg:drugForm modelAttribute="drugDayForm">
 		<button class="${
 		'ed_day_abs'==flowRequestContext.currentState.id?'notice':''}"
 		id="edDayAbs" type="submit" name="_eventId_edDayAbs">ed day abs</button>
@@ -14,7 +13,7 @@
 		id="edDayPeriod" type="submit" name="_eventId_edDayPeriod"
 		>ed day period</button>
 		<div class="nofloat"/>
-${dayPeriod }
+${drugDayForm }
 	<p>
 		<c:set var="duration" value="21" scope="request"/>
 		<jsp:doBody/>

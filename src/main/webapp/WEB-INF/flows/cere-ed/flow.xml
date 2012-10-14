@@ -5,15 +5,17 @@
 		http://www.springframework.org/schema/webflow 
 		http://www.springframework.org/schema/webflow/spring-webflow.xsd">
 		
-		<var name="dayPeriod"	class="org.tasclin1.mopet.regime.DayPeriod" />
+		<var name="drugDayForm"	class="org.tasclin1.mopet.regime.DrugDayForm" />
 
 	<input name="idRegime" required="true" />
 	<input name="a" required="true" />
 	
+	<!-- 
 	<on-start>
-		<evaluate expression="regimedrugService.getDayPeriod()"
-		 result="flowScope.dayPeriod" />
+		<evaluate expression="regimedrugService.getDrugDayForm()"
+		 result="flowScope.drugDayForm" />
 	</on-start>
+	 -->
 
 	<action-state id="aHandle">
 		<evaluate expression="a"/>
@@ -40,13 +42,13 @@
 		<transition on="edDayPeriod" to="ed_day_period"/>
 	</view-state>
 
-	<view-state id="ed_day_abs" model="dayPeriod" view="cere/ed_day_abs">
+	<view-state id="ed_day_abs" model="drugDayForm" view="cere/ed_day_abs">
 		<binder>
 			<binding property="absset" />
 		</binder>
 		<on-entry>
-			<set name="dayPeriod.type"			value="'a'" />
-			<evaluate expression="dayPeriod.initAbs()" />
+			<set name="drugDayForm.type"			value="'a'" />
+			<evaluate expression="drugDayForm.initAbs()" />
 		</on-entry>
 		<on-render>
 			<render fragments="body" />
@@ -58,14 +60,14 @@
 		<transition on="edDayWeek" to="ed_day_week"/>
 	</view-state>
 
-	<view-state id="ed_day_period" model="dayPeriod" view="cere/ed_day_period">
+	<view-state id="ed_day_period" model="drugDayForm" view="cere/ed_day_period">
 		<binder>
 			<binding property="fromday" />
 			<binding property="totheday" />
 		</binder>
 		<on-entry>
-			<set name="dayPeriod.type"			value="'p'" />
-			<evaluate expression="dayPeriod.initPeriod()" />
+			<set name="drugDayForm.type"			value="'p'" />
+			<evaluate expression="drugDayForm.initPeriod()" />
 		</on-entry>
 		<on-render>
 			<render fragments="body" />
@@ -79,7 +81,7 @@
 
 	<view-state id="ed_day_week" view="cere/ed_day_week">
 		<on-entry>
-			<set name="dayPeriod.type"			value="'w'" />
+			<set name="drugDayForm.type"			value="'w'" />
 		</on-entry>
 		<on-render>
 			<render fragments="body" />

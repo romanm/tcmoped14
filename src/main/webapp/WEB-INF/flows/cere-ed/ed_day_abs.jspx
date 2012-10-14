@@ -5,7 +5,7 @@
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 	xmlns:form="http://www.springframework.org/tags/form"
 >
-<rg:drugDayForm modelAttribute="dayPeriod">
+<rg:drugDayForm>
 	<table id="days" class="nowrap">
 		<thead>
 			<tr class="dotted">
