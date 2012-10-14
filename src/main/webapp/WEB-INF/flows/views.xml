@@ -5,53 +5,32 @@
 
 <tiles-definitions>
 
-<!-- 
-	<definition name="doc-*" extends="standardLayout">
-		<put-attribute name="title" value="Welcome cere" />
-		<put-attribute name="body" value="/WEB-INF/flows/doc-{1}.jspx" />
-	</definition>
-
-	<definition name="doc-cere-ed=*" extends="tcmopet15_layout">
-		<put-attribute name="headline" value="/WEB-INF/flows/headline-cere-ed.jspx" />
-		<put-attribute name="body" value="/WEB-INF/flows/doc-cere-ed.jspx" />
-	</definition>
-
-	<definition name="doc-*" extends="tcmopet15_layout">
-		<put-attribute name="title" value="Welcome cere" />
-		<put-attribute name="body" value="/WEB-INF/flows/doc-{1}.jspx" />
-	</definition>
-	<definition name="s=*/doc-*=*" extends="tcmopet15_layout">
-		<put-attribute name="headline" value="/WEB-INF/flows/headline-{2}.jspx" />
-		<put-attribute name="body" value="/WEB-INF/flows/doc-{2}.jspx" />
-	</definition>
-	<definition name="doc-*=*" extends="tcmopet15_layout">
-		<put-attribute name="headline" value="/WEB-INF/flows/headline-{1}.jspx" />
-		<put-attribute name="body" value="/WEB-INF/flows/doc-{1}.jspx" />
-	</definition>
- -->
-
 	<definition name="home" extends="tcmopet15_layout">
-		<put-attribute name="headline" value="/WEB-INF/headline-home.jspx" />
+		<put-attribute name="headline" value="/WEB-INF/flows/headline.jspx" />
 		<put-attribute name="body" value="/WEB-INF/home.jspx" />
 	</definition>
 	<definition name="folder=*" extends="tcmopet15_layout">
-		<put-attribute name="headline" value="/WEB-INF/folder/headline-folder.jspx" />
+		<put-attribute name="headline" value="/WEB-INF/flows/headline.jspx" />
 		<put-attribute name="body" value="/WEB-INF/folder/folder.jspx" />
 	</definition>
+	<definition name="f=*/patient=*" extends="tcmopet15_layout">
+		<put-attribute name="headline" value="/WEB-INF/flows/headline.jspx" />
+		<put-attribute name="body" value="/WEB-INF/flows/doc-patient.jspx" />
+	</definition>
 	<definition name="f=*/study=*" extends="tcmopet15_layout">
-		<put-attribute name="headline" value="/WEB-INF/flows/headline-study.jspx" />
+		<put-attribute name="headline" value="/WEB-INF/flows/headline.jspx" />
 		<put-attribute name="body" value="/WEB-INF/flows/doc-study.jspx" />
 	</definition>
 	<definition name="f=*/s=*/cere-*=*" extends="tcmopet15_layout">
-		<put-attribute name="headline" value="/WEB-INF/flows/headline-cere-ed.jspx" />
+		<put-attribute name="headline" value="/WEB-INF/flows/headline.jspx" />
 		<put-attribute name="body" value="/WEB-INF/flows/doc-cere-{3}.jspx" />
 	</definition>
 	<definition name="f=*/p=*/study=*" extends="tcmopet15_layout">
-		<put-attribute name="headline" value="/WEB-INF/flows/headline-study.jspx" />
+		<put-attribute name="headline" value="/WEB-INF/flows/headline.jspx" />
 		<put-attribute name="body" value="/WEB-INF/flows/doc-study.jspx" />
 	</definition>
 	<definition name="f=*/p=*/s=*/cere-*=*" extends="tcmopet15_layout">
-		<put-attribute name="headline" value="/WEB-INF/flows/headline-cere-ed.jspx" />
+		<put-attribute name="headline" value="/WEB-INF/flows/headline.jspx" />
 		<put-attribute name="body" value="/WEB-INF/flows/doc-cere-{4}.jspx" />
 	</definition>
 </tiles-definitions>

@@ -1,9 +1,0 @@
-<div>
-	<a href="/"> home </a>
-	&gt;
-	<a href="${contextPath }/id=${idFolder}"> folder </a>
-	&gt;
-	<a href="${contextPath }/id=${idStudy}"> Protokol </a>
-	&gt;
-	<a href="${contextPath }/id=${idRegime}"> regime </a>
-</div>

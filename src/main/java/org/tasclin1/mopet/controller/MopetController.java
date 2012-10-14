@@ -74,6 +74,58 @@ public class MopetController {
 	model.addAttribute(id);
     }
 
+    @RequestMapping(value = "f={id}", method = RequestMethod.GET)
+    public String toFolder(@PathVariable
+    Integer id, Model model) {
+	return fromId(id, model);
+    }
+
+    @RequestMapping(value = "f={idf}/p={id}", method = RequestMethod.GET)
+    public String toPatient(@PathVariable
+    Integer id, Model model) {
+	return fromId(id, model);
+    }
+
+    @RequestMapping(value = "f={idf}/p={idp}/s={id}", method = RequestMethod.GET)
+    public String toPatientStudy(@PathVariable
+    Integer id, Model model) {
+	return fromId(id, model);
+    }
+
+    @RequestMapping(value = "f={idf}/s={id}", method = RequestMethod.GET)
+    public String toStudy(@PathVariable
+    Integer id, Model model) {
+	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+		.getRequest();
+	log.debug("ContextPath=" + request.getContextPath());
+	log.debug("id=" + id);
+	return fromId(id, model);
+    }
+
+    // Study END
+
+    // Patient
+    @RequestMapping(value = "f={idFolder}/patient={idPatient}", method = RequestMethod.GET)
+    public void docFPatient(@PathVariable
+    Integer idFolder, @PathVariable
+    Integer idPatient, Model model) {
+	log.debug("idFolder=" + idFolder);
+	model.addAttribute(idFolder);
+	log.debug("idPatient=" + idPatient);
+	model.addAttribute(idPatient);
+    }
+
+    // Patient END
+
+    // Folder
+    @RequestMapping(value = "/folder={idFolder}", method = RequestMethod.GET)
+    public void folder(@PathVariable
+    Integer idFolder, Model model) {
+	log.debug("idFolder=" + idFolder);
+	model.addAttribute(idFolder);
+    }
+
+    // Folder END
     @RequestMapping(value = "id={id}", method = RequestMethod.GET)
     public String fromId(@PathVariable
     Integer id, Model model) {
@@ -115,30 +167,6 @@ public class MopetController {
 		return "redirect:/f=" + idFolder + "/s=" + idConcept + "/cere-ed=" + idRegime;
 	    }
 	}
-	return "/";
+	return "redirect:/";
     }
-
-    @RequestMapping(value = "f={idf}/s={id}", method = RequestMethod.GET)
-    public String toStudy(@PathVariable
-    Integer id, Model model) {
-	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-		.getRequest();
-	log.debug("ContextPath=" + request.getContextPath());
-	log.debug("id=" + id);
-	return "redirect:/id=" + id;
-	// return "redirect:/doc-study=" + id;
-	// return "redirect:doc-study=" + id;
-    }
-
-    // Study END
-
-    // Folder
-    @RequestMapping(value = "/folder={id}", method = RequestMethod.GET)
-    public void folder(@PathVariable
-    Integer id, Model model) {
-	log.debug("id=" + id);
-	model.addAttribute(id);
-    }
-    // Folder END
-
 }

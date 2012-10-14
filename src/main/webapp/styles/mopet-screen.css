@@ -3,6 +3,10 @@
 #headline{ width:79%; left:0.1em; background-color:#F0F0F0;}
 #sidebar { width: 20%; bottom: 0.1em; right: 0.1em; }
 #content{margin-top: 2em;}
+
+.select:hover {background: #DDDDBB } 
+.selected {border: 1px solid blue }
+
 /* from blueprint */
 .error, .notice, .success {padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
 .error {background:#FBE3E4;color:#8a1f11;border-color:#FBC2C4;}

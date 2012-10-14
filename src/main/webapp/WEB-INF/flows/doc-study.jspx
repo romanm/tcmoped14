@@ -4,5 +4,11 @@
 <div>
 study
 </div>
-<a href="doc-cere-ed=1234">docCereEd</a>
+<div>
+<a href="cere-ed=4">cere-ed</a>
+false url,
+false rest
+</div>
+
+<a href="${contextPath}/id=4">cere-ed</a>
 </jsp:root>

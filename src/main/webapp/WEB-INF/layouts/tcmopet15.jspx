@@ -49,6 +49,9 @@
 	</div>
 	<div id="content">
 		<tiles:insertAttribute name="body" />
+		
+		
+		
 		<c:forEach var="n" begin="1" end="100">
 			<div>${n }</div>
 		</c:forEach>

@@ -6,14 +6,14 @@
 	idRegime=${idRegime}
 	<table>
 		<tr>
-			<td><a id="ed_drug" class="toMoDi"
+			<td class="select"><a id="ed_drug" class="toMoDi"
 			 href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_drug">ed
 					drug</a></td>
-			<td><a id="ed_dose" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_dose">ed
+			<td class="select"><a id="ed_dose" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_dose">ed
 					dose</a></td>
-			<td><a id="ed_day" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_day">ed
+			<td class="select"><a id="ed_day" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_day">ed
 					day</a></td>
-			<td><a id="ed_times" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_times">ed
+			<td class="select"><a id="ed_times" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_times">ed
 					times</a></td>
 		</tr>
 		<tr>

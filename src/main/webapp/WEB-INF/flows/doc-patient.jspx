@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
-
-<div>
-patient
-</div>
-<a href="doc-cere-ed=1234">docCereEd</a>
+	<div>patient</div>
+	<div>
+		<a href="${contextPath }/id=3">study</a>
+	</div>
+	<div>
+		<a href="${contextPath }/id=4">docCereEd</a>
+	</div>
 </jsp:root>
