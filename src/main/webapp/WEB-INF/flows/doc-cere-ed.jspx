@@ -4,17 +4,28 @@
 	<h2>cere</h2>
 	<h4>Chemo Regime</h4>
 	idRegime=${idRegime}
-	<table>
+	<table id="ctxTable">
 		<tr>
-			<td class="select"><a id="ed_drug" class="toMoDi"
+			<td class="select drug"><a id="ed_drug" class="toMoDi"
 			 href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_drug">ed
 					drug</a></td>
-			<td class="select"><a id="ed_dose" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_dose">ed
+			<td class="select dose" id="dose_1"><a id="ed_dose" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_dose">ed
 					dose</a></td>
-			<td class="select"><a id="ed_day" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_day">ed
+			<td class="select day"><a id="ed_day" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_day">ed
 					day</a></td>
-			<td class="select"><a id="ed_times" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_times">ed
+			<td class="select times"><a id="ed_times" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_times">ed
 					times</a></td>
+		</tr>
+		<tr>
+			<td class="select drug"><a id="ed_drug" class="toMoDi"
+			 href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_drug">ed
+					drug 2</a></td>
+			<td class="select dose" id="dose_2"><a id="ed_dose" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_dose">ed
+					dose 2</a></td>
+			<td class="select day"><a id="ed_day" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_day">ed
+					day 2</a></td>
+			<td class="select times"><a id="ed_times" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_times">ed
+					times 2</a></td>
 		</tr>
 		<tr>
 			<td><a id="startFlow" class="toMoDi" href="cere-ed?idRegime=${idRegime}&amp;a=new_drug">new

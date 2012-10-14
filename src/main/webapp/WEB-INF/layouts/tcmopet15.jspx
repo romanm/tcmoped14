@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:spring ="http://www.springframework.org/tags"
-	xmlns:tiles	="http://tiles.apache.org/tags-tiles"
+	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:tiles="http://tiles.apache.org/tags-tiles"
 >
 	<jsp:directive.page contentType="text/html; charset=UTF-8" 
 		pageEncoding="UTF-8" session="false"/>
@@ -49,13 +50,31 @@
 	</div>
 	<div id="content">
 		<tiles:insertAttribute name="body" />
-		
-		
-		
-		<c:forEach var="n" begin="1" end="100">
+		<c:forEach var="n" begin="1" end="10">
 			<div>${n }</div>
 		</c:forEach>
 	</div>
+		<div id="contextMenu">
+			<div id="cm1copy"	><fmt:message key="cpCopy"/></div>
+			<div id="cm1paste"	><fmt:message key="cpPaste"/></div>
+		</div>
+		<script type="text/javascript">
+		menuItem("cm1copy",		"dijitEditorIcon dijitEditorIconCopy",	copy);
+		menuItem("cm1paste",	"dijitEditorIcon dijitEditorIconPaste",	paste);
+		var classDoseArray = dojo.query('.dose');
+		Spring.addDecoration(new Spring.ElementDecoration({
+			elementId : "contextMenu",
+			widgetType : "dijit.Menu",
+			widgetAttrs : {
+				style : "display: none;"
+				,targetNodeIds : classDoseArray
+			}
+		}));
+		var ctxMenu=dijit.byId("popup_2");
+		console.log("ctxMenu");
+		console.log(ctxMenu);
+		console.log("ctxMenu");
+		</script>
 	<div id="sidebar">
 		<h2>TasClin</h2>
 		<h3>MOPET</h3>
