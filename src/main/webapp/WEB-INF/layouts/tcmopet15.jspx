@@ -70,10 +70,7 @@
 				,targetNodeIds : classDoseArray
 			}
 		}));
-		var ctxMenu=dijit.byId("popup_2");
-		console.log("ctxMenu");
-		console.log(ctxMenu);
-		console.log("ctxMenu");
+		var ctxMenu=dijit.byId("contextMenu");
 		</script>
 	<div id="sidebar">
 		<h2>TasClin</h2>
