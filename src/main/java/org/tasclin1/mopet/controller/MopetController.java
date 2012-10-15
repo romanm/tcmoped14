@@ -61,10 +61,8 @@ public class MopetController {
     public void docFStudy(@PathVariable
     Integer idFolder, @PathVariable
     Integer idStudy, Model model) {
-	log.debug("idFolder=" + idFolder);
-	model.addAttribute(idFolder);
-	log.debug("idStudy=" + idStudy);
-	model.addAttribute(idStudy);
+	addIdFolder(idFolder, model);
+	addIdStudy(idStudy, model);
     }
 
     @RequestMapping(value = "/doc-study={id}", method = RequestMethod.GET)
@@ -98,7 +96,6 @@ public class MopetController {
 	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 		.getRequest();
 	log.debug("ContextPath=" + request.getContextPath());
-	log.debug("id=" + id);
 	return fromId(id, model);
     }
 
@@ -109,20 +106,32 @@ public class MopetController {
     public void docFPatient(@PathVariable
     Integer idFolder, @PathVariable
     Integer idPatient, Model model) {
-	log.debug("idFolder=" + idFolder);
-	model.addAttribute(idFolder);
-	log.debug("idPatient=" + idPatient);
-	model.addAttribute(idPatient);
+	addIdFolder(idFolder, model);
+	addIdPatient(idPatient, model);
     }
 
     // Patient END
+
+    private void addIdPatient(Integer idPatient, Model model) {
+	if (!model.asMap().containsValue(idPatient))
+	    model.addAttribute(idPatient);
+    }
+
+    private void addIdFolder(Integer idFolder, Model model) {
+	if (!model.asMap().containsValue(idFolder))
+	    model.addAttribute(idFolder);
+    }
+
+    private void addIdStudy(Integer idStudy, Model model) {
+	if (!model.asMap().containsValue(idStudy))
+	    model.addAttribute(idStudy);
+    }
 
     // Folder
     @RequestMapping(value = "/folder={idFolder}", method = RequestMethod.GET)
     public void folder(@PathVariable
     Integer idFolder, Model model) {
-	log.debug("idFolder=" + idFolder);
-	model.addAttribute(idFolder);
+	addIdFolder(idFolder, model);
     }
 
     // Folder END

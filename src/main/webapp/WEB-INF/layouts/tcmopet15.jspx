@@ -50,9 +50,13 @@
 	</div>
 	<div id="content">
 		<tiles:insertAttribute name="body" />
-		<c:forEach var="n" begin="1" end="10">
+		<c:forEach var="n" begin="1" end="100">
 			<div>${n }</div>
 		</c:forEach>
+	</div>
+	<div id="sidebar">
+		<h2>TasClin</h2>
+		<h3>MOPET</h3>
 	</div>
 		<div id="contextMenu">
 			<div id="cm1copy"	><fmt:message key="cpCopy"/></div>
@@ -70,12 +74,8 @@
 				,targetNodeIds : classDoseArray
 			}
 		}));
-		var ctxMenu=dijit.byId("contextMenu");
+		dojo.addOnLoad(function(){init();});
 		</script>
-	<div id="sidebar">
-		<h2>TasClin</h2>
-		<h3>MOPET</h3>
-	</div>
 </body>
 </html>
 </jsp:root>

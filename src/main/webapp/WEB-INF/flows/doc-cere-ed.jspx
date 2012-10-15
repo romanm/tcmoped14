@@ -6,25 +6,30 @@
 	idRegime=${idRegime}
 	<table id="ctxTable">
 		<tr>
-			<td class="select drug"><a id="ed_drug" class="toMoDi"
+			<td id="tdDrug_1" class="select drug">
+				<a id="aDrug_1" class="toMoDi"
 			 href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_drug">ed
 					drug</a></td>
-			<td class="select dose" id="dose_1"><a id="ed_dose" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_dose">ed
+			<td class="select dose" id="tdDose_1">
+				<a id="aDose_1" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_dose">ed
 					dose</a></td>
-			<td class="select day"><a id="ed_day" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_day">ed
+			<td class="select day" id="tdDay_1">
+				<a id="aDay_1" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_day">ed
 					day</a></td>
-			<td class="select times"><a id="ed_times" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_times">ed
+			<td class="select times" id="tdTimes_1">
+				<a id="aTimes_1" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_times">ed
 					times</a></td>
 		</tr>
 		<tr>
-			<td class="select drug"><a id="ed_drug" class="toMoDi"
+			<td class="select drug" id="tdDrug_2"><a id="aDrug_2" class="toMoDi"
 			 href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_drug">ed
 					drug 2</a></td>
-			<td class="select dose" id="dose_2"><a id="ed_dose" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_dose">ed
+			<td class="select dose" id="tdDose_2">..
+				<a id="aDose_2" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_dose">ed
 					dose 2</a></td>
-			<td class="select day"><a id="ed_day" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_day">ed
+			<td class="select day" id="tdDay_2"><a id="aDay_2" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_day">ed
 					day 2</a></td>
-			<td class="select times"><a id="ed_times" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_times">ed
+			<td class="select times" id="tdTimes_2"><a id="aTimes_2" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_times">ed
 					times 2</a></td>
 		</tr>
 		<tr>

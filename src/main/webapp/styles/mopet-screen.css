@@ -5,7 +5,7 @@
 #content{margin-top: 2em;}
 
 .select:hover {background: #DDDDBB } 
-.selected {border: 1px solid blue }
+.selected {border: 1px dotted blue }
 
 /* from blueprint */
 .error, .notice, .success {padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
