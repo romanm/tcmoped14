@@ -29,8 +29,9 @@
 	<c:url var="printCss" value="/resources/styles/blueprint/print.css" />
 	<link rel="stylesheet" href="${screenCss }" type="text/css" media="screen, projection" />
 	<link rel="stylesheet" href="${printCss }" type="text/css" media="print" />
-	 -->
 	<c:url var="ieCss" value="/resources/blueprint/ie.css" />
+	 -->
+	<c:url var="ieCss" value="/resources/styles/blueprint/ie.css" />
 	<!--[if lt IE 8]>
 	        <link rel="stylesheet" href="${ieCss}" type="text/css" media="screen, projection" />
 	<![endif]-->
@@ -50,32 +51,40 @@
 	</div>
 	<div id="content">
 		<tiles:insertAttribute name="body" />
-		<c:forEach var="n" begin="1" end="100">
-			<div>${n }</div>
-		</c:forEach>
+		<div>
+			<c:forEach var="n" begin="1" end="100">
+				<div>${n }</div>
+			</c:forEach>
+		</div>
 	</div>
 	<div id="sidebar">
 		<h2>TasClin</h2>
 		<h3>MOPET</h3>
 	</div>
-		<div id="contextMenu">
-			<div id="cm1copy"	><fmt:message key="cpCopy"/></div>
-			<div id="cm1paste"	><fmt:message key="cpPaste"/></div>
-		</div>
-		<script type="text/javascript">
-		menuItem("cm1copy",		"dijitEditorIcon dijitEditorIconCopy",	copy);
-		menuItem("cm1paste",	"dijitEditorIcon dijitEditorIconPaste",	paste);
-		var classDoseArray = dojo.query('.dose');
-		Spring.addDecoration(new Spring.ElementDecoration({
-			elementId : "contextMenu",
-			widgetType : "dijit.Menu",
-			widgetAttrs : {
-				style : "display: none;"
-				,targetNodeIds : classDoseArray
-			}
+	<div id="ctxMenuUpdate">
+		<div id="cmNewAdditionalDrug"	><fmt:message key="uiDrugDrug"/></div>
+		<div id="cmNewDDNotice"	><fmt:message key="mtl_notice_type_notice"/></div>
+		<div id="cmNewRule"	><fmt:message key="mtl_expr_expr_if"/></div>
+	</div>
+	<script type="text/javascript">
+		menuItem("cmNewAdditionalDrug",	"dijitEditorIcon dijitEditorIconCopy",	newAdditionalDrug);
+		menuItem("cmNewDDNotice",		"noteIcon",	newDDNotice);
+		menuItem("cmNewRule",			"noteIcon",	newRule);
+		Spring.addDecoration(new Spring.ElementDecoration(
+		{elementId:"ctxMenuUpdate", widgetType:"dijit.Menu"
+			, widgetAttrs : { style: "display: none;"}
 		}));
-		dojo.addOnLoad(function(){init();});
-		</script>
+	</script>
+	<div id="contextMenu">
+		<div id="cm1copy"	><fmt:message key="cpCopy"/></div>
+		<div id="cm1paste"	><fmt:message key="cpPaste"/></div>
+	</div>
+	<script type="text/javascript">
+	menuItem("cm1copy",		"dijitEditorIcon dijitEditorIconCopy",	copy);
+	menuItem("cm1paste",	"dijitEditorIcon dijitEditorIconPaste",	paste);
+	makeContextMenu(dojo.query('.drug, .dose, .day, .times'));
+	dojo.addOnLoad(function(){init();});
+	</script>
 </body>
 </html>
 </jsp:root>
