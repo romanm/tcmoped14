@@ -14,15 +14,44 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Controller
 public class MopetController {
-
     protected final Log log = LogFactory.getLog(getClass());
 
     // ChemoRegime
+    @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-week={idRegime}", method = RequestMethod.GET)
+    public void scereWeek(@PathVariable
+    Integer idFolder, @PathVariable
+    Integer idStudy, @PathVariable
+    Integer idRegime, Model model) {
+	cereVariablen(idFolder, idStudy, idRegime, model);
+	getRequest().getSession().setAttribute("regimePart", "week");
+    }
+
+    @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-plan={idRegime}", method = RequestMethod.GET)
+    public void scerePlan(@PathVariable
+    Integer idFolder, @PathVariable
+    Integer idStudy, @PathVariable
+    Integer idRegime, Model model) {
+	cereVariablen(idFolder, idStudy, idRegime, model);
+	log.debug("ContextPath=" + getRequest().getContextPath());
+	getRequest().getSession().setAttribute("regimePart", "plan");
+    }
+
+    private HttpServletRequest getRequest() {
+	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
+		.getRequest();
+	return request;
+    }
+
     @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-ed={idRegime}", method = RequestMethod.GET)
     public void scereEd(@PathVariable
     Integer idFolder, @PathVariable
     Integer idStudy, @PathVariable
     Integer idRegime, Model model) {
+	cereVariablen(idFolder, idStudy, idRegime, model);
+	getRequest().getSession().setAttribute("regimePart", "ed");
+    }
+
+    private void cereVariablen(Integer idFolder, Integer idStudy, Integer idRegime, Model model) {
 	addIdFolder(idFolder, model);
 	addIdStudy(idStudy, model);
 	addIdRegime(idRegime, model);
@@ -54,12 +83,14 @@ public class MopetController {
     // ChemoRegime END
 
     // Study
-    @RequestMapping(value = "f={idFolder}/study={idStudy}", method = RequestMethod.GET)
+    @RequestMapping(value = "f={idFolder}/study-{studyPart}={idStudy}", method = RequestMethod.GET)
     public void docFStudy(@PathVariable
     Integer idFolder, @PathVariable
+    String studyPart, @PathVariable
     Integer idStudy, Model model) {
 	addIdFolder(idFolder, model);
 	addIdStudy(idStudy, model);
+	getRequest().getSession().setAttribute("studyPart", studyPart);
     }
 
     @RequestMapping(value = "/doc-study={id}", method = RequestMethod.GET)
@@ -90,8 +121,7 @@ public class MopetController {
     @RequestMapping(value = "f={idf}/s={id}", method = RequestMethod.GET)
     public String toStudy(@PathVariable
     Integer id, Model model) {
-	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-		.getRequest();
+	HttpServletRequest request = getRequest();
 	log.debug("ContextPath=" + request.getContextPath());
 	return fromId(id, model);
     }
@@ -153,31 +183,53 @@ public class MopetController {
 	}
 	int idConcept = 3;
 	boolean isConcept = id == idConcept;
+	log.debug("----------------------- 1");
 	if (isConcept) {
+	    log.debug("----------------------- 2");
+	    log.debug("----------------------- " + getStudyPart());
+	    String study_Part_Id_Url = "/study-" + getStudyPart() + "=" + idConcept;
+	    log.debug("----------------------- " + study_Part_Id_Url);
 	    if (isPatient) {
 		idPatient = 2;
 		idFolder = 1;
-		return "redirect:/f=" + idFolder + "/p=" + idPatient + "/study=" + idConcept;
+		return "redirect:/f=" + idFolder + "/p=" + idPatient + study_Part_Id_Url;
 	    }
 	    if (!isPatient) {
 		idFolder = 1;
-		return "redirect:/f=" + idFolder + "/study=" + idConcept;
+		return "redirect:/f=" + idFolder + study_Part_Id_Url;
 	    }
 	}
 	int idRegime = 4;
 	boolean isRegime = id == idRegime;
 	if (isRegime) {
 	    idConcept = 3;
+	    String cere_Part_Id_Url = "/cere-" + getRegimePart() + "=" + idRegime;
 	    if (isPatient) {
 		idPatient = 2;
 		idFolder = 1;
-		return "redirect:/f=" + idFolder + "/p=" + idPatient + "/s=" + idConcept + "/cere-ed=" + idRegime;
+		return "redirect:/f=" + idFolder + "/p=" + idPatient + "/s=" + idConcept + cere_Part_Id_Url;
 	    }
 	    if (!isPatient) {
 		idFolder = 1;
-		return "redirect:/f=" + idFolder + "/s=" + idConcept + "/cere-ed=" + idRegime;
+		return "redirect:/f=" + idFolder + "/s=" + idConcept + cere_Part_Id_Url;
 	    }
 	}
 	return "redirect:/";
+    }
+
+    private String getRegimePart() {
+	String regimePart = (String) getRequest().getSession().getAttribute("regimePart");
+	if (null == regimePart)
+	    regimePart = "ed";
+	return regimePart;
+    }
+
+    private String getStudyPart() {
+	log.debug("----------------------- 2 1");
+	String studyPart = (String) getRequest().getSession().getAttribute("studyPart");
+	log.debug("----------------------- " + studyPart);
+	if (null == studyPart)
+	    studyPart = "sg";
+	return studyPart;
     }
 }

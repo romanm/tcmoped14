@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 >
-	<h2>cere</h2>
-	<h4>Chemo Regime</h4>
-	idRegime=${idRegime}
+	<rg:regimeHead/>
+	
 	<table id="ctxTable">
 		<tr>
 			<td id="tdDrug_1" class="select drug">

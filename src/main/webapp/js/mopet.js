@@ -1,3 +1,12 @@
+
+function titlePane(tpId,isOpened){
+	Spring.addDecoration(new Spring.ElementDecoration({
+	elementId:tpId, widgetType:"dijit.TitlePane" ,widgetAttrs: {
+		title:this.title,open:isOpened
+	}
+	}));
+}
+
 function makeContextMenu(classDoseArray){
 	Spring.addDecoration(new Spring.ElementDecoration({
 		elementId : "contextMenu",
@@ -78,25 +87,6 @@ function idtAction(action){
 	url+="&a="+action;
 	console.log(url);
 	alert(url);
-}
-function idtAction_old(action){
-	var idcE = dojo.byId('idc');
-	console.log(idcE);
-	console.log(idcE.value);
-	
-	//selfHref(action,'&idt='+idcE.value);
-	var url="#";
-	var wlsp=window.location.search.split("execution=");
-	if(wlsp.length==1){
-		url=getUrl1() + '?id='+docId+'&a='+action+'&idt='+idcE.value;
-		//url=getUrl1() + '?id='+docId+'&a='+action+'&part='+part+'&idt='+idcE.value;
-	}else{
-		//url='?execution=' + wlsp[1] + '&_eventId=' + action + addUrlKey;
-		dojo.byId('idt').value=idcE.value;
-		dojo.byId('action').value=action;
-		dojo.byId('editStep').click();
-	}
-	self.location.href=url;
 }
 function correcturSelectElement(editE){
 	for ( var i = 0; i < 4; i++) {

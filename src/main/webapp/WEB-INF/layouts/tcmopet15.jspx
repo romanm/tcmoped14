@@ -4,6 +4,7 @@
 	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
+	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 >
 	<jsp:directive.page contentType="text/html; charset=UTF-8" 
 		pageEncoding="UTF-8" session="false"/>
@@ -47,9 +48,10 @@
 </head>
 <body class="tundra">
 	<div id="headline">
-		<tiles:insertAttribute name="headline" />
+		<rg:headline/>
 	</div>
 	<div id="content">
+		<tiles:insertAttribute name="head" />
 		<tiles:insertAttribute name="body" />
 		<div>
 			<c:forEach var="n" begin="1" end="100">
@@ -61,6 +63,7 @@
 		<h2>TasClin</h2>
 		<h3>MOPET</h3>
 		<input type="hidden" name="docId" id="docId" value="${docId }" />
+		<tiles:insertAttribute name="sidebar" />
 	</div>
 	<div id="contextMenuContainer">
 		<div id="cmiDrugInDrug"	><fmt:message key="cmiDrugInDrug"/></div>
