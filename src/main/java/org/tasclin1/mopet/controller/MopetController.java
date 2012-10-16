@@ -20,22 +20,19 @@ public class MopetController {
     // ChemoRegime
     @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-ed={idRegime}", method = RequestMethod.GET)
     public void scereEd(@PathVariable
-    Integer idRegime, @PathVariable
+    Integer idFolder, @PathVariable
     Integer idStudy, @PathVariable
-    Integer idFolder, Model model) {
-	log.debug("idFolder=" + idFolder);
-	model.addAttribute(idFolder);
-	log.debug("idStudy=" + idStudy);
-	model.addAttribute(idStudy);
-	log.debug("idRegime=" + idRegime);
-	model.addAttribute(idRegime);
+    Integer idRegime, Model model) {
+	addIdFolder(idFolder, model);
+	addIdStudy(idStudy, model);
+	addIdRegime(idRegime, model);
+	model.addAttribute("docId", idRegime);
     }
 
     @RequestMapping(value = "/doc-cere-ed={idRegime}", method = RequestMethod.GET)
     public void cereEd(@PathVariable
     Integer idRegime, Model model) {
-	log.debug("idRegime=" + idRegime);
-	model.addAttribute(idRegime);
+	addIdRegime(idRegime, model);
     }
 
     @RequestMapping(value = "/chemoregime-{id}", method = RequestMethod.GET)
@@ -125,6 +122,11 @@ public class MopetController {
     private void addIdStudy(Integer idStudy, Model model) {
 	if (!model.asMap().containsValue(idStudy))
 	    model.addAttribute(idStudy);
+    }
+
+    private void addIdRegime(Integer idRegime, Model model) {
+	if (!model.asMap().containsValue(idRegime))
+	    model.addAttribute(idRegime);
     }
 
     // Folder

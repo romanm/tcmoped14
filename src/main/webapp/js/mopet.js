@@ -8,6 +8,22 @@ function makeContextMenu(classDoseArray){
 		}
 	}));
 }
+/**
+ * Move menu item 
+ * @param isMyClass
+ * @param childId
+ */
+function moveMenuItem(isMyClass,childId){
+	var ctxMenuName="contextMenuContainer";
+	if(isMyClass){
+		ctxMenuName="contextMenu";
+	}
+	var ctxMenu=dijit.byId(ctxMenuName);
+	var childE=dijit.byId(childId);
+	if(childE!=null){
+		ctxMenu.addChild(childE);
+	}
+}
 function init(){
 	console.log("init BEGIN");
 	// make select only for contextmenu, only by right maus klick, make not select for link maus klick
@@ -24,9 +40,9 @@ function init(){
 		var isMiUpdate		= isDrugDose||isNewDDNotice
 		||hasClass(editE, "taskNotice")||hasClass(editE, "schema");
 		moveMenuItem(isMiUpdate,				"mi_cmus1");
-		moveMenuItem(isDrugDose,				"cmNewAdditionalDrug");
-		moveMenuItem(isDrugDose||hasClass(editE, "day"),	"cmNewRule");
-		moveMenuItem(isNewDDNotice||isDrugDose,	"cmNewDDNotice");
+		moveMenuItem(hasClass(editE, "drug"),	"cmiDrugInDrug");
+		moveMenuItem(isDrugDose||hasClass(editE, "day"),	"cmiAddRule");
+		moveMenuItem(isNewDDNotice||isDrugDose,	"cmiAddDrugDoseNotice");
 		moveMenuItem(hasClass(editE, "schema"),	"mi_editCycle");
 		moveMenuItem(hasClass(editE, "taskNotice"),	"addNotice");
 		moveMenuItem(hasClass(editE, "schema"),		"mi_newDrug");
@@ -40,29 +56,34 @@ function init(){
 	console.log("init END");
 }
 function hasClass(editE,className){return dojo.hasClass(editE,className);}
-/**
- * Move menu item 
- * @param isMyClass
- * @param childId
- */
-function moveMenuItem(isMyClass,childId){
-	var ctxMenuName="ctxMenuUpdate";
-	if(isMyClass){
-		ctxMenuName="contextMenu";
-	}
-	var ctxMenu=dijit.byId(ctxMenuName);
-	var childE=dijit.byId(childId);
-	if(childE!=null){
-		ctxMenu.addChild(childE);
-	}
+function cmiCopy(){
+	console.log("copy "+getSelectedE().id);
 }
-function newAdditionalDrug(){idtAction("newAdditionalDrug");}
-function newDDNotice()	{idtAction("newNotice");}
-function newRule()		{idtAction("newRule");}
+function cmiPaste(){
+	console.log("paste "+getSelectedE().id);
+}
+//cmiDrugInDrug=newAdditionalDrug
+function cmiDrugInDrug(){idtAction("cmiDrugInDrug");}
+//cmiAddDrugDoseNotice=newDDNotice
+//cmiAddDrugDoseNotice=newNotice
+function cmiAddDrugDoseNotice()	{idtAction("cmiAddDrugDoseNotice");}
+//cmiAddRule=function newRule()		{idtAction("newRule");}
+function cmiAddRule()		{idtAction("cmiAddRule");}
 function idtAction(action){
+	var url="url?";
+	var docIdE = dojo.byId('docId');
+	url+="id="+docIdE.value;
+	var selectedE=getSelectedE();
+	url+="&idt="+selectedE.id.split("_")[1];
+	url+="&a="+action;
+	console.log(url);
+	alert(url);
+}
+function idtAction_old(action){
 	var idcE = dojo.byId('idc');
 	console.log(idcE);
 	console.log(idcE.value);
+	
 	//selfHref(action,'&idt='+idcE.value);
 	var url="#";
 	var wlsp=window.location.search.split("execution=");
@@ -103,12 +124,6 @@ function link2modalDialog(elementId){
 	}));
 }
 function getSelectedE(){return dojo.query(".selected")[0];}
-function copy(){
-	console.log("copy "+getSelectedE().id);
-}
-function paste(){
-	console.log("paste "+getSelectedE().id);
-}
 function menuItem(id,classes,click){
 	Spring.addDecoration(new Spring.ElementDecoration({
 		elementId:id, widgetType:"dijit.MenuItem", widgetModule:"dijit.Menu",
