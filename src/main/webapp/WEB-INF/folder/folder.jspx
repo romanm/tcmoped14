@@ -1,5 +1,10 @@
 <div>
 	folder
+	${folderT }
+	---
+	${tree.id }
+		${tree.tabName}
+	
 	<div>
 		<a href="${contextPath }/id=2"> Patient </a>
 	</div>

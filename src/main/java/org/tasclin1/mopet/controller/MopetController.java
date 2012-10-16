@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.tasclin1.mopet.domain.Tree;
+import org.tasclin1.mopet.service.MopetService;
 
 @Controller
 public class MopetController {
     protected final Log log = LogFactory.getLog(getClass());
+    private MopetService mopetService;
+
+    @Autowired
+    public MopetController(MopetService mopetService) {
+	this.mopetService = mopetService;
+    }
 
     // ChemoRegime
     @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-week={idRegime}", method = RequestMethod.GET)
@@ -164,12 +173,17 @@ public class MopetController {
     public void folder(@PathVariable
     Integer idFolder, Model model) {
 	addIdFolder(idFolder, model);
+	Tree folderT = mopetService.getTree(idFolder);
+	model.addAttribute(folderT);
+
     }
 
     // Folder END
     @RequestMapping(value = "id={id}", method = RequestMethod.GET)
     public String fromId(@PathVariable
     Integer id, Model model) {
+	Tree tree = mopetService.getTree(id);
+	model.addAttribute(tree);
 	int idFolder = 1;
 	boolean isFolder = id == idFolder;
 	if (isFolder) {
@@ -183,12 +197,8 @@ public class MopetController {
 	}
 	int idConcept = 3;
 	boolean isConcept = id == idConcept;
-	log.debug("----------------------- 1");
 	if (isConcept) {
-	    log.debug("----------------------- 2");
-	    log.debug("----------------------- " + getStudyPart());
 	    String study_Part_Id_Url = "/study-" + getStudyPart() + "=" + idConcept;
-	    log.debug("----------------------- " + study_Part_Id_Url);
 	    if (isPatient) {
 		idPatient = 2;
 		idFolder = 1;
