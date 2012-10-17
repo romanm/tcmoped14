@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
->
-
-<div>
-Subfolders:
-	<c:forEach var="subFolderO" items="${folderO.childFs }">
-		<c:out value=" "/>
-		<rg:bcA_Folder currentFolderO="${subFolderO}" withoutGt="true"/>
+	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime">
+<h1>${folderO.folder }</h1>
+	<div>
+		Subfolders:
+		<c:forEach var="subFolderT" items="${folderT.childTs }">
+			<c:if test="${'folder'==subFolderT.tabName }">
+				<c:out value=" " />
+				<rg:bcA_Folder currentFolderO="${subFolderT.mtlO}" withoutGt="true" />
+			</c:if>
+		</c:forEach>
+		<hr />
+	</div>
+	<c:forEach var="docT" items="${folderT.childTs }">
+		<c:if test="${'protocol'==docT.tabName }">
+			<div class="conceptContent">
+				<a href="id=${docT.id }"> ${docT.mtlO.protocol} </a>
+			</div>
+		</c:if>
 	</c:forEach>
-	<hr/>
-</div>	
-	<div>
-		<a href="${contextPath }/id=2"> Patient </a>
-	</div>
-	<div>
-		<a href="${contextPath }/id=3"> Protokol </a>
-	</div>
-	<div>
-		<a href="${contextPath }/id=4"> regime </a>
-	</div>
-
+	<hr />
 </jsp:root>

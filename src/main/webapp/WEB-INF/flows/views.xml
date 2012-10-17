@@ -30,7 +30,7 @@
 	</definition>
 	<definition name="f=*/s=*/cere-*=*" extends="tcmopet15_layout">
 		<put-attribute name="tilesUrl" value="regime" />
-		<put-attribute name="head" value="" />
+		<put-attribute name="head" value="/WEB-INF/flows/cere-head.jspx" />
 		<put-attribute name="body" value="/WEB-INF/flows/doc-cere-{3}.jspx" />
 		<put-attribute name="sidebar" value="/WEB-INF/flows/cere-sidebar.jspx" />
 	</definition>

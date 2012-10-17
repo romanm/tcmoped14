@@ -68,16 +68,16 @@ public class MopetController {
     }
 
     private void cereVariablen(Integer idFolder, Integer idStudy, Integer idRegime, Model model) {
-	addIdFolder(idFolder, model);
-	addIdStudy(idStudy, model);
-	addIdRegime(idRegime, model);
+	mopetService.setFolderO2doc(idFolder, model);
+	mopetService.setStudyO2doc(idStudy, model);
+	mopetService.setRegime(idRegime, model);
 	model.addAttribute("docId", idRegime);
     }
 
     @RequestMapping(value = "/doc-cere-ed={idRegime}", method = RequestMethod.GET)
     public void cereEd(@PathVariable
     Integer idRegime, Model model) {
-	addIdRegime(idRegime, model);
+	mopetService.setRegime(idRegime, model);
     }
 
     @RequestMapping(value = "/chemoregime-{id}", method = RequestMethod.GET)
@@ -104,8 +104,8 @@ public class MopetController {
     Integer idFolder, @PathVariable
     String studyPart, @PathVariable
     Integer idStudy, Model model) {
-	addIdFolder(idFolder, model);
-	addIdStudy(idStudy, model);
+	mopetService.setFolderO2doc(idFolder, model);
+	mopetService.setStudyO(idStudy, model);
 	getRequest().getSession().setAttribute("studyPart", studyPart);
     }
 
@@ -149,7 +149,7 @@ public class MopetController {
     public void docFPatient(@PathVariable
     Integer idFolder, @PathVariable
     Integer idPatient, Model model) {
-	addIdFolder(idFolder, model);
+	mopetService.setFolderO2doc(idFolder, model);
 	addIdPatient(idPatient, model);
     }
 
@@ -160,29 +160,22 @@ public class MopetController {
 	    model.addAttribute(idPatient);
     }
 
-    private void addIdFolder(Integer idFolder, Model model) {
-	if (!model.asMap().containsValue(idFolder))
-	    model.addAttribute(idFolder);
-    }
+    // private void addIdStudy(Integer idStudy, Model model) {
+    // if (!model.asMap().containsValue(idStudy))
+    // model.addAttribute(idStudy);
+    // }
 
-    private void addIdStudy(Integer idStudy, Model model) {
-	if (!model.asMap().containsValue(idStudy))
-	    model.addAttribute(idStudy);
-    }
-
-    private void addIdRegime(Integer idRegime, Model model) {
-	if (!model.asMap().containsValue(idRegime))
-	    model.addAttribute(idRegime);
-    }
+    // private void addIdRegime(Integer idRegime, Model model) {
+    // if (!model.asMap().containsValue(idRegime))
+    // model.addAttribute(idRegime);
+    // }
 
     // Folder
     @RequestMapping(value = "/folder={idFolder}", method = RequestMethod.GET)
     public void folder(@PathVariable
     Integer idFolder, Model model) {
-	addIdFolder(idFolder, model);
-	mopetService.setFolder(idFolder, model);
-	Tree folderT = mopetService.getTree(idFolder);
-	model.addAttribute("folderT", folderT);
+	mopetService.setFolderO(idFolder, model);
+	mopetService.setFolderT(idFolder, model);
 
     }
 
@@ -204,37 +197,42 @@ public class MopetController {
 	    return "redirect:/folder=" + idFolder;
 	}
 	int idPatient = 2;
-	boolean isPatient = id == idPatient;
+	boolean isPatient = "patient".equals(tree.getTabName());
 	if (isPatient) {
 	    idFolder = 1;
 	    return "redirect:/f=" + idFolder + "/patient=" + idPatient;
 	}
-	int idConcept = 3;
-	boolean isConcept = id == idConcept;
+	int idConcept;
+	boolean isConcept = "protocol".equals(tree.getTabName());
 	if (isConcept) {
+	    idConcept = tree.getId();
 	    String study_Part_Id_Url = "/study-" + getStudyPart() + "=" + idConcept;
+	    isPatient = "patient".equals(tree.getParentT().getTabName());
 	    if (isPatient) {
-		idPatient = 2;
-		idFolder = 1;
+		idPatient = tree.getParentT().getId();
+		idFolder = tree.getParentT().getParentT().getId();
 		return "redirect:/f=" + idFolder + "/p=" + idPatient + study_Part_Id_Url;
 	    }
 	    if (!isPatient) {
-		idFolder = 1;
+		idFolder = tree.getParentT().getId();
 		return "redirect:/f=" + idFolder + study_Part_Id_Url;
 	    }
 	}
-	int idRegime = 4;
-	boolean isRegime = id == idRegime;
+	int idRegime;
+	boolean isRegime = "task".equals(tree.getTabName());
 	if (isRegime) {
-	    idConcept = 3;
+	    idRegime = tree.getId();
+	    Tree conceptT = tree.getDocT();
+	    idConcept = conceptT.getId();
 	    String cere_Part_Id_Url = "/cere-" + getRegimePart() + "=" + idRegime;
+	    isPatient = "patient".equals(conceptT.getParentT().getTabName());
 	    if (isPatient) {
-		idPatient = 2;
-		idFolder = 1;
+		idPatient = conceptT.getParentT().getId();
+		idFolder = conceptT.getParentT().getParentT().getId();
 		return "redirect:/f=" + idFolder + "/p=" + idPatient + "/s=" + idConcept + cere_Part_Id_Url;
 	    }
 	    if (!isPatient) {
-		idFolder = 1;
+		idFolder = conceptT.getParentT().getId();
 		return "redirect:/f=" + idFolder + "/s=" + idConcept + cere_Part_Id_Url;
 	    }
 	}
@@ -249,9 +247,7 @@ public class MopetController {
     }
 
     private String getStudyPart() {
-	log.debug("----------------------- 2 1");
 	String studyPart = (String) getRequest().getSession().getAttribute("studyPart");
-	log.debug("----------------------- " + studyPart);
 	if (null == studyPart)
 	    studyPart = "sg";
 	return studyPart;

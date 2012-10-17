@@ -54,11 +54,13 @@
 	<div id="content">
 		<tiles:insertAttribute name="head" />
 		<tiles:insertAttribute name="body" />
+		<!-- 
 		<div>
 			<c:forEach var="n" begin="1" end="100">
 				<div>${n }</div>
 			</c:forEach>
 		</div>
+		 -->
 	</div>
 	<div id="sidebar">
 		<h2>TasClin</h2>

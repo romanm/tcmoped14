@@ -1,43 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
->
-	<rg:regimeHead/>
-	
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
 	<table id="ctxTable">
-		<tr>
-			<td id="tdDrug_1" class="select drug">
-				<a id="aDrug_1" class="toMoDi"
-			 href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_drug">ed
-					drug</a></td>
-			<td class="select dose" id="tdDose_1">
-				<a id="aDose_1" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_dose">ed
-					dose</a></td>
-			<td class="select day" id="tdDay_1">
-				<a id="aDay_1" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_day">ed
-					day</a></td>
-			<td class="select times" id="tdTimes_1">
-				<a id="aTimes_1" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_times">ed
-					times</a></td>
-		</tr>
-		<tr>
-			<td class="select drug" id="tdDrug_2"><a id="aDrug_2" class="toMoDi"
-			 href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_drug">ed
-					drug 2</a></td>
-			<td class="select dose" id="tdDose_2">..
-				<a id="aDose_2" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_dose">ed
-					dose 2</a></td>
-			<td class="select day" id="tdDay_2"><a id="aDay_2" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_day">ed
-					day 2</a></td>
-			<td class="select times" id="tdTimes_2"><a id="aTimes_2" class="toMoDi" href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;a=ed_times">ed
-					times 2</a></td>
-		</tr>
-		<tr>
-			<td><a id="startFlow" class="toMoDi" href="cere-ed?idRegime=${idRegime}&amp;a=new_drug">new
-					drug</a></td>
-		</tr>
+		<thead>
+			<tr>
+				<th><spring:message code="regime_tumortherapy" /></th>
+				<th><spring:message code="regime_dose" /></th>
+				<th><spring:message code="regime_app" /></th>
+				<th><spring:message code="regime_day" /></th>
+				<th><spring:message code="regime_times" /></th>
+				<th>#</th>
+			</tr>
+		</thead>
+		<tbody>
+			<rg:edTaskDrugsTRs taskT="${regimeT }" />
+			<c:forEach var="taskTaskT" items="${regimeT.childTs }">
+				<c:if test="${'task'==taskTaskT.tabName }">
+					<tr>
+						<th>${taskTaskT.mtlO.task }</th>
+					</tr>
+					<rg:edTaskDrugsTRs taskT="${taskTaskT }" />
+				</c:if>
+			</c:forEach>
+			<tr>
+				<td><a id="startFlow" class="toMoDi"
+					href="cere-ed?idRegime=${idRegime}&amp;a=new_drug">+new drug</a></td>
+			</tr>
+		</tbody>
 	</table>
+
 	<script type="text/javascript">
-		dojo.query(".toMoDi").forEach(function(e){ link2modalDialog(e.id); });
+		dojo.query(".toMoDi").forEach(function(e) {
+			link2modalDialog(e.id);
+		});
 	</script>
 </jsp:root>
