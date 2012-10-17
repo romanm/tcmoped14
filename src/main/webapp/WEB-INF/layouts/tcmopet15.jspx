@@ -45,6 +45,7 @@
     <script type="text/javascript" src="${springDojoJs }"> <!-- //required for FF3 and Opera --> </script>
 	<c:url var="mopetJs" value="/resources/js/mopet.js" />
     <script type="text/javascript" src="${mopetJs }"> <!-- //required for FF3 and Opera --> </script>
+		<c:set var="tilesUrl" scope="request"><tiles:insertAttribute name="tilesUrl" /></c:set>
 </head>
 <body class="tundra">
 	<div id="headline">

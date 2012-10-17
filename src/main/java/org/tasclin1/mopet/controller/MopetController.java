@@ -191,12 +191,16 @@ public class MopetController {
     @RequestMapping(value = "id={id}", method = RequestMethod.GET)
     public String fromId(@PathVariable
     Integer id, Model model) {
+	log.debug(id);
 	Tree tree = mopetService.checkId(id);
+	log.debug(tree);
+
 	if (null == tree)
 	    return "redirect:/";
-	int idFolder = 1;
-	boolean isFolder = id == idFolder;
+	int idFolder;
+	boolean isFolder = "folder".equals(tree.getTabName());
 	if (isFolder) {
+	    idFolder = tree.getId();
 	    return "redirect:/folder=" + idFolder;
 	}
 	int idPatient = 2;

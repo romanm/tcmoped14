@@ -28,6 +28,7 @@ public class MopetService {
     public Tree checkId(Integer id) {
 	List resultList = em.createQuery("SELECT t FROM Tree t WHERE  t.id = :id").setParameter("id", id)
 		.getResultList();
+	log.debug(resultList);
 	if (resultList.size() == 0)
 	    return null;
 	return (Tree) resultList.get(0);
@@ -57,10 +58,10 @@ public class MopetService {
     public void setFolder(Integer idFolder, Model model) {
 	Folder folderO = em.find(Folder.class, idFolder);
 	model.addAttribute("folderO", folderO);
-	List<Folder> childFs = folderO.getChildFs();
-	for (Folder folder : childFs) {
+	for (Folder folder : folderO.getChildFs()) {
 	}
-	model.addAttribute("childFs", childFs);
+	while (!"folder".equals(folderO.getParentF().getFolder()))
+	    folderO = folderO.getParentF();
     }
 
 }
