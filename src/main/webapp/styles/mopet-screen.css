@@ -2,7 +2,7 @@
 #headline, #sidebar { position:fixed; top: 0.1em; border: 1px solid #CCCCCC; }
 #headline{ width:79%; left:0.1em; background-color:#F0F0F0;}
 #sidebar { width: 20%; bottom: 0.1em; right: 0.1em; }
-#content{margin-top: 2em;}
+#content{width:79%; margin-top: 2em;}
 
 .select:hover {background: #DDDDBB } 
 .selected {border: 1px dotted blue }

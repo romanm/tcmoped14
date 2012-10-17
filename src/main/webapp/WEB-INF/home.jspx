@@ -1,5 +1,13 @@
 <div>
 	home
+		<div>
+		<a href="${contextPath }/folder=${protocolF.id}">Study folder </a>
+	</div>
+	
+	<div>
+		<a href="${contextPath }/folder=${patientF.id}">Patient folder </a>
+	</div>
+	<hr/>
 	<div>
 		<a href="${contextPath }/id=1"> folder </a>
 	</div>

@@ -26,6 +26,13 @@ public class MopetController {
     }
 
     // ChemoRegime
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String home(Model model) {
+	mopetService.home(model);
+	return "home";
+    }
+
+    // ChemoRegime
     @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-week={idRegime}", method = RequestMethod.GET)
     public void scereWeek(@PathVariable
     Integer idFolder, @PathVariable
@@ -173,17 +180,20 @@ public class MopetController {
     public void folder(@PathVariable
     Integer idFolder, Model model) {
 	addIdFolder(idFolder, model);
+	mopetService.setFolder(idFolder, model);
 	Tree folderT = mopetService.getTree(idFolder);
-	model.addAttribute(folderT);
+	model.addAttribute("folderT", folderT);
 
     }
 
     // Folder END
+
     @RequestMapping(value = "id={id}", method = RequestMethod.GET)
     public String fromId(@PathVariable
     Integer id, Model model) {
-	Tree tree = mopetService.getTree(id);
-	model.addAttribute(tree);
+	Tree tree = mopetService.checkId(id);
+	if (null == tree)
+	    return "redirect:/";
 	int idFolder = 1;
 	boolean isFolder = id == idFolder;
 	if (isFolder) {

@@ -3,9 +3,9 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 >
 <a href="${contextPath }"> home </a>
-<c:if test="${not empty idFolder }">
+<c:if test="${not empty folderO }">
 	&gt;
-	<a href="${contextPath }/id=${idFolder}"> folder </a>
+	<a href="${contextPath }/id=${folderO.id}"> folder:${folderO.folder } </a>
 	<c:if test="${not empty idPatient }">
 		&gt;
 		<a href="${contextPath }/id=${idPatient}"> Patient </a>
