@@ -3,7 +3,7 @@
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
-	<div style="border: 1px double">
+	<div class="patientContent" style="border: 1px double">
 		<rg:patientName patientO="${patientO }" />
 		<div>
 			<rg:historyVariable historyT="${lastWeightT }" />

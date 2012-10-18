@@ -18,7 +18,7 @@
 	<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-<title>Insert title here</title>
+<title><tiles:insertAttribute name="title" /></title>
 <c:url var="tundraCss" value="/resources/dijit/themes/tundra/tundra.css" />
 <link type="text/css" rel="stylesheet" href="${tundraCss }" />
 <c:url var="mopetScreenCss" value="/resources/styles/mopet-screen.css" />
