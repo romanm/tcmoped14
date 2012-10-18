@@ -150,15 +150,10 @@ public class MopetController {
     Integer idFolder, @PathVariable
     Integer idPatient, Model model) {
 	mopetService.setFolderO2doc(idFolder, model);
-	addIdPatient(idPatient, model);
+	mopetService.setPatientO(idPatient, model);
     }
 
     // Patient END
-
-    private void addIdPatient(Integer idPatient, Model model) {
-	if (!model.asMap().containsValue(idPatient))
-	    model.addAttribute(idPatient);
-    }
 
     // private void addIdStudy(Integer idStudy, Model model) {
     // if (!model.asMap().containsValue(idStudy))
@@ -196,10 +191,11 @@ public class MopetController {
 	    idFolder = tree.getId();
 	    return "redirect:/folder=" + idFolder;
 	}
-	int idPatient = 2;
+	int idPatient;
 	boolean isPatient = "patient".equals(tree.getTabName());
 	if (isPatient) {
-	    idFolder = 1;
+	    idPatient = tree.getId();
+	    idFolder = tree.getParentT().getId();
 	    return "redirect:/f=" + idFolder + "/patient=" + idPatient;
 	}
 	int idConcept;

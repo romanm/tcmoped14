@@ -18,7 +18,7 @@
 	</definition>
 	<definition name="f=*/patient=*" extends="tcmopet15_layout">
 		<put-attribute name="tilesUrl" value="patient" />
-		<put-attribute name="head" value="" />
+		<put-attribute name="head" value="/WEB-INF/flows/patient-head.jspx" />
 		<put-attribute name="body" value="/WEB-INF/flows/doc-patient.jspx" />
 		<put-attribute name="sidebar" value="/WEB-INF/flows/patient-sidebar.jspx" />
 	</definition>

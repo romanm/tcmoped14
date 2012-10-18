@@ -1,4 +1,14 @@
 /* from mopet */
+.small{font-size: 0.8em}
+
+#headline, #sidebar { position:fixed; top: 0.1em; border: 1px solid #CCCCCC; }
+#headline{ width:79%; left:0.1em; background-color:#F1F1E7;}
+#sidebar { width: 20%; bottom: 0.1em; right: 0.1em; }
+#content{width:79%; margin-top: 2em;}
+
+.select:hover {background: #DDDDBB } 
+.selected {border: 1px dotted blue }
+
 /*
 #headline, #sidebar { position:fixed; top: 0.1em; border: 1px solid #CCCCCC; }
 #headline{ width:79%; left:0.1em; background-color:#D6E4E1;}
@@ -12,13 +22,6 @@ http://www.colorcombos.com/color-schemes/173/ColorCombo173.html
     206BA4 BBD9EE EBF4FA C0C0C0 E7E4D3 F1EFE2
 http://colorschemedesigner.com/
 */
-#headline, #sidebar { position:fixed; top: 0.1em; border: 1px solid #CCCCCC; }
-#headline{ width:79%; left:0.1em; background-color:#F1F1E7;}
-#sidebar { width: 20%; bottom: 0.1em; right: 0.1em; }
-#content{width:79%; margin-top: 2em;}
-
-.select:hover {background: #DDDDBB } 
-.selected {border: 1px dotted blue }
 
 /* color palette */
 .regimeContent	{background-color: #D9E3D9}

@@ -21,6 +21,7 @@ import org.tasclin1.mopet.domain.Expr;
 import org.tasclin1.mopet.domain.Folder;
 import org.tasclin1.mopet.domain.MObject;
 import org.tasclin1.mopet.domain.Notice;
+import org.tasclin1.mopet.domain.Patient;
 import org.tasclin1.mopet.domain.Task;
 import org.tasclin1.mopet.domain.Times;
 import org.tasclin1.mopet.domain.Tree;
@@ -58,6 +59,7 @@ public class MopetService {
 	}
 	while (!"folder".equals(folderO.getParentF().getFolder()))
 	    folderO = folderO.getParentF();
+	model.addAttribute("firstFolderO", folderO);
     }
 
     @Transactional(readOnly = true)
@@ -77,6 +79,28 @@ public class MopetService {
     }
 
     // folder END
+
+    // patient
+    @Transactional(readOnly = true)
+    public void setPatientO(Integer idPatient, Model model) {
+	model.addAttribute(idPatient);
+	Patient patientO = em.find(Patient.class, idPatient);
+	model.addAttribute("patientO", patientO);
+	Tree patientT = em.find(Tree.class, idPatient);
+	patientT.setMtlO(patientO);
+	model.addAttribute("patientT", patientT);
+	for (Tree t1 : patientT.getChildTs()) {
+	    setMtlO(t1);
+	    for (Tree t2 : t1.getChildTs()) {
+		setMtlO(t2);
+		for (Tree t3 : t2.getChildTs()) {
+		    setMtlO(t3);
+		}
+	    }
+	}
+    }
+
+    // patient END
 
     // study
     @Transactional(readOnly = true)
@@ -161,10 +185,6 @@ public class MopetService {
 	String tabName = tree.getTabName();
 	if ("folder".equals(tabName))
 	    mO = em.find(Folder.class, tree.getIdClass());
-	else if ("protocol".equals(tabName))
-	    mO = em.find(Concept.class, tree.getIdClass());
-	else if ("task".equals(tabName))
-	    mO = em.find(Task.class, tree.getIdClass());
 	else if ("drug".equals(tabName))
 	    mO = em.find(Drug.class, tree.getIdClass());
 	else if ("dose".equals(tabName))
@@ -173,6 +193,12 @@ public class MopetService {
 	    mO = em.find(Day.class, tree.getIdClass());
 	else if ("times".equals(tabName))
 	    mO = em.find(Times.class, tree.getIdClass());
+	else if ("patient".equals(tabName))
+	    mO = em.find(Patient.class, tree.getIdClass());
+	else if ("protocol".equals(tabName))
+	    mO = em.find(Concept.class, tree.getIdClass());
+	else if ("task".equals(tabName))
+	    mO = em.find(Task.class, tree.getIdClass());
 	else if ("notice".equals(tabName))
 	    mO = em.find(Notice.class, tree.getIdClass());
 	else if ("expr".equals(tabName))
