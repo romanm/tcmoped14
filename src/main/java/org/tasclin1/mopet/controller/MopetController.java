@@ -25,31 +25,42 @@ public class MopetController {
 	this.mopetService = mopetService;
     }
 
-    // ChemoRegime
+    // home
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
 	mopetService.home(model);
 	return "home";
     }
 
-    // ChemoRegime
-    @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-week={idRegime}", method = RequestMethod.GET)
-    public void scereWeek(@PathVariable
+    // home END
+
+    // Patient ChemoRegime
+    @RequestMapping(value = "/f={idFolder}/p={idPatient}/s={idStudy}/cere-{regimePart}={idRegime}", method = RequestMethod.GET)
+    public void folderPatientConceptRegime(@PathVariable
     Integer idFolder, @PathVariable
+    Integer idPatient, @PathVariable
     Integer idStudy, @PathVariable
+    String regimePart, @PathVariable
     Integer idRegime, Model model) {
-	cereVariablen(idFolder, idStudy, idRegime, model);
-	getRequest().getSession().setAttribute("regimePart", "week");
+	mopetService.readPatientDocShort(idPatient, model);
+	mopetService.readFolderO2doc(idFolder, model);
+	mopetService.readConceptT(idStudy, model);
+	mopetService.readRegimeDocT(idRegime, model);
+	getRequest().getSession().setAttribute("regimePart", regimePart);
     }
 
-    @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-plan={idRegime}", method = RequestMethod.GET)
-    public void scerePlan(@PathVariable
+    // Patient ChemoRegime END
+    // ChemoRegime
+    @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-{regimePart}={idRegime}", method = RequestMethod.GET)
+    public void folderConceptRegime(@PathVariable
     Integer idFolder, @PathVariable
     Integer idStudy, @PathVariable
+    String regimePart, @PathVariable
     Integer idRegime, Model model) {
-	cereVariablen(idFolder, idStudy, idRegime, model);
-	log.debug("ContextPath=" + getRequest().getContextPath());
-	getRequest().getSession().setAttribute("regimePart", "plan");
+	mopetService.readFolderO2doc(idFolder, model);
+	mopetService.readConceptT(idStudy, model);
+	mopetService.readRegimeDocT(idRegime, model);
+	getRequest().getSession().setAttribute("regimePart", regimePart);
     }
 
     private HttpServletRequest getRequest() {
@@ -58,26 +69,10 @@ public class MopetController {
 	return request;
     }
 
-    @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-ed={idRegime}", method = RequestMethod.GET)
-    public void scereEd(@PathVariable
-    Integer idFolder, @PathVariable
-    Integer idStudy, @PathVariable
-    Integer idRegime, Model model) {
-	cereVariablen(idFolder, idStudy, idRegime, model);
-	getRequest().getSession().setAttribute("regimePart", "ed");
-    }
-
-    private void cereVariablen(Integer idFolder, Integer idStudy, Integer idRegime, Model model) {
-	mopetService.setFolderO2doc(idFolder, model);
-	mopetService.setStudyO2doc(idStudy, model);
-	mopetService.setRegime(idRegime, model);
-	model.addAttribute("docId", idRegime);
-    }
-
     @RequestMapping(value = "/doc-cere-ed={idRegime}", method = RequestMethod.GET)
     public void cereEd(@PathVariable
     Integer idRegime, Model model) {
-	mopetService.setRegime(idRegime, model);
+	mopetService.readRegimeDocT(idRegime, model);
     }
 
     @RequestMapping(value = "/chemoregime-{id}", method = RequestMethod.GET)
@@ -98,14 +93,30 @@ public class MopetController {
 
     // ChemoRegime END
 
-    // Study
+    // Patient concept
+    @RequestMapping(value = "f={idFolder}/p={idPatient}/study-{studyPart}={idStudy}", method = RequestMethod.GET)
+    public void folderPatientConcept(@PathVariable
+    Integer idFolder, @PathVariable
+    Integer idPatient, @PathVariable
+    String studyPart, @PathVariable
+    Integer idStudy, Model model) {
+	mopetService.setPatientO(idPatient, model);
+	readConcept(idFolder, studyPart, idStudy, model);
+    }
+
+    // Patient concept END
+    // Concept
     @RequestMapping(value = "f={idFolder}/study-{studyPart}={idStudy}", method = RequestMethod.GET)
-    public void docFStudy(@PathVariable
+    public void folderConcept(@PathVariable
     Integer idFolder, @PathVariable
     String studyPart, @PathVariable
     Integer idStudy, Model model) {
-	mopetService.setFolderO2doc(idFolder, model);
-	mopetService.setStudyO(idStudy, model);
+	readConcept(idFolder, studyPart, idStudy, model);
+    }
+
+    private void readConcept(Integer idFolder, String studyPart, Integer idStudy, Model model) {
+	mopetService.readFolderO2doc(idFolder, model);
+	mopetService.readConceptDocT(idStudy, model);
 	getRequest().getSession().setAttribute("studyPart", studyPart);
     }
 
@@ -115,6 +126,8 @@ public class MopetController {
 	log.debug("id=" + id);
 	model.addAttribute(id);
     }
+
+    // Concept END
 
     @RequestMapping(value = "f={id}", method = RequestMethod.GET)
     public String toFolder(@PathVariable
@@ -142,36 +155,22 @@ public class MopetController {
 	return fromId(id, model);
     }
 
-    // Study END
-
     // Patient
     @RequestMapping(value = "f={idFolder}/patient={idPatient}", method = RequestMethod.GET)
-    public void docFPatient(@PathVariable
+    public void folderPatient(@PathVariable
     Integer idFolder, @PathVariable
     Integer idPatient, Model model) {
-	mopetService.setFolderO2doc(idFolder, model);
+	mopetService.readFolderO2doc(idFolder, model);
 	mopetService.setPatientO(idPatient, model);
     }
 
     // Patient END
 
-    // private void addIdStudy(Integer idStudy, Model model) {
-    // if (!model.asMap().containsValue(idStudy))
-    // model.addAttribute(idStudy);
-    // }
-
-    // private void addIdRegime(Integer idRegime, Model model) {
-    // if (!model.asMap().containsValue(idRegime))
-    // model.addAttribute(idRegime);
-    // }
-
     // Folder
     @RequestMapping(value = "/folder={idFolder}", method = RequestMethod.GET)
     public void folder(@PathVariable
     Integer idFolder, Model model) {
-	mopetService.setFolderO(idFolder, model);
-	mopetService.setFolderT(idFolder, model);
-
+	mopetService.readFolderO2folder(idFolder, model);
     }
 
     // Folder END

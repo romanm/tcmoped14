@@ -12,19 +12,21 @@
 				<rg:bcA_Folder currentFolderO="${folderO}" />
 			</c:otherwise>
 		</c:choose>
-		<c:if test="${not empty idPatient }">
+		<c:if test="${not empty patientT }">
 		&gt;
-		<a href="${contextPath }/id=${idPatient}"> Patient </a>
+		<a class="patientContent" href="${contextPath }/id=${patientT.id}">
+				<rg:patientName patientO="${patientT.mtlO }" />
+			</a>
 		</c:if>
-		<c:if test="${not empty conceptO }">
+		<c:if test="${not empty conceptT }">
 		&gt;
 			<img src="${contextPath }/resources/images/History16.gif" />
-			<a class="conceptContent" href="${contextPath }/id=${idStudy}">${conceptO.protocol
-				} </a>
-			<c:if test="${not empty regimeO}">
+			<a class="conceptContent" href="${contextPath }/id=${conceptT.id}">${conceptT.mtlO.protocol}
+			</a>
+			<c:if test="${not empty regimeT}">
 			&gt;
-			<a class="regimeContent" href="${contextPath }/id=${idRegime}"> <rg:regimeWithImg
-						taskO="${regimeO }" />
+			<a class="regimeContent" href="${contextPath }/id=${regimeT.id}">
+					<rg:regimeWithImg taskO="${regimeT.mtlO }" />
 				</a>
 			</c:if>
 		</c:if>

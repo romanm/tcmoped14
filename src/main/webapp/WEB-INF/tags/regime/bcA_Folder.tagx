@@ -8,6 +8,9 @@
 		required="false" description="Current folder object" />
 	<c:if test="${not withoutGt }">
 		&gt;
+		<c:if test="${tilesUrl!='folder'}">
+			<c:out value="..."/>
+		</c:if>
 	</c:if>
 	<img
 		src="${contextPath }/resources/images/Open${currentFolderO!=folderO?'Close':'' }16.gif" />

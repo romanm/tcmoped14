@@ -2,16 +2,21 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
-	<jsp:directive.attribute name="taskO"
-		type="org.tasclin1.mopet.domain.Task" required="true"
+	<jsp:directive.attribute name="taskT"
+		type="org.tasclin1.mopet.domain.Tree" required="true"
 		description="Current folder object" />
-	<a href="${contextPath }/folder=${currentFolderO.id}"> <c:out
-			value="${currentFolderO.folder }" />
-	</a>
 	<div class="regimeContent">
-		<a href="${contextPath}/id=${taskO.id }">
-			<rg:regimeWithImg taskO="${taskO }" />
+		<a href="${contextPath}/id=${taskT.id }"> <rg:regimeWithImg
+				taskO="${taskT.mtlO }" />
 		</a>
+		<c:if test="${'p.study'==tilesUrl }">
+			<c:forEach var="pRegimeT" items="${patientT.childTs }">
+				<c:if test="${pRegimeT.ref==taskT.id }">
+		begin:
+		${pRegimeT.ofDateT.history.mdate }
+			</c:if>
+			</c:forEach>
+		</c:if>
 	</div>
 
 </jsp:root>

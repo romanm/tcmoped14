@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<div style="border: 1px double">
+		<rg:patientName patientO="${patientO }" />
+		<div>
+			<rg:historyVariable historyT="${lastWeightT }" />
+			<rg:historyValue historyT="${lastWeightT }" />
+			<rg:historyVariable historyT="${lastHeightT }" />
+			<rg:historyValue historyT="${lastHeightT }" />
+			<rg:historyVariable historyT="${lastBsaTypeT }" />
+			<rg:historyValue historyT="${lastBsaTypeT }" />
+		</div>
+		<div>
+			<spring:message code="history_diagnose" />
+			${lastDiagnoseT.mtlO.diagnose}
+		</div>
+	</div>
+
+</jsp:root>

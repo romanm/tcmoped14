@@ -15,13 +15,18 @@ import org.springframework.ui.Model;
 import org.tasclin1.mopet.domain.Arm;
 import org.tasclin1.mopet.domain.Concept;
 import org.tasclin1.mopet.domain.Day;
+import org.tasclin1.mopet.domain.Diagnose;
 import org.tasclin1.mopet.domain.Dose;
 import org.tasclin1.mopet.domain.Drug;
 import org.tasclin1.mopet.domain.Expr;
+import org.tasclin1.mopet.domain.Finding;
 import org.tasclin1.mopet.domain.Folder;
+import org.tasclin1.mopet.domain.Ivariable;
+import org.tasclin1.mopet.domain.Labor;
 import org.tasclin1.mopet.domain.MObject;
 import org.tasclin1.mopet.domain.Notice;
 import org.tasclin1.mopet.domain.Patient;
+import org.tasclin1.mopet.domain.Pvariable;
 import org.tasclin1.mopet.domain.Task;
 import org.tasclin1.mopet.domain.Times;
 import org.tasclin1.mopet.domain.Tree;
@@ -53,29 +58,23 @@ public class MopetService {
 
     // folder
     @Transactional(readOnly = true)
-    public void setFolderO(Integer idFolder, Model model) {
-	Folder folderO = setFolderO2doc(idFolder, model);
-	for (Folder folder : folderO.getChildFs()) {
-	}
+    public void readFolderO2folder(Integer idFolder, Model model) {
+	Folder folderO = readFolderO2doc(idFolder, model);
+	Tree folderT = em.find(Tree.class, idFolder);
+	model.addAttribute("folderT", folderT);
+	for (Tree tree : folderT.getChildTs())
+	    setMtlO(tree);
 	while (!"folder".equals(folderO.getParentF().getFolder()))
 	    folderO = folderO.getParentF();
 	model.addAttribute("firstFolderO", folderO);
     }
 
     @Transactional(readOnly = true)
-    public Folder setFolderO2doc(Integer idFolder, Model model) {
+    public Folder readFolderO2doc(Integer idFolder, Model model) {
 	model.addAttribute(idFolder);
 	Folder folderO = em.find(Folder.class, idFolder);
 	model.addAttribute("folderO", folderO);
 	return folderO;
-    }
-
-    @Transactional(readOnly = true)
-    public void setFolderT(Integer idFolder, Model model) {
-	Tree folderT = em.find(Tree.class, idFolder);
-	model.addAttribute("folderT", folderT);
-	for (Tree tree : folderT.getChildTs())
-	    setMtlO(tree);
     }
 
     // folder END
@@ -83,14 +82,16 @@ public class MopetService {
     // patient
     @Transactional(readOnly = true)
     public void setPatientO(Integer idPatient, Model model) {
-	model.addAttribute(idPatient);
-	Patient patientO = em.find(Patient.class, idPatient);
-	model.addAttribute("patientO", patientO);
-	Tree patientT = em.find(Tree.class, idPatient);
+	Patient patientO = setPatientO2doc(idPatient, model);
+	Tree patientT = readPatientDoc(model, idPatient);
 	patientT.setMtlO(patientO);
-	model.addAttribute("patientT", patientT);
+    }
+
+    private Tree readPatientDoc(Model model, Integer idPatient) {
+	Tree patientT = setPatientT(model, idPatient);
 	for (Tree t1 : patientT.getChildTs()) {
 	    setMtlO(t1);
+	    setPatientDocAttribute(model, t1);
 	    for (Tree t2 : t1.getChildTs()) {
 		setMtlO(t2);
 		for (Tree t3 : t2.getChildTs()) {
@@ -98,17 +99,77 @@ public class MopetService {
 		}
 	    }
 	}
+	return patientT;
+    }
+
+    @Transactional(readOnly = true)
+    public Tree readPatientDocShort(Integer idPatient, Model model) {
+	Patient patientO = setPatientO2doc(idPatient, model);
+	Tree patientT = setPatientT(model, idPatient);
+	patientT.setMtlO(patientO);
+	for (Tree t1 : patientT.getChildTs()) {
+	    setMtlO(t1);
+	    setPatientDocAttribute(model, t1);
+	    for (Tree t2 : t1.getChildTs()) {
+		setMtlO(t2);
+	    }
+	}
+	return patientT;
+    }
+
+    private Tree setPatientT(Model model, Integer idPatient) {
+	Tree patientT = em.find(Tree.class, idPatient);
+	model.addAttribute("patientT", patientT);
+	return patientT;
+    }
+
+    private void setPatientDocAttribute(Model model, Tree t1) {
+	if (t1.isFinding()) {
+	    if ("weight".equals(t1.getFinding().getFinding())) {
+		addFirstAtt(model, t1, "lastWeightT");
+	    } else if ("bsaType".equals(t1.getFinding().getFinding())) {
+		addFirstAtt(model, t1, "lastBsaTypeT");
+	    } else if ("height".equals(t1.getFinding().getFinding())) {
+		addFirstAtt(model, t1, "lastHeightT");
+	    }
+	} else if (t1.isDiagnose()) {
+	    addFirstAtt(model, t1, "lastDiagnoseT");
+	}
+    }
+
+    private Patient setPatientO2doc(Integer idPatient, Model model) {
+	model.addAttribute(idPatient);
+	Patient patientO = em.find(Patient.class, idPatient);
+	model.addAttribute("patientO", patientO);
+	return patientO;
+    }
+
+    /**
+     * Added only one attribute in model.
+     * @param model
+     * @param t1
+     * @param attName
+     */
+    private void addFirstAtt(Model model, Tree t1, String attName) {
+	if (!model.containsAttribute(attName)) {
+	    model.addAttribute(attName, t1);
+	}
     }
 
     // patient END
 
-    // study
+    // concept
     @Transactional(readOnly = true)
-    public void setStudyO(Integer idStudy, Model model) {
-	Concept conceptO = setStudyO2doc(idStudy, model);
+    public Tree readConceptT(Integer idStudy, Model model) {
 	Tree conceptT = em.find(Tree.class, idStudy);
-	conceptT.setMtlO(conceptO);
+	setMtlO(conceptT);
 	model.addAttribute("conceptT", conceptT);
+	return conceptT;
+    }
+
+    @Transactional(readOnly = true)
+    public void readConceptDocT(Integer idStudy, Model model) {
+	Tree conceptT = readConceptT(idStudy, model);
 	for (Tree t1 : conceptT.getChildTs()) {
 	    if ("definition".equals(t1.getTabName()))
 		model.addAttribute("conceptDefinitionT", t1);
@@ -129,23 +190,14 @@ public class MopetService {
 	 */
     }
 
-    @Transactional(readOnly = true)
-    public Concept setStudyO2doc(Integer idStudy, Model model) {
-	model.addAttribute(idStudy);
-	Concept conceptO = em.find(Concept.class, idStudy);
-	model.addAttribute("conceptO", conceptO);
-	return conceptO;
-    }
-
-    // study END
+    // concept END
 
     // regime
     @Transactional(readOnly = true)
-    public void setRegime(Integer idRegime, Model model) {
-	Task regimeO = setRegimeO2doc(idRegime, model);
+    public void readRegimeDocT(Integer idRegime, Model model) {
 	Tree regimeT = em.find(Tree.class, idRegime);
+	setMtlO(regimeT);
 	model.addAttribute("regimeT", regimeT);
-	regimeT.setMtlO(regimeO);
 	List<Tree> regimeTimesTs = new ArrayList<Tree>();
 	for (Tree t1 : regimeT.getChildTs()) {
 	    setMtlO(t1);
@@ -168,14 +220,6 @@ public class MopetService {
 	    regimeTimesTs.add(tree);
     }
 
-    @Transactional(readOnly = true)
-    public Task setRegimeO2doc(Integer idRegime, Model model) {
-	model.addAttribute(idRegime);
-	Task regimeO = em.find(Task.class, idRegime);
-	model.addAttribute("regimeO", regimeO);
-	return regimeO;
-    }
-
     // regime END
 
     private void setMtlO(Tree tree) {
@@ -193,14 +237,24 @@ public class MopetService {
 	    mO = em.find(Day.class, tree.getIdClass());
 	else if ("times".equals(tabName))
 	    mO = em.find(Times.class, tree.getIdClass());
-	else if ("patient".equals(tabName))
-	    mO = em.find(Patient.class, tree.getIdClass());
+	else if ("pvariable".equals(tabName))
+	    mO = em.find(Pvariable.class, tree.getIdClass());
+	else if ("ivariable".equals(tabName))
+	    mO = em.find(Ivariable.class, tree.getIdClass());
+	else if ("finding".equals(tabName))
+	    mO = em.find(Finding.class, tree.getIdClass());
+	else if ("labor".equals(tabName))
+	    mO = em.find(Labor.class, tree.getIdClass());
 	else if ("protocol".equals(tabName))
 	    mO = em.find(Concept.class, tree.getIdClass());
 	else if ("task".equals(tabName))
 	    mO = em.find(Task.class, tree.getIdClass());
 	else if ("notice".equals(tabName))
 	    mO = em.find(Notice.class, tree.getIdClass());
+	else if ("diagnose".equals(tabName))
+	    mO = em.find(Diagnose.class, tree.getIdClass());
+	else if ("patient".equals(tabName))
+	    mO = em.find(Patient.class, tree.getIdClass());
 	else if ("expr".equals(tabName))
 	    mO = em.find(Expr.class, tree.getIdClass());
 	else if ("studyarm".equals(tabName))

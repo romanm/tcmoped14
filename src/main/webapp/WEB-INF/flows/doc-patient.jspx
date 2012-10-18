@@ -3,58 +3,50 @@
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
-
+	<rg:patientHead />
 	<table>
 		<thead>
 			<tr>
-				<th>
-				H
-				</th>
-					<th>
-				W
-				</th>
-					<th>
-					D
-				</th>
+				<th colspan="2"><spring:message code="history_record" /></th>
+				<th><spring:message code="regime_times" /></th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="historyT" items="${patientT.childTs }" >
+			<c:forEach var="historyT" items="${patientT.childTs }">
 				<c:choose>
 					<c:when test="${'protocol'==historyT.tabName }">
-				<tr class="conceptContent">
-					<td>
-					T
-					</td>
-					<td>
-					<a href="${contextPath }/id=${historyT.id}">
-					${historyT.mtlO.protocol}
-					</a>
-					</td>
-					<td>
-					</td>
-				</tr>
+						<tr class="conceptContent">
+							<td><spring:message code="history_concept" /></td>
+							<td><a href="${contextPath }/id=${historyT.id}">
+									${historyT.mtlO.protocol} </a></td>
+							<td>${historyT.ofDateT.history.mdate }</td>
+						</tr>
 					</c:when>
 					<c:when test="${'task'==historyT.tabName }">
-				<tr class="regimeContent">
-					<td>
-					T
-					</td>
-					<td>
-					<a href="${contextPath }/id=${historyT.id}">
-					${historyT.mtlO.task }
-					</a>
-					</td>
-					<td>
-					</td>
-				</tr>
+						<tr class="regimeContent">
+							<td><spring:message code="history_regime" /></td>
+							<td><a href="${contextPath }/id=${historyT.ref}">
+									${historyT.mtlO.task } </a></td>
+							<td>${historyT.ofDateT.history.mdate }</td>
+						</tr>
 					</c:when>
 					<c:otherwise>
-					<tr>
-						<td colspan="3">
-					${historyT}
-						</td>
-					</tr>
+						<tr>
+							<c:choose>
+								<c:when test="${historyT.diagnose}">
+									<td><spring:message code="history_diagnose" /></td>
+									<td>${historyT.mtlO.diagnose}</td>
+								</c:when>
+								<c:when test="${historyT.finding }">
+									<td><rg:historyVariable historyT="${historyT }" /></td>
+									<td><rg:historyValue historyT="${historyT }" /></td>
+								</c:when>
+								<c:otherwise>
+									<td colspan="2">${historyT}</td>
+								</c:otherwise>
+							</c:choose>
+							<td>${historyT.ofDateT.history.mdate }</td>
+						</tr>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>

@@ -34,15 +34,15 @@
 		<put-attribute name="body" value="/WEB-INF/flows/doc-cere-{3}.jspx" />
 		<put-attribute name="sidebar" value="/WEB-INF/flows/cere-sidebar.jspx" />
 	</definition>
-	<definition name="f=*/p=*/study=*" extends="tcmopet15_layout">
+	<definition name="f=*/p=*/study-*=*" extends="tcmopet15_layout">
 		<put-attribute name="tilesUrl" value="p.study" />
-		<put-attribute name="head" value="" />
-		<put-attribute name="body" value="/WEB-INF/flows/doc-study.jspx" />
+		<put-attribute name="head" value="/WEB-INF/flows/study-head.jspx" />
+		<put-attribute name="body" value="/WEB-INF/flows/doc-study-{3}.jspx" />
 		<put-attribute name="sidebar" value="/WEB-INF/flows/study-sidebar.jspx" />
 	</definition>
 	<definition name="f=*/p=*/s=*/cere-*=*" extends="tcmopet15_layout">
 		<put-attribute name="tilesUrl" value="p.regime" />
-		<put-attribute name="head" value="" />
+		<put-attribute name="head" value="/WEB-INF/flows/cere-head.jspx" />
 		<put-attribute name="body" value="/WEB-INF/flows/doc-cere-{4}.jspx" />
 		<put-attribute name="sidebar" value="/WEB-INF/flows/cere-sidebar.jspx" />
 	</definition>

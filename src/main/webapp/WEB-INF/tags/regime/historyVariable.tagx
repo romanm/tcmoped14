@@ -3,11 +3,10 @@
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<jsp:directive.attribute name="historyT"
+		type="org.tasclin1.mopet.domain.Tree" required="true"
+		description="Current folder object" />
+		
+	<spring:message code="${historyT.tabName }_${historyT.mtlO.finding }" />
 
-	<h1 class="regimeContent">
-		<rg:regimeWithImg taskO="${regimeT.mtlO }" />
-	</h1>
-	<c:if test="${'p.regime'==tilesUrl }">
-		<rg:patientHead/>
-	</c:if>
 </jsp:root>

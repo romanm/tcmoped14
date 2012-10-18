@@ -1,2 +1,11 @@
 #headline, #sidebar, .noprint
 	{display:none;}
+body
+	{font:90% "Lucida Grande","Lucida Sans Unicode","Lucida",verdana,sans-serif}
+/*
+a
+	{font-weight:400;text-decoration:none;}
+*/
+a
+	{text-decoration:none;}
+	

@@ -10,7 +10,7 @@
 	<c:forEach var="workflowT" items="${blockT.childTs }">
 		<c:choose>
 			<c:when test="${'task'==workflowT.tabName }">
-				<rg:defA_Regime taskO="${workflowT.mtlO}" />
+				<rg:defA_Regime taskT="${workflowT}" />
 			</c:when>
 			<c:when test="${'choice'==workflowT.tabName }">
 				<rg:conceptChoice choiceT="${workflowT }" />

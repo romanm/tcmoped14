@@ -1,10 +1,17 @@
-/* from mopet */
+/* from mopet 
+body {font-family: 'Arial','Helvetica',sans-serif;}
+body {font: 80%/1.4em Verdana,Arial,Tahoma,"Trebuchet MS",sans-serif}
+body {font:100% verdana,arial,sans-serif}
+*/
+body {font:90% "Lucida Grande","Lucida Sans Unicode","Lucida",verdana,sans-serif}
 .small{font-size: 0.8em}
-
+div#titleInline h2,
+div#titleInline h3
+	{display: inline;}
 #headline, #sidebar { position:fixed; top: 0.1em; border: 1px solid #CCCCCC; }
 #headline{ width:79%; left:0.1em; background-color:#F1F1E7;}
 #sidebar { width: 20%; bottom: 0.1em; right: 0.1em; }
-#content{width:79%; margin-top: 2em;}
+#content{width:79%; margin-top: 3em;}
 
 .select:hover {background: #DDDDBB } 
 .selected {border: 1px dotted blue }

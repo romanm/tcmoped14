@@ -4,52 +4,68 @@
 	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
-	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
->
-	<jsp:directive.page contentType="text/html; charset=UTF-8" 
-		pageEncoding="UTF-8" session="false"/>
+	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime">
+	<jsp:directive.page contentType="text/html; charset=UTF-8"
+		pageEncoding="UTF-8" session="false" />
 	<jsp:output doctype-root-element="html"
 		doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
 		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 		omit-xml-declaration="true" />
-		
-<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="application"/>
-		
-<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<c:set var="contextPath" value="${pageContext.request.contextPath}"
+		scope="application" />
+
+	<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-	<title>Insert title here</title>
-	<c:url var="tundraCss" value="/resources/dijit/themes/tundra/tundra.css" />
-	<link type="text/css" rel="stylesheet" href="${tundraCss }" />
-	<c:url var="mopetScreenCss" value="/resources/styles/mopet-screen.css" />
-	<link rel="stylesheet" href="${mopetScreenCss }" type="text/css" media="screen, projection" />
-	<c:url var="mopetPrintCss" value="/resources/styles/mopet-print.css" />
-	<link rel="stylesheet" href="${mopetPrintCss }" type="text/css" media="print" />
-	<!-- 
+<title>Insert title here</title>
+<c:url var="tundraCss" value="/resources/dijit/themes/tundra/tundra.css" />
+<link type="text/css" rel="stylesheet" href="${tundraCss }" />
+<c:url var="mopetScreenCss" value="/resources/styles/mopet-screen.css" />
+<link rel="stylesheet" href="${mopetScreenCss }" type="text/css"
+	media="screen, projection" />
+<c:url var="mopetPrintCss" value="/resources/styles/mopet-print.css" />
+<link rel="stylesheet" href="${mopetPrintCss }" type="text/css"
+	media="print" />
+<!-- 
 	<c:url var="screenCss" value="/resources/styles/blueprint/screen.css" />
 	<c:url var="printCss" value="/resources/styles/blueprint/print.css" />
 	<link rel="stylesheet" href="${screenCss }" type="text/css" media="screen, projection" />
 	<link rel="stylesheet" href="${printCss }" type="text/css" media="print" />
 	<c:url var="ieCss" value="/resources/blueprint/ie.css" />
 	 -->
-	<c:url var="ieCss" value="/resources/styles/blueprint/ie.css" />
-	<!--[if lt IE 8]>
+<c:url var="ieCss" value="/resources/styles/blueprint/ie.css" />
+<!--[if lt IE 8]>
 	        <link rel="stylesheet" href="${ieCss}" type="text/css" media="screen, projection" />
 	<![endif]-->
+
+<c:url var="dojoJs" value="/resources/dojo/dojo.js" />
+<c:url var="springJs" value="/resources/spring/Spring.js" />
+<c:url var="springDojoJs" value="/resources/spring/Spring-Dojo.js" />
+<script type="text/javascript" src="${dojoJs }">
+<!-- //required for FF3 and Opera -->
 	
-	<c:url var="dojoJs" value="/resources/dojo/dojo.js" />
-    <c:url var="springJs" value="/resources/spring/Spring.js" />
-    <c:url var="springDojoJs" value="/resources/spring/Spring-Dojo.js" />
-    <script type="text/javascript" src="${dojoJs }"> <!-- //required for FF3 and Opera --> </script>
-    <script type="text/javascript" src="${springJs }"> <!-- //required for FF3 and Opera --> </script>
-    <script type="text/javascript" src="${springDojoJs }"> <!-- //required for FF3 and Opera --> </script>
-	<c:url var="mopetJs" value="/resources/js/mopet.js" />
-    <script type="text/javascript" src="${mopetJs }"> <!-- //required for FF3 and Opera --> </script>
-		<c:set var="tilesUrl" scope="request"><tiles:insertAttribute name="tilesUrl" /></c:set>
+</script>
+<script type="text/javascript" src="${springJs }">
+<!-- //required for FF3 and Opera -->
+	
+</script>
+<script type="text/javascript" src="${springDojoJs }">
+<!-- //required for FF3 and Opera -->
+	
+</script>
+<c:url var="mopetJs" value="/resources/js/mopet.js" />
+<script type="text/javascript" src="${mopetJs }">
+<!-- //required for FF3 and Opera -->
+	
+</script>
+<c:set var="tilesUrl" scope="request">
+	<tiles:insertAttribute name="tilesUrl" />
+</c:set>
 </head>
 <body class="tundra">
 	<div id="headline">
-		<rg:headline/>
+		<rg:headline />
 	</div>
 	<div id="content">
 		<tiles:insertAttribute name="head" />
@@ -63,35 +79,55 @@
 		 -->
 	</div>
 	<div id="sidebar">
-		<h2>TasClin</h2>
-		<h3>MOPET</h3>
+		<div id="titleInline">
+			<h2>
+				<c:out value="TasClin " />
+			</h2>
+			<h3>MOPET</h3>
+		</div>
 		<input type="hidden" name="docId" id="docId" value="${docId }" />
 		<tiles:insertAttribute name="sidebar" />
 	</div>
 	<div id="contextMenuContainer">
-		<div id="cmiDrugInDrug"	><fmt:message key="cmiDrugInDrug"/></div>
-		<div id="cmiAddDrugDoseNotice"	><fmt:message key="cmiAddDrugDoseNotice"/></div>
-		<div id="cmiAddRule"	><fmt:message key="cmiAddRule"/></div>
+		<div id="cmiDrugInDrug">
+			<fmt:message key="cmiDrugInDrug" />
+		</div>
+		<div id="cmiAddDrugDoseNotice">
+			<fmt:message key="cmiAddDrugDoseNotice" />
+		</div>
+		<div id="cmiAddRule">
+			<fmt:message key="cmiAddRule" />
+		</div>
 	</div>
 	<script type="text/javascript">
-		menuItem("cmiDrugInDrug", "dijitEditorIcon dijitEditorIconCopy", cmiDrugInDrug);
+		menuItem("cmiDrugInDrug", "dijitEditorIcon dijitEditorIconCopy",
+				cmiDrugInDrug);
 		menuItem("cmiAddDrugDoseNotice", "noteIcon", cmiAddDrugDoseNotice);
-		menuItem("cmiAddRule",			"noteIcon",	cmiAddRule);
-		Spring.addDecoration(new Spring.ElementDecoration(
-		{elementId:"contextMenuContainer", widgetType:"dijit.Menu"
-			, widgetAttrs : { style: "display: none;"}
+		menuItem("cmiAddRule", "noteIcon", cmiAddRule);
+		Spring.addDecoration(new Spring.ElementDecoration({
+			elementId : "contextMenuContainer",
+			widgetType : "dijit.Menu",
+			widgetAttrs : {
+				style : "display: none;"
+			}
 		}));
 	</script>
 	<div id="contextMenu">
-		<div id="cmiCopy"	><fmt:message key="cmiCopy"/></div>
-		<div id="cmiPaste"	><fmt:message key="cmiPaste"/></div>
+		<div id="cmiCopy">
+			<fmt:message key="cmiCopy" />
+		</div>
+		<div id="cmiPaste">
+			<fmt:message key="cmiPaste" />
+		</div>
 	</div>
 	<script type="text/javascript">
-		menuItem("cmiCopy",		"dijitEditorIcon dijitEditorIconCopy",	cmiCopy);
-		menuItem("cmiPaste",	"dijitEditorIcon dijitEditorIconPaste",	cmiPaste);
+		menuItem("cmiCopy", "dijitEditorIcon dijitEditorIconCopy", cmiCopy);
+		menuItem("cmiPaste", "dijitEditorIcon dijitEditorIconPaste", cmiPaste);
 		makeContextMenu(dojo.query('.drug, .dose, .day, .times'));
-		dojo.addOnLoad(function(){init();});
+		dojo.addOnLoad(function() {
+			init();
+		});
 	</script>
 </body>
-</html>
+	</html>
 </jsp:root>

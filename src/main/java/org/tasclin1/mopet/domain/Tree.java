@@ -28,38 +28,131 @@ import org.apache.commons.logging.LogFactory;
 // @SequenceGenerator(name="DBID",sequenceName="dbid")
 public class Tree implements Serializable {
 
+    /**
+     * Get child tree with value of this object as integer.
+     * @return Tree object with parent object value as integer
+     */
+    public Tree getIvalueT() {
+	if (isFinding() || isLabor())
+	    for (Tree iValueT : this.getChildTs())
+		if (iValueT.isIvalue())
+		    return iValueT;
+	return null;
+    }
+
+    /**
+     * Get child tree with value of this object as string.
+     * @return Tree object with parent object value as string
+     */
+    public Tree getPvalueT() {
+	if (isFinding() || isLabor())
+	    for (Tree pValueT : this.getChildTs())
+		if (pValueT.isPvalue())
+		    return pValueT;
+	return null;
+    }
+
+    /**
+     * Get child tree with value of this object as string.
+     * @return Tree object with parent object value as string
+     */
+    public Tree getOfDateT() {
+	if (getParentT().isPatient())
+	    for (Tree pValueT : this.getChildTs())
+		if (pValueT.isOfDate())
+		    return pValueT;
+	return null;
+    }
+
     public Tree getDrugDayTimesT(int n) {
 	int i = 0;
-	if (getMtlO() instanceof Day || "day".equals(getTabName()))
+	if (isDay())
 	    for (Tree timesT : this.getChildTs())
-		if (timesT.getMtlO() instanceof Times || "times".equals(timesT.getTabName()))
+		if (timesT.isTimes())
 		    if (n == i++)
 			return timesT;
 	return null;
     }
 
-    public Tree getDrugDayT(int n) {
-	int i = 0;
-	if (getMtlO() instanceof Drug || "day".equals(getTabName()))
-	    for (Tree dayT : this.getChildTs())
-		if (dayT.getMtlO() instanceof Day || "day".equals(dayT.getTabName()))
-		    if (n == i++)
-			return dayT;
-	return null;
-    }
-
     public Tree getDrugDoseAppT() {
-	if (getMtlO() instanceof Dose || "dose".equals(getTabName()))
+	if (isDose())
 	    for (Tree doseAppT : this.getChildTs())
-		if (doseAppT.getMtlO() instanceof App || "app".equals(doseAppT.getTabName()))
+		if (doseAppT.isApp())
 		    return doseAppT;
 	return null;
     }
 
     public Tree getDrugDoseT() {
-	for (Tree doseT : this.getChildTs())
-	    if (doseT.getMtlO() instanceof Dose || "dose".equals(doseT.getTabName()))
-		return doseT;
+	if (isDrug())
+	    for (Tree doseT : this.getChildTs())
+		if (doseT.isDose())
+		    return doseT;
+	return null;
+    }
+
+    public boolean isIvalue() {
+	return isIvariable() && ((Ivariable) getMtlO()).getIvariable().equals(getParentT().getTabName());
+    }
+
+    public boolean isOfDate() {
+	return isPvariable() && "ofDate".equals(((Pvariable) getMtlO()).getPvariable());
+    }
+
+    public boolean isPvalue() {
+	return isPvariable() && ((Pvariable) getMtlO()).getPvariable().equals(getParentT().getTabName());
+    }
+
+    public boolean isIvariable() {
+	return getMtlO() instanceof Ivariable;
+    }
+
+    public boolean isPvariable() {
+	return getMtlO() instanceof Pvariable;
+    }
+
+    public boolean isLabor() {
+	return getMtlO() instanceof Labor || "labor".equals(getTabName());
+    }
+
+    public boolean isDiagnose() {
+	return getMtlO() instanceof Diagnose || "diagnose".equals(getTabName());
+    }
+
+    public boolean isPatient() {
+	return getMtlO() instanceof Patient;
+    }
+
+    public boolean isFinding() {
+	return getMtlO() instanceof Finding || "finding".equals(getTabName());
+    }
+
+    public boolean isTimes() {
+	return getMtlO() instanceof Times || "times".equals(getTabName());
+    }
+
+    public boolean isDrug() {
+	return getMtlO() instanceof Drug || "drug".equals(getTabName());
+    }
+
+    public boolean isDose() {
+	return getMtlO() instanceof Dose || "dose".equals(getTabName());
+    }
+
+    public boolean isApp() {
+	return getMtlO() instanceof Day || "day".equals(getTabName());
+    }
+
+    public boolean isDay() {
+	return getMtlO() instanceof Day || "day".equals(getTabName());
+    }
+
+    public Tree getDrugDayT(int n) {
+	int i = 0;
+	if (isDrug())
+	    for (Tree dayT : this.getChildTs())
+		if (dayT.isDay())
+		    if (n == i++)
+			return dayT;
 	return null;
     }
 
@@ -94,8 +187,8 @@ public class Tree implements Serializable {
     }
 
     /**
- * 
- */
+     * 
+     */
     private static final long serialVersionUID = 1L;
 
     // @SequenceGenerator(name="TREE_ID_GENERATOR", sequenceName="dbid")
@@ -351,5 +444,9 @@ public class Tree implements Serializable {
     public int childNr() {
 	int childNr = getParentT().getChildTs().indexOf(this);
 	return childNr;
+    }
+
+    public Finding getFinding() {
+	return (Finding) getMtlO();
     }
 }
