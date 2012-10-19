@@ -27,6 +27,11 @@
 					<a href="id=${docT.id }"> ${docT.mtlO.protocol} </a>
 				</div>
 			</c:when>
+			<c:when test="${'drug'==docT.tabName }">
+				<div >
+					<a href="id=${docT.id }"> ${docT.mtlO.drug} </a>
+				</div>
+			</c:when>
 		</c:choose>
 	</c:forEach>
 	<hr />

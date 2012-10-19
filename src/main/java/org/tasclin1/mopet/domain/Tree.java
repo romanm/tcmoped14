@@ -126,6 +126,10 @@ public class Tree implements Serializable {
 	return getMtlO() instanceof Finding || "finding".equals(getTabName());
     }
 
+    public boolean isTask() {
+	return getMtlO() instanceof Task || "task".equals(getTabName());
+    }
+
     public boolean isTimes() {
 	return getMtlO() instanceof Times || "times".equals(getTabName());
     }
@@ -136,6 +140,14 @@ public class Tree implements Serializable {
 
     public boolean isDose() {
 	return getMtlO() instanceof Dose || "dose".equals(getTabName());
+    }
+
+    public boolean isExpr() {
+	return getMtlO() instanceof Expr || "expr".equals(getTabName());
+    }
+
+    public boolean isNotice() {
+	return getMtlO() instanceof Notice || "notice".equals(getTabName());
     }
 
     public boolean isApp() {

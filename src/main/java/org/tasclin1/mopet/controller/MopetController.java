@@ -43,24 +43,26 @@ public class MopetController {
     String regimePart, @PathVariable
     Integer idRegime, Model model) {
 	mopetService.readPatientDocShort(idPatient, model);
-	mopetService.readFolderO2doc(idFolder, model);
-	mopetService.readConceptT(idStudy, model);
-	mopetService.readRegimeDocT(idRegime, model);
-	getRequest().getSession().setAttribute("regimePart", regimePart);
+	readRegime(idFolder, idStudy, regimePart, idRegime, model);
     }
 
     // Patient ChemoRegime END
     // ChemoRegime
+    private void readRegime(Integer idFolder, Integer idStudy, String regimePart, Integer idRegime, Model model) {
+	mopetService.readFolderO2doc(idFolder, model);
+	mopetService.readConceptT(idStudy, model);
+	mopetService.readRegimeDocT(idRegime, model);
+	mopetService.initRegimeDocT(model);
+	getRequest().getSession().setAttribute("regimePart", regimePart);
+    }
+
     @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-{regimePart}={idRegime}", method = RequestMethod.GET)
     public void folderConceptRegime(@PathVariable
     Integer idFolder, @PathVariable
     Integer idStudy, @PathVariable
     String regimePart, @PathVariable
     Integer idRegime, Model model) {
-	mopetService.readFolderO2doc(idFolder, model);
-	mopetService.readConceptT(idStudy, model);
-	mopetService.readRegimeDocT(idRegime, model);
-	getRequest().getSession().setAttribute("regimePart", regimePart);
+	readRegime(idFolder, idStudy, regimePart, idRegime, model);
     }
 
     private HttpServletRequest getRequest() {

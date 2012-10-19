@@ -1,23 +1,18 @@
 <div>
-	home
+	<div>
+		basic
 		<div>
-		<a href="${contextPath }/folder=${protocolF.id}">Study folder </a>
+			<a href="${contextPath }/folder=${protocolF.id}">Study folder </a>
+		</div>
+
+		<div>
+			<a href="${contextPath }/folder=${patientF.id}">Patient folder </a>
+		</div>
 	</div>
-	
-	<div>
-		<a href="${contextPath }/folder=${patientF.id}">Patient folder </a>
-	</div>
-	<hr/>
-	<div>
-		<a href="${contextPath }/id=1"> folder </a>
-	</div>
-	<div>
-		<a href="${contextPath }/id=2"> Patient </a>
-	</div>
-	<div>
-		<a href="${contextPath }/id=3"> Protokol </a>
-	</div>
-	<div>
-		<a href="${contextPath }/id=4"> regime </a>
+	<hr />
+	<div>extra
+		<div>
+			<a href="${contextPath }/folder=${drugF.id}">Medikament folder </a>
+		</div>
 	</div>
 </div>

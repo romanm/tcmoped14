@@ -1,7 +1,9 @@
 package org.tasclin1.mopet.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -52,6 +54,9 @@ public class MopetService {
 			"SELECT f FROM Folder f, Folder f1 WHERE f1.folder='folder' and f1.id=f.parentF.id and"
 				+ " f.folder=:folder").setParameter("folder", "protocol").getSingleResult();
 	model.addAttribute("protocolF", protocolF);
+	Folder drugF = (Folder) em.createQuery("SELECT f FROM Folder f WHERE f.folder=:folder")
+		.setParameter("folder", "drug").getSingleResult();
+	model.addAttribute("drugF", drugF);
     }
 
     // home END
@@ -193,6 +198,41 @@ public class MopetService {
     // concept END
 
     // regime
+    public void initRegimeDocT(Model model) {
+	log.debug("-------------------- 1");
+	Tree regimeT = (Tree) model.asMap().get("regimeT");
+	model.addAttribute("drugNoticeExprM", new HashMap<Tree, List<Tree>>());
+	for (Tree t1 : regimeT.getChildTs()) {
+	    for (Tree t2 : t1.getChildTs()) {
+		addDrugNoticeExpr(model, t2);
+		for (Tree t3 : t2.getChildTs()) {
+		    addDrugNoticeExpr(model, t3);
+		    for (Tree t4 : t3.getChildTs()) {
+			addDrugNoticeExpr(model, t4);
+		    }
+		}
+	    }
+	}
+    }
+
+    private void addDrugNoticeExpr(Model model, Tree noticeExprT) {
+	Map<Tree, List<Tree>> drugNoticeExprM = (Map<Tree, List<Tree>>) model.asMap().get("drugNoticeExprM");
+	Tree drugT = noticeExprT.getParentT();
+	while (!drugT.getParentT().isTask())
+	    drugT = drugT.getParentT();
+	log.debug("-------------------- 2");
+	if (noticeExprT.isNotice() || noticeExprT.isExpr()) {
+	    if (!drugNoticeExprM.containsKey(drugT)) {
+		log.debug("-------------------- 3 " + drugT.getId());
+		List<Tree> drugNoticeExprL = new ArrayList<Tree>();
+		drugNoticeExprM.put(drugT, drugNoticeExprL);
+	    }
+	    log.debug("-------------------- 4");
+	    drugNoticeExprM.get(drugT).add(noticeExprT);
+	    log.debug("-------------------- 5 " + drugNoticeExprM.get(drugT));
+	}
+    }
+
     @Transactional(readOnly = true)
     public void readRegimeDocT(Integer idRegime, Model model) {
 	Tree regimeT = em.find(Tree.class, idRegime);
