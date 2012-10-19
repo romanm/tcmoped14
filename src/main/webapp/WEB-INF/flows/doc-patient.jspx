@@ -23,19 +23,26 @@
 						</tr>
 					</c:when>
 					<c:when test="${'task'==historyT.tabName }">
-						<tr class="regimeContent">
-							<td><spring:message code="history_regime" /></td>
-							<td><a href="${contextPath }/id=${historyT.ref}">
-									${historyT.mtlO.task } </a></td>
-							<td>${historyT.ofDateT.history.mdate }</td>
-						</tr>
+						<rg:historyRegime historyT="${historyT }"/>
 					</c:when>
 					<c:otherwise>
 						<tr>
 							<c:choose>
+								<c:when test="${historyT.folder}">
+									<td colspan="2"><spring:message
+											code="ui_patient_transferred"
+											arguments="${historyT.mtlO.folder },${folderO.folder }" />
+									</td>
+								</c:when>
 								<c:when test="${historyT.diagnose}">
 									<td><spring:message code="history_diagnose" /></td>
 									<td>${historyT.mtlO.diagnose}</td>
+								</c:when>
+								<c:when test="${historyT.labor}">
+									<td>
+										<spring:message code="${historyT.tabName }_${historyT.mtlO.labor}" />
+									</td>
+									<td><rg:historyValue historyT="${historyT }" /></td>
 								</c:when>
 								<c:when test="${historyT.finding }">
 									<td><rg:historyVariable historyT="${historyT }" /></td>

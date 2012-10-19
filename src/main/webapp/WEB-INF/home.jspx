@@ -1,12 +1,12 @@
 <div>
 	<div>
 		basic
-		<div>
-			<a href="${contextPath }/folder=${protocolF.id}">Study folder </a>
-		</div>
 
 		<div>
 			<a href="${contextPath }/folder=${patientF.id}">Patient folder </a>
+		</div>
+		<div>
+			<a href="${contextPath }/folder=${protocolF.id}">Study folder </a>
 		</div>
 	</div>
 	<hr />

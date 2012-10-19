@@ -114,6 +114,10 @@ public class Tree implements Serializable {
 	return getMtlO() instanceof Labor || "labor".equals(getTabName());
     }
 
+    public boolean isFolder() {
+	return getMtlO() instanceof Folder || "folder".equals(getTabName());
+    }
+
     public boolean isDiagnose() {
 	return getMtlO() instanceof Diagnose || "diagnose".equals(getTabName());
     }
@@ -315,6 +319,17 @@ public class Tree implements Serializable {
      * public Set<Tree> getRefTs() { return this.refTs; } public void setRefTs(Set<Tree> trees4) { this.refTs = trees4;
      * }
      */
+
+    @Transient
+    private Tree refT;
+
+    public Tree getRefT() {
+	return refT;
+    }
+
+    public void setRefT(Tree refT) {
+	this.refT = refT;
+    }
 
     private Integer ref;
 

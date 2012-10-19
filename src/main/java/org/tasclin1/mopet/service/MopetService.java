@@ -101,10 +101,23 @@ public class MopetService {
 		setMtlO(t2);
 		for (Tree t3 : t2.getChildTs()) {
 		    setMtlO(t3);
+		    setRefT(t3);
+		    for (Tree t4 : t3.getChildTs()) {
+			setMtlO(t4);
+		    }
 		}
 	    }
 	}
 	return patientT;
+    }
+
+    private void setRefT(Tree t3) {
+	if (t3.hasRef()) {
+	    Tree refT = em.find(Tree.class, t3.getRef());
+	    t3.setRefT(refT);
+	    setMtlO(refT);
+	    setMtlO(refT.getParentT());
+	}
     }
 
     @Transactional(readOnly = true)
