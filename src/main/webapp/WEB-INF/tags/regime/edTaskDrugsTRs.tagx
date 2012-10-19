@@ -30,7 +30,7 @@
 				${not empty drugDayTimesT.mtlO}
 				</rg:taskDrugEdit>
 				<td><spring:eval
-						expression="regimeTimesTs.indexOf(drugDayTimesT)" /></td>
+						expression="regimeTimesTs.indexOf(drugDayTimesT)+1" /></td>
 			</tr>
 			<c:forEach var="drugDrugT" items="${taskDrugT.childTs }">
 				<c:if test="${'drug'==drugDrugT.tabName }">

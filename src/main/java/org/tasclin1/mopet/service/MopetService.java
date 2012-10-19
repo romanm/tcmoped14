@@ -101,6 +101,7 @@ public class MopetService {
 		setMtlO(t2);
 		for (Tree t3 : t2.getChildTs()) {
 		    setMtlO(t3);
+		    // dose modification ref tree.
 		    setRefT(t3);
 		    for (Tree t4 : t3.getChildTs()) {
 			setMtlO(t4);
@@ -269,7 +270,7 @@ public class MopetService {
 
     private void setMtlTimesO(Tree tree, List<Tree> regimeTimesTs) {
 	setMtlO(tree);
-	if ("times".equals(tree.getTabName()))
+	if (tree.isTimes() && tree.getParentT().getParentT().isDrug())
 	    regimeTimesTs.add(tree);
     }
 
