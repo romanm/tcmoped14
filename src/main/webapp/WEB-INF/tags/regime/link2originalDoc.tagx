@@ -7,7 +7,7 @@
 	<c:if test="${docT.id!=docT.idClass }">
 		<a href="${contextPath}/id=${docT.idClass}"
 		target="_blank"
-		> Original Document </a>
+		> Original Document →</a>
 	</c:if>
 
 </jsp:root>

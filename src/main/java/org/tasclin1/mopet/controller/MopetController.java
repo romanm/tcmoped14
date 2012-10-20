@@ -160,6 +160,7 @@ public class MopetController {
 	mopetService.readFolderO2doc(idFolder, model);
 	mopetService.readConceptDocT(idStudy, model);
 	getRequest().getSession().setAttribute("studyPart", studyPart);
+	model.addAttribute("docId", idStudy);
     }
 
     @RequestMapping(value = "/doc-study={id}", method = RequestMethod.GET)
@@ -204,6 +205,7 @@ public class MopetController {
     Integer idPatient, Model model) {
 	mopetService.readFolderO2doc(idFolder, model);
 	mopetService.readPatientDoc(model, idPatient);
+	model.addAttribute("docId", idPatient);
     }
 
     // Patient END

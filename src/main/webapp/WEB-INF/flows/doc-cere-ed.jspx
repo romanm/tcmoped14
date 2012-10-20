@@ -7,7 +7,8 @@
 	<table id="ctxTable">
 		<thead>
 			<tr>
-				<th><spring:message code="regime_tumortherapy" /></th>
+				<th id="regime_${regimeT.id }" class="task select">
+					<spring:message code="regime_tumortherapy" /></th>
 				<th><spring:message code="regime_dose" /></th>
 				<th><spring:message code="regime_app" /></th>
 				<th><spring:message code="regime_day" /></th>
@@ -20,7 +21,9 @@
 			<c:forEach var="taskTaskT" items="${regimeT.childTs }">
 				<c:if test="${'task'==taskTaskT.tabName }">
 					<tr>
-						<th>${taskTaskT.mtlO.task }</th>
+						<th id="task_${taskTaskT.id }" class="task select">
+							${taskTaskT.mtlO.task }
+						</th>
 					</tr>
 					<rg:edTaskDrugsTRs taskT="${taskTaskT }" />
 				</c:if>

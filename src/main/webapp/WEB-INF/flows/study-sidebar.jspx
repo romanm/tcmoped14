@@ -12,6 +12,12 @@
 					code="study_part_sg" />
 		</a></li>
 	</ul>
+	<rg:titlePane id="menu_1" mtitle="ui_menu" isOpened="${true}">
+		<div><spring:message code="menu_newRegime" /></div>
+		<div><spring:message code="menu_editConceptNameAndO" /></div>
+		<div><spring:message code="menu_defineSchemaVariant" /></div>
+		<div><spring:message code="menu_defineSchemaVariant" /></div>
+	</rg:titlePane>
 	<rg:link2originalDoc docT="${conceptT }" />
 
 </jsp:root>

@@ -12,6 +12,7 @@
 		doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 		omit-xml-declaration="true" />
 
+	<c:url var="urlRoot" value="/" scope="application" />
 	<c:set var="contextPath" value="${pageContext.request.contextPath}"
 		scope="application" />
 
@@ -70,16 +71,16 @@
 	<div id="content">
 		<tiles:insertAttribute name="head" />
 		<tiles:insertAttribute name="body" />
-		<!-- 
-		<div>
-			<c:forEach var="n" begin="1" end="100">
-				<div>${n }</div>
-			</c:forEach>
-		</div>
-		 -->
 	</div>
 	<div id="sidebar">
 		<div id="titleInline">
+			<spring:message var="ui_reload" code="ui_reload" />
+			<div class="floatLeft" title="${ui_reload }">
+			<a href="${urlRoot }id=${docId}" >
+				<c:url var="imgRefresh" value="/resources/images/refresh.png" />
+				<img src="${imgRefresh}" />
+			</a>
+			</div>
 			<div class="floatRight">
 				<h5>
 					<c:out value="TasClin " />
@@ -90,8 +91,9 @@
 					<c:out value="." />
 			</div>
 		</div>
+		<br/>
+		<br/>
 		<tiles:insertAttribute name="sidebar" />
-		<c:url var="urlRoot" value="/" />
 		<form action="${urlRoot}paste" method="post">
 			<input id="docId" type="hidden" name="docId" value="${docId }" />
 			<input id="pasteId" type="hidden" name="pasteId" value="pasteId" />
@@ -99,13 +101,21 @@
 		</form>
 		<input id="urlRoot" type="hidden" name="urlRoot" value="${urlRoot }" />
 		<div id="copyClipboard">
-			<c:out value="${urlRoot }"/>
 		</div>
 	</div>
-	<div id="contextMenuContainer">
-		<rg:menuItem id="cmiDrugInDrug" classes="dijitEditorIcon dijitEditorIconCopy" />
-		<rg:menuItem id="cmiAddDrugDoseNotice" classes="noteIcon" />
-		<rg:menuItem id="cmiAddRule" classes="noteIcon" />
+	<div style="visibility: hidden;">
+		<div id="contextMenuContainer">
+			<rg:menuItem id="cmiDrugInDrug"
+				classes="dijitEditorIcon dijitEditorIconCopy" />
+			<rg:menuItem id="cmiAddDrugDoseNotice" classes="noteIcon" />
+			<rg:menuItem id="cmiAddRule" classes="noteIcon" />
+		</div>
+		<div id="contextMenu">
+			<rg:menuItem id="cmiCopy"
+				classes="dijitEditorIcon dijitEditorIconCopy" />
+			<rg:menuItem id="cmiPaste"
+				classes="dijitEditorIcon dijitEditorIconPaste" />
+		</div>
 	</div>
 	<script type="text/javascript">
 		Spring.addDecoration(new Spring.ElementDecoration({
@@ -115,12 +125,6 @@
 				style : "display: none;"
 			}
 		}));
-	</script>
-	<div id="contextMenu">
-		<rg:menuItem id="cmiCopy" classes="dijitEditorIcon dijitEditorIconCopy" />
-		<rg:menuItem id="cmiPaste" classes="dijitEditorIcon dijitEditorIconPaste" />
-	</div>
-	<script type="text/javascript">
 		makeContextMenu(dojo.query('.concept, .choice, .arm, .task, .drug, .dose, .day, .times'));
 		dojo.addOnLoad(function() {
 			init();

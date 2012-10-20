@@ -1,3 +1,14 @@
-<div>
-folder-sidebar.jspx
-</div>
+<?xml version="1.0" encoding="UTF-8"?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
+	xmlns:spring="http://www.springframework.org/tags">
+
+	<div>
+		<rg:titlePane id="menu_1" mtitle="ui_menu" isOpened="${true}">
+			<div>
+				<spring:message code="menu_newConcept" />
+			</div>
+		</rg:titlePane>
+	</div>
+</jsp:root>

@@ -12,11 +12,15 @@ body {font:90% "Lucida Grande","Lucida Sans Unicode","Lucida",verdana,sans-serif
 div#titleInline h5,
 div#titleInline h3
 	{display: inline;}
-#headline, #sidebar { position:fixed; top: 0.1em; border: 1px solid #CCCCCC; }
+#headline, #sidebar { position:fixed; top: 0.1em; border: 1px solid #CCCCCC;
+	padding-bottom: 4px;
+}
 #headline{ width:79%; left:0.1em; background-color:#F1F1E7; box-shadow:0 2px 8px #CCCCCC;}
 #sidebar { width: 20%; bottom: 0.1em; right: 0.1em; }
 #content{width:79%; margin-top: 3em;}
 
+#menu_1_pane div:hover {background: #F1F1E7 } 
+#menu_2_pane div:hover {background: #F1FFEE } 
 .select:hover {background: #DDDDBB } 
 .selected {border: 1px dotted blue }
 

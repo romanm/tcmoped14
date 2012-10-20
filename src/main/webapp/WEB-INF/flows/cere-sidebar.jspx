@@ -24,8 +24,32 @@
 					code="uiChemoTherapyWeek" />
 		</a></li>
 	</ul>
-	<rg:titlePane id="ep_1" mtitle="ui_title_views" isOpened="${true}">
-		<div>help</div>
-		<rg:link2originalDoc docT="${regimeT }" />
+	<rg:titlePane id="menu_1" mtitle="ui_menu" isOpened="${true}">
+		<div>
+			<spring:message code="menu_newDrug" />
+			<c:out value=" " />
+			<span class="small"> <spring:message code="menu_drugChemo" />
+			</span>
+		</div>
+		<div>
+			<spring:message code="menu_newDrug" />
+			<c:out value=" " />
+			<span class="small"> <spring:message code="menu_drugSupport" /></span>
+		</div>
+		<hr/>
+		<c:if test="${empty patientT }">
+		</c:if>
+		<c:if test="${not empty patientT }">
+				<div><spring:message code="menu_moveStation" /></div>
+				<div><spring:message code="menu_archivPatient" /></div>
+		</c:if>
+		<rg:titlePane id="menu_2" mtitle="menu_extra" isOpened="${false}">
+			<div><spring:message code="menu_sameDayTogether" /></div>
+			<hr/>
+			<div><spring:message code="menu_newLabor" /></div>
+			<div><spring:message code="menu_newFinding" /></div>
+		</rg:titlePane>
 	</rg:titlePane>
+	<br/>
+	<rg:link2originalDoc docT="${regimeT }" />
 </jsp:root>
