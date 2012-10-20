@@ -80,39 +80,34 @@
 	</div>
 	<div id="sidebar">
 		<div id="titleInline">
-			<h2>
-				<c:out value="TasClin " />
-			</h2>
-			<h3>MOPET</h3>
+			<div class="floatRight">
+				<h5>
+					<c:out value="TasClin " />
+				</h5>
+				<h3>
+					<c:out value="MOPET " />
+				</h3>
+					<c:out value="." />
+			</div>
 		</div>
 		<tiles:insertAttribute name="sidebar" />
 		<c:url var="urlRoot" value="/" />
 		<form action="${urlRoot}paste" method="post">
-			<input type="hidden" name="docId" id="docId" value="${docId }" />
-			<input type="hidden" name="pasteId" id="pasteId" value="pasteId" />
-			<input id="pasteSubmit" type="submit" 	style="visibility: hidden;" />
+			<input id="docId" type="hidden" name="docId" value="${docId }" />
+			<input id="pasteId" type="hidden" name="pasteId" value="pasteId" />
+			<input id="pasteSubmit" type="submit" style="visibility: hidden;" />
 		</form>
-		<input type="hidden" name="urlRoot" id="urlRoot" value="${urlRoot }" />
+		<input id="urlRoot" type="hidden" name="urlRoot" value="${urlRoot }" />
 		<div id="copyClipboard">
 			<c:out value="${urlRoot }"/>
 		</div>
 	</div>
 	<div id="contextMenuContainer">
-		<div id="cmiDrugInDrug">
-			<fmt:message key="cmiDrugInDrug" />
-		</div>
-		<div id="cmiAddDrugDoseNotice">
-			<fmt:message key="cmiAddDrugDoseNotice" />
-		</div>
-		<div id="cmiAddRule">
-			<fmt:message key="cmiAddRule" />
-		</div>
+		<rg:menuItem id="cmiDrugInDrug" classes="dijitEditorIcon dijitEditorIconCopy" />
+		<rg:menuItem id="cmiAddDrugDoseNotice" classes="noteIcon" />
+		<rg:menuItem id="cmiAddRule" classes="noteIcon" />
 	</div>
 	<script type="text/javascript">
-		menuItem("cmiDrugInDrug", "dijitEditorIcon dijitEditorIconCopy",
-				cmiDrugInDrug);
-		menuItem("cmiAddDrugDoseNotice", "noteIcon", cmiAddDrugDoseNotice);
-		menuItem("cmiAddRule", "noteIcon", cmiAddRule);
 		Spring.addDecoration(new Spring.ElementDecoration({
 			elementId : "contextMenuContainer",
 			widgetType : "dijit.Menu",
@@ -122,17 +117,11 @@
 		}));
 	</script>
 	<div id="contextMenu">
-		<div id="cmiCopy">
-			<fmt:message key="cmiCopy" />
-		</div>
-		<div id="cmiPaste">
-			<fmt:message key="cmiPaste" />
-		</div>
+		<rg:menuItem id="cmiCopy" classes="dijitEditorIcon dijitEditorIconCopy" />
+		<rg:menuItem id="cmiPaste" classes="dijitEditorIcon dijitEditorIconPaste" />
 	</div>
 	<script type="text/javascript">
-		menuItem("cmiCopy", "dijitEditorIcon dijitEditorIconCopy", cmiCopy);
-		menuItem("cmiPaste", "dijitEditorIcon dijitEditorIconPaste", cmiPaste);
-		makeContextMenu(dojo.query('.drug, .dose, .day, .times'));
+		makeContextMenu(dojo.query('.concept, .choice, .arm, .task, .drug, .dose, .day, .times'));
 		dojo.addOnLoad(function() {
 			init();
 		});

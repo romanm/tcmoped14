@@ -6,7 +6,10 @@ body {font:100% verdana,arial,sans-serif}
 */
 body {font:90% "Lucida Grande","Lucida Sans Unicode","Lucida",verdana,sans-serif}
 .small{font-size: 0.8em}
-div#titleInline h2,
+.floatLeft {float: left;}
+.floatRight {float: right}
+
+div#titleInline h5,
 div#titleInline h3
 	{display: inline;}
 #headline, #sidebar { position:fixed; top: 0.1em; border: 1px solid #CCCCCC; }

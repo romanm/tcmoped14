@@ -1,4 +1,3 @@
-
 function titlePane(tpId,isOpened){
 	Spring.addDecoration(new Spring.ElementDecoration({
 	elementId:tpId, widgetType:"dijit.TitlePane" ,widgetAttrs: {

@@ -5,7 +5,7 @@
 	<jsp:directive.attribute name="taskT"
 		type="org.tasclin1.mopet.domain.Tree" required="true"
 		description="Current folder object" />
-	<div class="regimeContent">
+	<div class="regimeContent task select" id="task_${taskT.id }">
 		<a href="${contextPath}/id=${taskT.id }"> <rg:regimeWithImg
 				taskO="${taskT.mtlO }" />
 		</a>

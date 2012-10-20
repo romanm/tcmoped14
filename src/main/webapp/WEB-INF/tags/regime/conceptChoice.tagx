@@ -8,11 +8,11 @@
 		type="org.tasclin1.mopet.domain.Tree" required="true" />
 
 	<fieldset>
-		<legend class="select" id="c_${chooseT.id}">
+		<legend class="choice select" id="c_${choiceT.id}">
 			<spring:message code="conceptChoice" />
 		</legend>
 		<c:forEach var="armT" items="${choiceT.childTs}">
-			<div style="float: left;" class="select arm" id="ar_${armT.id }">
+			<div style="float: left;" class="arm select" id="armsel_${armT.id }">
 				<rg:titlePane id="arm_${armT.id }" title="arm_${armT.mtlO.arm }">
 					<c:choose>
 						<c:when test="${empty armT.childTs}">

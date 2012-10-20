@@ -13,7 +13,7 @@
 			</c:forEach>
 		</rg:titlePane>
 	</c:if>
-	<h2>
+	<h2 id="p_${conceptT.id }" class="concept select">
 		<spring:message code="studyWorkflow" />
 	</h2>
 	<rg:conceptBlock blockT="${conceptT }" />
