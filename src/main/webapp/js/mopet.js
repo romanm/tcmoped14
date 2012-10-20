@@ -68,8 +68,9 @@ function hasClass(editE,className){return dojo.hasClass(editE,className);}
 function cmiCopy(){
 	console.log("copy "+getSelectedE().id);
 	var targetNode = dojo.byId("copyClipboard");
+	var urlRoot = dojo.byId('urlRoot').value;
 	var xhrArgs = {
-			url: "../../copy",
+			url: urlRoot+"copy?id="+getSelectedE().id,
 			handleAs: "text",
 			load: function(data){
 				targetNode.innerHTML = data;
@@ -84,6 +85,8 @@ function cmiCopy(){
 }
 function cmiPaste(){
 	console.log("paste "+getSelectedE().id);
+	dojo.byId("pasteId").value=getSelectedE().id;
+	dojo.byId("pasteSubmit").click();
 }
 //cmiDrugInDrug=newAdditionalDrug
 function cmiDrugInDrug(){idtAction("cmiDrugInDrug");}

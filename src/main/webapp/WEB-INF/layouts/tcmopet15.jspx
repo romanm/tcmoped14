@@ -85,9 +85,17 @@
 			</h2>
 			<h3>MOPET</h3>
 		</div>
-		<input type="hidden" name="docId" id="docId" value="${docId }" />
 		<tiles:insertAttribute name="sidebar" />
-		<div id="copyClipboard"></div>
+		<c:url var="urlRoot" value="/" />
+		<form action="${urlRoot}paste" method="post">
+			<input type="hidden" name="docId" id="docId" value="${docId }" />
+			<input type="hidden" name="pasteId" id="pasteId" value="pasteId" />
+			<input id="pasteSubmit" type="submit" 	style="visibility: hidden;" />
+		</form>
+		<input type="hidden" name="urlRoot" id="urlRoot" value="${urlRoot }" />
+		<div id="copyClipboard">
+			<c:out value="${urlRoot }"/>
+		</div>
 	</div>
 	<div id="contextMenuContainer">
 		<div id="cmiDrugInDrug">

@@ -65,7 +65,7 @@ public class MopetService {
     @Transactional(readOnly = true)
     public void readFolderO2folder(Integer idFolder, Model model) {
 	Folder folderO = readFolderO2doc(idFolder, model);
-	Tree folderT = em.find(Tree.class, idFolder);
+	Tree folderT = setTreeWithMtlO(idFolder);
 	model.addAttribute("folderT", folderT);
 	for (Tree tree : folderT.getChildTs())
 	    setMtlO(tree);
@@ -85,15 +85,24 @@ public class MopetService {
     // folder END
 
     // patient
+
     @Transactional(readOnly = true)
-    public void setPatientO(Integer idPatient, Model model) {
-	Patient patientO = setPatientO2doc(idPatient, model);
-	Tree patientT = readPatientDoc(model, idPatient);
-	patientT.setMtlO(patientO);
+    public Tree setPatientTO(Model model, Integer idPatient) {
+	Tree patientT = setTreeWithMtlO(idPatient);
+	model.addAttribute("patientT", patientT);
+	model.addAttribute("patientO", patientT.getMtlO());
+	return patientT;
     }
 
-    private Tree readPatientDoc(Model model, Integer idPatient) {
-	Tree patientT = setPatientT(model, idPatient);
+    // public void setPatientO(Integer idPatient, Model model) {
+    // Patient patientO = setPatientO2doc(idPatient, model);
+    // Tree patientT = readPatientDoc(model, idPatient);
+    // patientT.setMtlO(patientO);
+    // }
+
+    @Transactional(readOnly = true)
+    public Tree readPatientDoc(Model model, Integer idPatient) {
+	Tree patientT = setPatientTO(model, idPatient);
 	for (Tree t1 : patientT.getChildTs()) {
 	    setMtlO(t1);
 	    setPatientDocAttribute(model, t1);
@@ -112,20 +121,10 @@ public class MopetService {
 	return patientT;
     }
 
-    private void setRefT(Tree t3) {
-	if (t3.hasRef()) {
-	    Tree refT = em.find(Tree.class, t3.getRef());
-	    t3.setRefT(refT);
-	    setMtlO(refT);
-	    setMtlO(refT.getParentT());
-	}
-    }
-
     @Transactional(readOnly = true)
     public Tree readPatientDocShort(Integer idPatient, Model model) {
-	Patient patientO = setPatientO2doc(idPatient, model);
-	Tree patientT = setPatientT(model, idPatient);
-	patientT.setMtlO(patientO);
+	setPatientTO(model, idPatient);
+	Tree patientT = setPatientTO(model, idPatient);
 	for (Tree t1 : patientT.getChildTs()) {
 	    setMtlO(t1);
 	    setPatientDocAttribute(model, t1);
@@ -136,10 +135,11 @@ public class MopetService {
 	return patientT;
     }
 
-    private Tree setPatientT(Model model, Integer idPatient) {
-	Tree patientT = em.find(Tree.class, idPatient);
-	model.addAttribute("patientT", patientT);
-	return patientT;
+    @Transactional(readOnly = true)
+    public Tree setTreeWithMtlO(Integer id) {
+	Tree tree = em.find(Tree.class, id);
+	setMtlO(tree);
+	return tree;
     }
 
     private void setPatientDocAttribute(Model model, Tree t1) {
@@ -154,13 +154,6 @@ public class MopetService {
 	} else if (t1.isDiagnose()) {
 	    addFirstAtt(model, t1, "lastDiagnoseT");
 	}
-    }
-
-    private Patient setPatientO2doc(Integer idPatient, Model model) {
-	model.addAttribute(idPatient);
-	Patient patientO = em.find(Patient.class, idPatient);
-	model.addAttribute("patientO", patientO);
-	return patientO;
     }
 
     /**
@@ -180,7 +173,7 @@ public class MopetService {
     // concept
     @Transactional(readOnly = true)
     public Tree readConceptT(Integer idStudy, Model model) {
-	Tree conceptT = em.find(Tree.class, idStudy);
+	Tree conceptT = setTreeWithMtlO(idStudy);
 	setMtlO(conceptT);
 	model.addAttribute("conceptT", conceptT);
 	return conceptT;
@@ -213,7 +206,6 @@ public class MopetService {
 
     // regime
     public void initRegimeDocT(Model model) {
-	log.debug("-------------------- 1");
 	Tree regimeT = (Tree) model.asMap().get("regimeT");
 	model.addAttribute("drugNoticeExprM", new HashMap<Tree, List<Tree>>());
 	for (Tree t1 : regimeT.getChildTs()) {
@@ -234,22 +226,18 @@ public class MopetService {
 	Tree drugT = noticeExprT.getParentT();
 	while (!drugT.getParentT().isTask())
 	    drugT = drugT.getParentT();
-	log.debug("-------------------- 2");
 	if (noticeExprT.isNotice() || noticeExprT.isExpr()) {
 	    if (!drugNoticeExprM.containsKey(drugT)) {
-		log.debug("-------------------- 3 " + drugT.getId());
 		List<Tree> drugNoticeExprL = new ArrayList<Tree>();
 		drugNoticeExprM.put(drugT, drugNoticeExprL);
 	    }
-	    log.debug("-------------------- 4");
 	    drugNoticeExprM.get(drugT).add(noticeExprT);
-	    log.debug("-------------------- 5 " + drugNoticeExprM.get(drugT));
 	}
     }
 
     @Transactional(readOnly = true)
     public void readRegimeDocT(Integer idRegime, Model model) {
-	Tree regimeT = em.find(Tree.class, idRegime);
+	Tree regimeT = setTreeWithMtlO(idRegime);
 	setMtlO(regimeT);
 	model.addAttribute("regimeT", regimeT);
 	List<Tree> regimeTimesTs = new ArrayList<Tree>();
@@ -317,10 +305,18 @@ public class MopetService {
 	tree.setMtlO(mO);
     }
 
+    private void setRefT(Tree t3) {
+	if (t3.hasRef()) {
+	    Tree refT = em.find(Tree.class, t3.getRef());
+	    t3.setRefT(refT);
+	    setMtlO(refT);
+	    setMtlO(refT.getParentT());
+	}
+    }
+
     public Tree checkId(Integer id) {
 	List resultList = em.createQuery("SELECT t FROM Tree t WHERE  t.id = :id").setParameter("id", id)
 		.getResultList();
-	log.debug(resultList);
 	if (resultList.size() == 0)
 	    return null;
 	return (Tree) resultList.get(0);

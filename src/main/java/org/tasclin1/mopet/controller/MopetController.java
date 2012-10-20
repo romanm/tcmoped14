@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -27,10 +28,39 @@ public class MopetController {
     }
 
     // copy&paste
+    @RequestMapping(value = "/paste", method = RequestMethod.POST)
+    public String paste(@RequestParam("docId")
+    Integer docId, @RequestParam("pasteId")
+    String pasteId) {
+	log.debug("pasteId=" + pasteId);
+	if (pasteId.contains("_")) {
+	    Integer pasteId2 = getIdFromHtmlId("pasteId");
+	    Tree pasteT = mopetService.setTreeWithMtlO(pasteId2);
+	    log.debug("pasteT=" + pasteT);
+	    Integer clipBoardId = (Integer) getRequest().getSession().getAttribute("clipBoardId");
+	    log.debug("clipBoardId=" + clipBoardId);
+	    if (null != clipBoardId) {
+		Tree copyT = mopetService.setTreeWithMtlO(clipBoardId);
+		log.debug("copyT=" + copyT);
+	    }
+	}
+	log.debug("docId=" + docId);
+	return fromId(docId);
+    }
+
     @RequestMapping(value = "/copy", method = RequestMethod.GET)
     public @ResponseBody
-    String writeString() {
-	return "Wrote a string";
+    String copy() {
+	Integer clipBoardId = getIdFromHtmlId("id");
+	getRequest().getSession().setAttribute("clipBoardId", clipBoardId);
+	return "<b>clipBoardId</b> " + getRequest().getParameter("id");
+    }
+
+    private Integer getIdFromHtmlId(String param) {
+	String id2 = getRequest().getParameter(param).split("_")[1];
+	log.debug(id2);
+	Integer clipBoardId = Integer.parseInt(id2);
+	return clipBoardId;
     }
 
     // copy&paste END
@@ -62,6 +92,7 @@ public class MopetController {
 	mopetService.readConceptT(idStudy, model);
 	mopetService.readRegimeDocT(idRegime, model);
 	mopetService.initRegimeDocT(model);
+	model.addAttribute("docId", idRegime);
 	getRequest().getSession().setAttribute("regimePart", regimePart);
     }
 
@@ -111,7 +142,7 @@ public class MopetController {
     Integer idPatient, @PathVariable
     String studyPart, @PathVariable
     Integer idStudy, Model model) {
-	mopetService.setPatientO(idPatient, model);
+	mopetService.setPatientTO(model, idPatient);
 	readConcept(idFolder, studyPart, idStudy, model);
     }
 
@@ -143,19 +174,19 @@ public class MopetController {
     @RequestMapping(value = "f={id}", method = RequestMethod.GET)
     public String toFolder(@PathVariable
     Integer id, Model model) {
-	return fromId(id, model);
+	return fromId(id);
     }
 
     @RequestMapping(value = "f={idf}/p={id}", method = RequestMethod.GET)
     public String toPatient(@PathVariable
     Integer id, Model model) {
-	return fromId(id, model);
+	return fromId(id);
     }
 
     @RequestMapping(value = "f={idf}/p={idp}/s={id}", method = RequestMethod.GET)
     public String toPatientStudy(@PathVariable
     Integer id, Model model) {
-	return fromId(id, model);
+	return fromId(id);
     }
 
     @RequestMapping(value = "f={idf}/s={id}", method = RequestMethod.GET)
@@ -163,7 +194,7 @@ public class MopetController {
     Integer id, Model model) {
 	HttpServletRequest request = getRequest();
 	log.debug("ContextPath=" + request.getContextPath());
-	return fromId(id, model);
+	return fromId(id);
     }
 
     // Patient
@@ -172,7 +203,7 @@ public class MopetController {
     Integer idFolder, @PathVariable
     Integer idPatient, Model model) {
 	mopetService.readFolderO2doc(idFolder, model);
-	mopetService.setPatientO(idPatient, model);
+	mopetService.readPatientDoc(model, idPatient);
     }
 
     // Patient END
@@ -188,7 +219,8 @@ public class MopetController {
 
     @RequestMapping(value = "id={id}", method = RequestMethod.GET)
     public String fromId(@PathVariable
-    Integer id, Model model) {
+    Integer id) {
+	// Integer id, Model model) {
 	log.debug(id);
 	Tree tree = mopetService.checkId(id);
 	log.debug(tree);
