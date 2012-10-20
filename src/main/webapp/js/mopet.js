@@ -67,6 +67,20 @@ function init(){
 function hasClass(editE,className){return dojo.hasClass(editE,className);}
 function cmiCopy(){
 	console.log("copy "+getSelectedE().id);
+	var targetNode = dojo.byId("copyClipboard");
+	var xhrArgs = {
+			url: "../../copy",
+			handleAs: "text",
+			load: function(data){
+				targetNode.innerHTML = data;
+			},
+			error: function(error){
+				targetNode.innerHTML = "An unexpected error occurred: " + error;
+			}
+	}
+	// Call the asynchronous xhrGet
+	var deferred = dojo.xhrGet(xhrArgs);
+	console.log("copy deferred="+deferred);
 }
 function cmiPaste(){
 	console.log("paste "+getSelectedE().id);
@@ -90,9 +104,8 @@ function idtAction(action){
 }
 function correcturSelectElement(editE){
 	for ( var i = 0; i < 4; i++) {
-		if(dojo.hasClass(editE,"select")){
+		if(dojo.hasClass(editE,"select"))
 			break;
-		}
 		editE=editE.parentNode;
 	}
 	return editE;

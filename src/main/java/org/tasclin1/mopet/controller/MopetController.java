@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.tasclin1.mopet.domain.Tree;
@@ -25,6 +26,14 @@ public class MopetController {
 	this.mopetService = mopetService;
     }
 
+    // copy&paste
+    @RequestMapping(value = "/copy", method = RequestMethod.GET)
+    public @ResponseBody
+    String writeString() {
+	return "Wrote a string";
+    }
+
+    // copy&paste END
     // home
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {

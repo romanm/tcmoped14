@@ -87,6 +87,7 @@
 		</div>
 		<input type="hidden" name="docId" id="docId" value="${docId }" />
 		<tiles:insertAttribute name="sidebar" />
+		<div id="copyClipboard"></div>
 	</div>
 	<div id="contextMenuContainer">
 		<div id="cmiDrugInDrug">
