@@ -45,20 +45,16 @@
 <c:url var="springDojoJs" value="/resources/spring/Spring-Dojo.js" />
 <script type="text/javascript" src="${dojoJs }">
 <!-- //required for FF3 and Opera -->
-	
 </script>
 <script type="text/javascript" src="${springJs }">
 <!-- //required for FF3 and Opera -->
-	
 </script>
 <script type="text/javascript" src="${springDojoJs }">
 <!-- //required for FF3 and Opera -->
-	
 </script>
 <c:url var="mopetJs" value="/resources/js/mopet.js" />
 <script type="text/javascript" src="${mopetJs }">
 <!-- //required for FF3 and Opera -->
-	
 </script>
 <c:set var="tilesUrl" scope="request">
 	<tiles:insertAttribute name="tilesUrl" />
@@ -101,6 +97,10 @@
 		</form>
 		<input id="urlRoot" type="hidden" name="urlRoot" value="${urlRoot }" />
 		<div id="copyClipboard">
+		<!-- //required for FF3 and Opera -->
+		</div>
+		<div id="jaxb">
+		<!-- //required for FF3 and Opera -->
 		</div>
 	</div>
 	<div style="visibility: hidden;">
@@ -115,6 +115,7 @@
 				classes="dijitEditorIcon dijitEditorIconCopy" />
 			<rg:menuItem id="cmiPaste"
 				classes="dijitEditorIcon dijitEditorIconPaste" />
+			<rg:menuItem id="cmiJaxb" classes="noteIcon" />
 		</div>
 	</div>
 	<script type="text/javascript">

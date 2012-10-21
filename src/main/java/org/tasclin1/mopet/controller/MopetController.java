@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.tasclin1.mopet.domain.Tree;
+import org.tasclin1.mopet.jaxb.Dayx;
+import org.tasclin1.mopet.jaxb.Dosex;
+import org.tasclin1.mopet.jaxb.Drugx;
+import org.tasclin1.mopet.jaxb.Timesx;
+import org.tasclin1.mopet.jaxb.Treex;
 import org.tasclin1.mopet.service.MopetService;
 
 @Controller
@@ -48,16 +53,18 @@ public class MopetController {
 	return fromId(docId);
     }
 
+    // Regimex xml(@PathVariable
     @RequestMapping(value = "/copy", method = RequestMethod.GET)
     public @ResponseBody
     String copy() {
-	Integer clipBoardId = getIdFromHtmlId("id");
+	Integer clipBoardId = getIdFromHtmlId(getRequest().getParameter("id"));
 	getRequest().getSession().setAttribute("clipBoardId", clipBoardId);
 	return "<b>clipBoardId</b> " + getRequest().getParameter("id");
     }
 
     private Integer getIdFromHtmlId(String param) {
-	String id2 = getRequest().getParameter(param).split("_")[1];
+	log.debug(param);
+	String id2 = param.split("_")[1];
 	log.debug(id2);
 	Integer clipBoardId = Integer.parseInt(id2);
 	return clipBoardId;
@@ -292,4 +299,37 @@ public class MopetController {
 	    studyPart = "sg";
 	return studyPart;
     }
+
+    // Jaxb
+    @RequestMapping(value = "/xml={htmlId}", method = RequestMethod.GET, produces = "application/xml")
+    public @ResponseBody
+    Treex xml(@PathVariable
+    String htmlId) {
+	log.debug(1);
+	Integer id = getIdFromHtmlId(htmlId);
+	log.debug(id);
+	Tree t0 = mopetService.readNodes3(id);
+	Treex mtlX = null;
+	if (t0.isDrug()) {
+	    mtlX = regimeDrugx(new Drugx(t0));
+	}
+	return mtlX;
+    }
+
+    private Treex regimeDrugx(Drugx drugx) {
+	for (Tree t1 : drugx.getTree().getChildTs())
+	    if (t1.isDose()) {
+		drugx.setDose(new Dosex(t1));
+	    } else if (t1.isDay()) {
+		Dayx dayx = new Dayx(t1);
+		drugx.getDay().add(dayx);
+		for (Tree t2 : t1.getChildTs())
+		    if (t2.isTimes()) {
+			dayx.setTimes(new Timesx(t2));
+		    }
+	    }
+	return drugx;
+    }
+    // Jaxb END
+
 }

@@ -16,7 +16,7 @@
 		<div><spring:message code="menu_newRegime" /></div>
 		<div><spring:message code="menu_editConceptNameAndO" /></div>
 		<div><spring:message code="menu_defineSchemaVariant" /></div>
-		<div><spring:message code="menu_defineSchemaVariant" /></div>
+		<div><spring:message code="menu_newChoose" /></div>
 	</rg:titlePane>
 	<rg:link2originalDoc docT="${conceptT }" />
 

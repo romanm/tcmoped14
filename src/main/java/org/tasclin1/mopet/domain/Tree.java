@@ -476,4 +476,20 @@ public class Tree implements Serializable {
     public Finding getFinding() {
 	return (Finding) getMtlO();
     }
+
+    public Drug getDrugO() {
+	return (Drug) getMtlO();
+    }
+
+    public Dose getDoseO() {
+	return (Dose) getMtlO();
+    }
+
+    public Day getDayO() {
+	return (Day) getMtlO();
+    }
+
+    public Times getTimesO() {
+	return (Times) getMtlO();
+    }
 }

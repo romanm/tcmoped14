@@ -76,6 +76,12 @@
 				</exclusion>
 			</exclusions>
         </dependency>
+		<!-- Rome Atom+RSS -->
+		<dependency>
+			<groupId>net.java.dev.rome</groupId>
+			<artifactId>rome</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>

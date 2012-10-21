@@ -84,6 +84,21 @@ public class MopetService {
 
     // folder END
 
+    @Transactional(readOnly = true)
+    public Tree readNodes3(Integer id) {
+	Tree t0 = setTreeWithMtlO(id);
+	for (Tree t1 : t0.getChildTs()) {
+	    setMtlO(t1);
+	    for (Tree t2 : t1.getChildTs()) {
+		setMtlO(t2);
+		for (Tree t3 : t2.getChildTs()) {
+		    setMtlO(t3);
+		}
+	    }
+	}
+	return t0;
+    }
+
     // patient
 
     @Transactional(readOnly = true)
@@ -238,7 +253,6 @@ public class MopetService {
     @Transactional(readOnly = true)
     public void readRegimeDocT(Integer idRegime, Model model) {
 	Tree regimeT = setTreeWithMtlO(idRegime);
-	setMtlO(regimeT);
 	model.addAttribute("regimeT", regimeT);
 	List<Tree> regimeTimesTs = new ArrayList<Tree>();
 	for (Tree t1 : regimeT.getChildTs()) {

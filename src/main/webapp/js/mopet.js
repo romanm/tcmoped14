@@ -64,6 +64,38 @@ function init(){
 	console.log("init END");
 }
 function hasClass(editE,className){return dojo.hasClass(editE,className);}
+function cmiJaxb(){
+	console.log("cmiJaxb "+getSelectedE().id);
+	var targetNode = dojo.byId("copyClipboard");
+	var jaxbNode = dojo.byId("jaxb");
+	var urlRoot = dojo.byId('urlRoot').value;
+	var xhrArgs = {
+			url: urlRoot+"xml="+getSelectedE().id,
+//			url: "http://imsel.imise.uni-leipzig.de:8081/sokrathes/xml=1327794",
+			handleAs: "text",
+			load: function(data){
+				console.log("-data--"+data);
+				dojo.require("dojox.xml.parser");
+				var dom = dojox.xml.parser.parse(data);
+				var jaxbId=dom.documentElement.getAttribute("id");
+				targetNode.innerHTML = "<a href='"+urlRoot+"xml=x_"+jaxbId+"'>jaxbId"+jaxbId+"</a>";
+				jaxbNode.appendChild(document
+						.createTextNode("Jaxb XML: " + dojox.xml.parser
+								.innerXML(dom.documentElement)));
+//				dojo.require("dojox.xml.DomParser");
+//				var jsdom=dojox.xml.DomParser.parse(data);
+//				console.log(jsdom);
+			},
+			error: function(error){
+				targetNode.innerHTML = "An unexpected error occurred: " + error;
+			}
+	}
+	// Call the asynchronous xhrGet
+	var deferred = dojo.xhrGet(xhrArgs);
+	var n1=targetNode.childNodes[0]
+	console.log("---"+n1);
+//	alert(targetNode.childNodes.length);
+}
 function cmiCopy(){
 	console.log("copy "+getSelectedE().id);
 	var targetNode = dojo.byId("copyClipboard");

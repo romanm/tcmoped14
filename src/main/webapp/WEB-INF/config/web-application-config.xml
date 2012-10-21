@@ -11,8 +11,12 @@
 
 	<!-- Scans for application @Components to deploy -->
 	<context:component-scan base-package="org.springframework.webflow.samples.booking" />
+	<!-- 
 	<context:component-scan base-package="org.tasclin1.mopet.controller" />
 	<context:component-scan base-package="org.tasclin1.mopet.service" />
+	<context:component-scan base-package="org.tasclin1.mopet.jabx" />
+	 -->
+	<context:component-scan base-package="org.tasclin1.mopet" />
 
 	<!-- Imports the configurations of the different infrastructure systems of the application -->
 	<import resource="webmvc-config.xml" />
