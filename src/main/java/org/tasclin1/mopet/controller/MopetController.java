@@ -149,7 +149,7 @@ public class MopetController {
     Integer idPatient, @PathVariable
     String studyPart, @PathVariable
     Integer idStudy, Model model) {
-	mopetService.setPatientTO(model, idPatient);
+	mopetService.readPatientDocShort(idPatient, model);
 	readConcept(idFolder, studyPart, idStudy, model);
     }
 

@@ -102,7 +102,7 @@ public class MopetService {
     // patient
 
     @Transactional(readOnly = true)
-    public Tree setPatientTO(Model model, Integer idPatient) {
+    public Tree setPatientTO(Integer idPatient, Model model) {
 	Tree patientT = setTreeWithMtlO(idPatient);
 	model.addAttribute("patientT", patientT);
 	model.addAttribute("patientO", patientT.getMtlO());
@@ -117,7 +117,7 @@ public class MopetService {
 
     @Transactional(readOnly = true)
     public Tree readPatientDoc(Model model, Integer idPatient) {
-	Tree patientT = setPatientTO(model, idPatient);
+	Tree patientT = setPatientTO(idPatient, model);
 	for (Tree t1 : patientT.getChildTs()) {
 	    setMtlO(t1);
 	    setPatientDocAttribute(model, t1);
@@ -138,8 +138,8 @@ public class MopetService {
 
     @Transactional(readOnly = true)
     public Tree readPatientDocShort(Integer idPatient, Model model) {
-	setPatientTO(model, idPatient);
-	Tree patientT = setPatientTO(model, idPatient);
+	setPatientTO(idPatient, model);
+	Tree patientT = setPatientTO(idPatient, model);
 	for (Tree t1 : patientT.getChildTs()) {
 	    setMtlO(t1);
 	    setPatientDocAttribute(model, t1);
@@ -203,12 +203,19 @@ public class MopetService {
 	    setMtlO(t1);
 	    for (Tree t2 : t1.getChildTs()) {
 		setMtlO(t2);
-		for (Tree t3 : t2.getChildTs()) {
-		    setMtlO(t3);
-		    for (Tree t4 : t3.getChildTs()) {
-			setMtlO(t4);
+		if (!"definition".equals(t1.getTabName()))
+		    for (Tree t3 : t2.getChildTs()) {
+			setMtlO(t3);
+			for (Tree t4 : t3.getChildTs()) {
+			    setMtlO(t4);
+			    // for (Tree t5 : t4.getChildTs()) {
+			    // setMtlO(t5);
+			    // for (Tree t6 : t5.getChildTs()) {
+			    // setMtlO(t6);
+			    // }
+			    // }
+			}
 		    }
-		}
 	    }
 	}
 	/*
