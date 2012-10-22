@@ -8,14 +8,17 @@
 		<var name="drugDayForm"	class="org.tasclin1.mopet.regime.DrugDayForm" />
 
 	<input name="idRegime" required="true" />
+	<input name="idt" required="true" />
 	<input name="a" required="true" />
 	
-	<!-- 
 	<on-start>
+	<!-- 
 		<evaluate expression="regimedrugService.getDrugDayForm()"
 		 result="flowScope.drugDayForm" />
-	</on-start>
 	 -->
+		<evaluate expression="mopetService.readNodes3(idt)"
+		 result="flowScope.drugT" />
+	</on-start>
 
 	<action-state id="aHandle">
 		<evaluate expression="a"/>
