@@ -3,11 +3,18 @@ body {font-family: 'Arial','Helvetica',sans-serif;}
 body {font: 80%/1.4em Verdana,Arial,Tahoma,"Trebuchet MS",sans-serif}
 body {font:100% verdana,arial,sans-serif}
  0 2px 8px #CCCCCC
-*/
+;}
 body {font:90% "Lucida Grande","Lucida Sans Unicode","Lucida",verdana,sans-serif}
+ */
+body {font-family:"Gill Sans MT","Gill Sans",GillSans,Verdana,sans-serif}
 .small{font-size: 0.8em}
 .floatLeft {float: left;}
 .floatRight {float: right}
+
+
+tr.planday th, tr.planday td {
+    border-top: 3px double;
+}
 
 div#titleInline h5,
 div#titleInline h3

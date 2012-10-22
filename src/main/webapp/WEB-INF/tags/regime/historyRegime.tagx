@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
+	xmlns:joda="http://www.joda.org/joda/time/tags"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 	<jsp:directive.attribute name="historyT"
@@ -11,7 +12,9 @@
 		<td><spring:message code="history_regime" /></td>
 		<td><a href="${contextPath }/id=${historyT.ref}">
 				${historyT.mtlO.task } </a></td>
-		<td>${historyT.ofDateT.history.mdate }</td>
+		<td>
+		<joda:format value="${historyT.ofDateT.history.mdateDT}" pattern="kk:mm" />
+		</td>
 	</tr>
 
 	<tr class="regimeContent">

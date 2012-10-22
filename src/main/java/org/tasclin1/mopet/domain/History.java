@@ -1,13 +1,16 @@
 package org.tasclin1.mopet.domain;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
-import org.joda.time.DateTime;
-
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
+import org.joda.time.DateTime;
 
 /**
  * The persistent class for the history database table.
@@ -15,87 +18,100 @@ import java.util.Date;
  */
 @Entity
 public class History implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	private Integer idhistory;
+    @Id
+    private Integer idhistory;
 
-	private Integer didhistory;
+    private Integer didhistory;
 
-	private String hshow;
+    private String hshow;
 
-	private Integer idauthor;
+    private Integer idauthor;
 
-	private Integer idhpatient;
+    private Integer idhpatient;
 
-	private Timestamp mdate;
-	
-	@OneToOne
-	@JoinColumn(name="idhistory")
-	private Tree tree;
-	public Tree getTree() {return tree;}
-	public void setTree(Tree tree) {
-		this.tree = tree;
-		idhistory=tree.getId();
-	}
+    private Timestamp mdate;
 
-	public History() {}
+    @OneToOne
+    @JoinColumn(name = "idhistory")
+    private Tree tree;
 
-	public Integer getIdhistory() {
-		return this.idhistory;
-	}
+    public Tree getTree() {
+	return tree;
+    }
 
-	public void setIdhistory(Integer idhistory) {
-		this.idhistory = idhistory;
-	}
+    public void setTree(Tree tree) {
+	this.tree = tree;
+	idhistory = tree.getId();
+    }
 
-	public Integer getDidhistory() {
-		return this.didhistory;
-	}
+    public History() {
+    }
 
-	public void setDidhistory(Integer didhistory) {
-		this.didhistory = didhistory;
-	}
+    public Integer getIdhistory() {
+	return this.idhistory;
+    }
 
-	public String getHshow() {
-		return this.hshow;
-	}
+    public void setIdhistory(Integer idhistory) {
+	this.idhistory = idhistory;
+    }
 
-	public void setHshow(String hshow) {
-		this.hshow = hshow;
-	}
+    public Integer getDidhistory() {
+	return this.didhistory;
+    }
 
-	public Integer getIdauthor() {
-		return this.idauthor;
-	}
+    public void setDidhistory(Integer didhistory) {
+	this.didhistory = didhistory;
+    }
 
-	public void setIdauthor(Integer idauthor) {
-		this.idauthor = idauthor;
-	}
+    public String getHshow() {
+	return this.hshow;
+    }
 
-	public Integer getIdhpatient() {
-		return this.idhpatient;
-	}
+    public void setHshow(String hshow) {
+	this.hshow = hshow;
+    }
 
-	public void setIdhpatient(Integer idhpatient) {
-		this.idhpatient = idhpatient;
-	}
-	public DateTime getMdateDT() {
-		return new DateTime(mdate.getTime());
-	}
-	public Timestamp getMdate() {
-		return this.mdate;
-	}
+    public Integer getIdauthor() {
+	return this.idauthor;
+    }
 
-	public void setMdate(Date mdate) {
-		Timestamp timestamp = new Timestamp(mdate.getTime());
-		setMdate(timestamp);
-	}
-	public void setMdate(Timestamp mdate) {
-		this.mdate = mdate;
-	}
+    public void setIdauthor(Integer idauthor) {
+	this.idauthor = idauthor;
+    }
 
-	public String toString(){
-		return "history:"+idhistory+":mdate:"+mdate+":idauthor:"+idauthor;
-	}
+    public Integer getIdhpatient() {
+	return this.idhpatient;
+    }
+
+    public void setIdhpatient(Integer idhpatient) {
+	this.idhpatient = idhpatient;
+    }
+
+    @Transient
+    DateTime dateTime;
+
+    public DateTime getMdateDT() {
+	if (null == dateTime)
+	    dateTime = new DateTime(mdate.getTime());
+	return dateTime;
+    }
+
+    public Timestamp getMdate() {
+	return this.mdate;
+    }
+
+    public void setMdate(Date mdate) {
+	Timestamp timestamp = new Timestamp(mdate.getTime());
+	setMdate(timestamp);
+    }
+
+    public void setMdate(Timestamp mdate) {
+	this.mdate = mdate;
+    }
+
+    public String toString() {
+	return "history:" + idhistory + ":mdate:" + mdate + ":idauthor:" + idauthor;
+    }
 }

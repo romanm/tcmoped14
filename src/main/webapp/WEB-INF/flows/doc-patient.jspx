@@ -1,26 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
+	xmlns:joda="http://www.joda.org/joda/time/tags"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 	<rg:patientHead />
 	
 	<table>
 		<thead>
-			<tr>
+			<tr >
 				<th colspan="2"><spring:message code="history_record" /></th>
 				<th><spring:message code="regime_times" /></th>
 			</tr>
 		</thead>
 		<tbody>
+			<c:set var="dayOfMonth" value="111" />
 			<c:forEach var="historyT" items="${patientT.childTs }">
+				<spring:eval var="currentDayOfMonth" expression="historyT.ofDateT.history.mdateDT.dayOfMonth()"/>
+				<c:if test="${currentDayOfMonth!=dayOfMonth}">
+					<c:set var="dayOfMonth" value="${currentDayOfMonth}" />
+					<tr class="planday">
+						<td colspan="3" align="right">
+							<joda:format value="${historyT.ofDateT.history.mdateDT}" style="L-" />
+						</td>
+					</tr>
+				</c:if>
 				<c:choose>
 					<c:when test="${'protocol'==historyT.tabName }">
 						<tr class="conceptContent">
 							<td><spring:message code="history_concept" /></td>
 							<td><a href="${contextPath }/id=${historyT.id}">
 									${historyT.mtlO.protocol} </a></td>
-							<td>${historyT.ofDateT.history.mdate }</td>
+							<td>
+							<joda:format value="${historyT.ofDateT.history.mdateDT}" pattern="kk:mm" />
+							</td>
 						</tr>
 					</c:when>
 					<c:when test="${'task'==historyT.tabName }">
@@ -53,7 +66,9 @@
 									<td colspan="2">${historyT}</td>
 								</c:otherwise>
 							</c:choose>
-							<td>${historyT.ofDateT.history.mdate }</td>
+							<td>
+								<joda:format value="${historyT.ofDateT.history.mdateDT}" pattern="kk:mm" />
+							</td>
 						</tr>
 					</c:otherwise>
 				</c:choose>

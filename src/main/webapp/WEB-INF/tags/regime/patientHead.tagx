@@ -6,15 +6,12 @@
 	<div class="patientContent" style="border: 1px double">
 		<rg:patientName patientO="${patientO }" />
 		<div>
-		<!-- 
-			<rg:historyVariable historyT="${lastWeightT }" />
+			<spring:message code="finding_weight" />
 			<rg:historyValue historyT="${lastWeightT }" />
-			<rg:historyVariable historyT="${lastHeightT }" />
+			<spring:message code="finding_height" />
 			<rg:historyValue historyT="${lastHeightT }" />
-			<rg:historyVariable historyT="${lastBsaTypeT }" />
+			<spring:message code="finding_bsaType" />
 			<rg:historyValue historyT="${lastBsaTypeT }" />
-		 -->
-		 a11
 		</div>
 		<div>
 			<spring:message code="history_diagnose" />
