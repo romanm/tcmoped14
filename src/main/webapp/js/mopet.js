@@ -144,6 +144,14 @@ function correcturSelectElement(editE){
 	}
 	return editE;
 }
+function idtClick(targetId){
+	console.log("idt="+dojo.byId('idt').value);
+	console.log("targetId="+targetId);
+	dojo.byId('idt').value=targetId;
+	console.log("idt="+dojo.byId('idt').value);
+	dojo.byId('edDay').click();
+	console.log("------------");
+}
 function drugFormButton(elementId){
 	Spring.addDecoration(new Spring.AjaxEventDecoration({
 		elementId:elementId,event:'onclick',formId:'regimeDrugForm'

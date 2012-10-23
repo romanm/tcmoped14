@@ -6,13 +6,74 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.tasclin1.mopet.domain.Tree;
 
-public class DrugDayForm implements Serializable {
+public class TaskDrugForm implements Serializable {
     private static final long serialVersionUID = 1L;
     protected final Log log = LogFactory.getLog(getClass());
+    private Tree drugT;
+    private Integer idt;
+    private Tree targetT;
+
+    public void initTaskDrugDose() {
+	log.debug("---------------");
+	setIdt(drugT.getDrugDoseT().getId());
+	log.debug("---------------");
+    }
+
+    public void initTaskDrug() {
+	setIdt(drugT.getId());
+    }
+
+    public Tree getTargetT() {
+	return targetT;
+    }
+
+    public Integer getIdt() {
+	return idt;
+    }
+
+    public void setIdt(Integer idt) {
+	log.debug("targetT=" + targetT);
+	log.debug("idt=" + this.idt);
+	this.idt = idt;
+	setTargetT();
+	log.debug("idt=" + this.idt);
+	log.debug("targetT=" + targetT);
+    }
+
+    /**
+     * Find target tree equals idt value.
+     */
+    private void setTargetT() {
+	if (idt.equals(drugT.getId()))
+	    targetT = drugT;
+	else
+	    for (Tree t1 : drugT.getChildTs())
+		if (idt.equals(t1.getId())) {
+		    targetT = t1;
+		    break;
+		} else
+		    for (Tree t2 : t1.getChildTs())
+			if (idt.equals(t2.getId())) {
+			    targetT = t2;
+			    break;
+			} else
+			    for (Tree t3 : t2.getChildTs())
+				if (idt.equals(t3.getId())) {
+				    targetT = t3;
+				    break;
+				}
+    }
+
+    public TaskDrugForm(Tree drugT, Integer idt) {
+	this.drugT = drugT;
+	setIdt(idt);
+    }
 
     public String toString() {
-	String string = "day::type=" + type + ":fromday=" + fromday + ":totheday=" + totheday + ":absset=" + absset;
+	String string = "day::type=" + type + ":fromday=" + fromday + ":totheday=" + totheday + ":absset=" + absset
+		+ ":-:idt=" + idt;
 	// log.debug(string);
 	return string;
     };

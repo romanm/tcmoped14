@@ -13,12 +13,21 @@
 		<td class="${'ed_dose'==flowRequestContext.currentState.id?'notice':''}">${drugDoseT.mtlO.value} ${drugDoseT.mtlO.unit}</td>
 		<td><span class="${'ed_dose'==flowRequestContext.currentState.id?'notice':''}"> ${drugDoseT.mtlO.app} </span></td>
 		<spring:eval var="drugDayT" expression="taskDrugT.getDrugDayT(0)" />
-		<td class="${
-		fn:contains(flowRequestContext.currentState.id,'ed_day')?'notice':''}">${drugDayT.mtlO.abs}</td>
+		<td class="${fn:contains(flowRequestContext.currentState.id,'ed_day')?'notice':''}">
+		<!-- 
+			 onclick="javascript:goToDayWithId(${drugDayT.id});"
+		 -->
+			<a  href="javascript:void(0);" id="aEdDay_${drugDayT.id }"
+			onclick="idtClick(${drugDayT.id });return false"
+			>
+		${drugDayT.mtlO.abs}
+			</a>
+		</td>
 		<spring:eval var="drugDayTimesT"
 			expression="drugDayT.getDrugDayTimesT(0)" />
 		<td class="${
-		fn:contains(flowRequestContext.currentState.id,'ed_times')?'notice':''}">${not empty drugDayTimesT.mtlO}</td>
+		fn:contains(flowRequestContext.currentState.id,'ed_times')?'notice':''}">
+		${not empty drugDayTimesT.mtlO}</td>
 	</tr>
 	<c:forEach var="drugDrugT" items="${taskDrugT.childTs }">
 		<c:if test="${'drug'==drugDrugT.tabName }">

@@ -85,6 +85,16 @@ public class MopetService {
     // folder END
 
     @Transactional(readOnly = true)
+    public Tree readTaskDrug(Integer idt) {
+	Tree drugT = setTreeWithMtlO(idt);
+	while (!(drugT.isDrug() && drugT.getParentT().isTask()))
+	    drugT = drugT.getParentT();
+	readNodes3(drugT.getId());
+	return drugT;
+
+    }
+
+    @Transactional(readOnly = true)
     public Tree readNodes3(Integer id) {
 	Tree t0 = setTreeWithMtlO(id);
 	for (Tree t1 : t0.getChildTs()) {

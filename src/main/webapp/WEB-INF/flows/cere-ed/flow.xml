@@ -5,19 +5,15 @@
 		http://www.springframework.org/schema/webflow 
 		http://www.springframework.org/schema/webflow/spring-webflow.xsd">
 		
-		<var name="drugDayForm"	class="org.tasclin1.mopet.regime.DrugDayForm" />
-
-	<input name="idRegime" required="true" />
-	<input name="idt" required="true" />
+	<input name="idRegime" required="true" type="int"/>
+	<input name="idt" required="true" type="int"/>
 	<input name="a" required="true" />
 	
 	<on-start>
-	<!-- 
-		<evaluate expression="regimedrugService.getDrugDayForm()"
-		 result="flowScope.drugDayForm" />
-	 -->
-		<evaluate expression="mopetService.readNodes3(idt)"
+		<evaluate expression="mopetService.readTaskDrug(idt)"
 		 result="flowScope.drugT" />
+		<evaluate expression="taskDrugService.onStart(drugT,idt)"
+		 result="flowScope.taskDrugForm" />
 	</on-start>
 
 	<action-state id="aHandle">
@@ -28,16 +24,25 @@
 		<transition on="ed_times" to="ed_times" />
 	</action-state>
 
-	<view-state id="ed_drug" view="cere/ed_drug">
+	<view-state id="ed_drug"  model="taskDrugForm"  view="cere/ed_drug">
+		<on-entry>
+			<evaluate expression="taskDrugForm.initTaskDrug()"/>
+		</on-entry>
 		<transition on="next" to="ed_dose"/> 
 	</view-state>
 
-	<view-state id="ed_dose" view="cere/ed_dose">
+	<view-state id="ed_dose"  model="taskDrugForm"  view="cere/ed_dose">
+		<on-entry>
+			<evaluate expression="taskDrugForm.initTaskDrugDose()"/>
+		</on-entry>
 		<transition on="previous" to="ed_drug"/>
 		<transition on="next" to="ed_day"/> 
 	</view-state>
 
 	<view-state id="ed_day" view="cere/ed_day">
+		<binder>
+			<binding property="idt" />
+		</binder>
 		<transition on="previous" to="ed_dose"/>
 		<transition on="next" to="ed_times"/> 
 		<transition on="edDayAbs" to="ed_day_abs"/>
@@ -45,13 +50,13 @@
 		<transition on="edDayPeriod" to="ed_day_period"/>
 	</view-state>
 
-	<view-state id="ed_day_abs" model="drugDayForm" view="cere/ed_day_abs">
+	<view-state id="ed_day_abs" model="taskDrugForm" view="cere/ed_day_abs">
 		<binder>
 			<binding property="absset" />
 		</binder>
 		<on-entry>
-			<set name="drugDayForm.type"			value="'a'" />
-			<evaluate expression="drugDayForm.initAbs()" />
+			<set name="taskDrugForm.type"			value="'a'" />
+			<evaluate expression="taskDrugForm.initAbs()" />
 		</on-entry>
 		<on-render>
 			<render fragments="body" />
@@ -63,14 +68,14 @@
 		<transition on="edDayWeek" to="ed_day_week"/>
 	</view-state>
 
-	<view-state id="ed_day_period" model="drugDayForm" view="cere/ed_day_period">
+	<view-state id="ed_day_period" model="taskDrugForm" view="cere/ed_day_period">
 		<binder>
 			<binding property="fromday" />
 			<binding property="totheday" />
 		</binder>
 		<on-entry>
-			<set name="drugDayForm.type"			value="'p'" />
-			<evaluate expression="drugDayForm.initPeriod()" />
+			<set name="taskDrugForm.type"			value="'p'" />
+			<evaluate expression="taskDrugForm.initPeriod()" />
 		</on-entry>
 		<on-render>
 			<render fragments="body" />
@@ -84,7 +89,7 @@
 
 	<view-state id="ed_day_week" view="cere/ed_day_week">
 		<on-entry>
-			<set name="drugDayForm.type"			value="'w'" />
+			<set name="taskDrugForm.type"			value="'w'" />
 		</on-entry>
 		<on-render>
 			<render fragments="body" />
@@ -97,6 +102,9 @@
 	</view-state>
 
 	<view-state id="ed_times" view="cere/ed_times">
+	<binder>
+			<binding property="idt" />
+		</binder>
 		<transition on="previous" to="ed_day"/>
 		<transition on="edTimesAbs" to="ed_times_abs"/>
 		<transition on="edTimesRelative" to="ed_times_relative"/>

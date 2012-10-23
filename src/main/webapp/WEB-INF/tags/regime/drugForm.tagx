@@ -7,7 +7,10 @@
 	>
 	<jsp:directive.attribute name="modelAttribute" type="java.lang.Object" required="false" description="The form attribute model"/>
 <div id="modalDialogContainer">
+<!-- 
 	<form:form id="regimeDrugForm" modelAttribute="${modelAttribute }" action="${flowExecutionUrl}">
+ -->
+	<form:form id="regimeDrugForm" modelAttribute="taskDrugForm" action="${flowExecutionUrl}">
 		<button class="${'ed_drug'==flowRequestContext.currentState.id?'notice':''}"
 			id="edDrug" type="submit" name="_eventId_edDrug">ed drug</button>
 		<button class="${'ed_dose'==flowRequestContext.currentState.id?'notice':''}"
@@ -19,16 +22,17 @@
 		fn:contains(flowRequestContext.currentState.id,'ed_times')?'notice':''}"
 			id="edTimes" type="submit" name="_eventId_edTimes">ed times</button>
 		<div class="nofloat"/>
+		<p>
+	<jsp:doBody/>
+		</p>
 		<table width="100%">
 			<rg:edDrugFormTR taskDrugT="${drugT }"/>
 		</table>
-		<p>
-		
-	<jsp:doBody/>
-	
-		</p>
 		<p class="notice">
 		${flowRequestContext.currentState.id}
+		idt=${idt }
+		taskDrugForm.idt=${taskDrugForm.idt}
+		taskDrugForm.targetT=${taskDrugForm.targetT.tabName}.${taskDrugForm.targetT.id}
 		</p>
 		,
 		<c:if test="${'ed_drug'!=flowRequestContext.currentState.id}">
@@ -41,6 +45,10 @@
 		<div class="nowrap">
 		<button id="cancel" type="submit" name="_eventId_cancel">Cancel</button>
 		<button id="save" type="submit" name="_eventId_save">Save</button>
+		<form:hidden path="idt" />
+		<!-- 
+		idt:hidden
+		 -->
 		</div>
 		<script type="text/javascript">
 			drugFormButton('previous');
