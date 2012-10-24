@@ -1,6 +1,7 @@
 package org.tasclin1.mopet.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,10 +66,10 @@ public class MopetService {
     @Transactional(readOnly = true)
     public void readFolderO2folder(Integer idFolder, Model model) {
 	Folder folderO = readFolderO2doc(idFolder, model);
-	Tree folderT = setTreeWithMtlO(idFolder);
+	Tree folderT = setTreeWithMtlO(idFolder, model);
 	model.addAttribute("folderT", folderT);
 	for (Tree tree : folderT.getChildTs())
-	    setMtlO(tree);
+	    setMtlO(tree, model);
 	while (!"folder".equals(folderO.getParentF().getFolder()))
 	    folderO = folderO.getParentF();
 	model.addAttribute("firstFolderO", folderO);
@@ -85,24 +86,24 @@ public class MopetService {
     // folder END
 
     @Transactional(readOnly = true)
-    public Tree readTaskDrug(Integer idt) {
-	Tree drugT = setTreeWithMtlO(idt);
+    public Tree readTaskDrug(Integer idt, Model model) {
+	Tree drugT = setTreeWithMtlO(idt, model);
 	while (!(drugT.isDrug() && drugT.getParentT().isTask()))
 	    drugT = drugT.getParentT();
-	readNodes3(drugT.getId());
+	readNodes3(drugT.getId(), model);
 	return drugT;
 
     }
 
     @Transactional(readOnly = true)
-    public Tree readNodes3(Integer id) {
-	Tree t0 = setTreeWithMtlO(id);
+    public Tree readNodes3(Integer id, Model model) {
+	Tree t0 = setTreeWithMtlO(id, model);
 	for (Tree t1 : t0.getChildTs()) {
-	    setMtlO(t1);
+	    setMtlO(t1, model);
 	    for (Tree t2 : t1.getChildTs()) {
-		setMtlO(t2);
+		setMtlO(t2, model);
 		for (Tree t3 : t2.getChildTs()) {
-		    setMtlO(t3);
+		    setMtlO(t3, model);
 		}
 	    }
 	}
@@ -113,7 +114,7 @@ public class MopetService {
 
     @Transactional(readOnly = true)
     public Tree setPatientTO(Integer idPatient, Model model) {
-	Tree patientT = setTreeWithMtlO(idPatient);
+	Tree patientT = setTreeWithMtlO(idPatient, model);
 	model.addAttribute("patientT", patientT);
 	model.addAttribute("patientO", patientT.getMtlO());
 	return patientT;
@@ -129,16 +130,16 @@ public class MopetService {
     public Tree readPatientDoc(Model model, Integer idPatient) {
 	Tree patientT = setPatientTO(idPatient, model);
 	for (Tree t1 : patientT.getChildTs()) {
-	    setMtlO(t1);
+	    setMtlO(t1, model);
 	    setPatientDocAttribute(model, t1);
 	    for (Tree t2 : t1.getChildTs()) {
-		setMtlO(t2);
+		setMtlO(t2, model);
 		for (Tree t3 : t2.getChildTs()) {
-		    setMtlO(t3);
+		    setMtlO(t3, model);
 		    // dose modification ref tree.
-		    setRefT(t3);
+		    setRefT(t3, model);
 		    for (Tree t4 : t3.getChildTs()) {
-			setMtlO(t4);
+			setMtlO(t4, model);
 		    }
 		}
 	    }
@@ -151,19 +152,19 @@ public class MopetService {
 	setPatientTO(idPatient, model);
 	Tree patientT = setPatientTO(idPatient, model);
 	for (Tree t1 : patientT.getChildTs()) {
-	    setMtlO(t1);
+	    setMtlO(t1, model);
 	    setPatientDocAttribute(model, t1);
 	    for (Tree t2 : t1.getChildTs()) {
-		setMtlO(t2);
+		setMtlO(t2, model);
 	    }
 	}
 	return patientT;
     }
 
     @Transactional(readOnly = true)
-    public Tree setTreeWithMtlO(Integer id) {
+    public Tree setTreeWithMtlO(Integer id, Model model) {
 	Tree tree = em.find(Tree.class, id);
-	setMtlO(tree);
+	setMtlO(tree, model);
 	return tree;
     }
 
@@ -198,8 +199,8 @@ public class MopetService {
     // concept
     @Transactional(readOnly = true)
     public Tree readConceptT(Integer idStudy, Model model) {
-	Tree conceptT = setTreeWithMtlO(idStudy);
-	setMtlO(conceptT);
+	Tree conceptT = setTreeWithMtlO(idStudy, model);
+	setMtlO(conceptT, model);
 	model.addAttribute("conceptT", conceptT);
 	return conceptT;
     }
@@ -210,14 +211,14 @@ public class MopetService {
 	for (Tree t1 : conceptT.getChildTs()) {
 	    if ("definition".equals(t1.getTabName()))
 		model.addAttribute("conceptDefinitionT", t1);
-	    setMtlO(t1);
+	    setMtlO(t1, model);
 	    for (Tree t2 : t1.getChildTs()) {
-		setMtlO(t2);
+		setMtlO(t2, model);
 		if (!"definition".equals(t1.getTabName()))
 		    for (Tree t3 : t2.getChildTs()) {
-			setMtlO(t3);
+			setMtlO(t3, model);
 			for (Tree t4 : t3.getChildTs()) {
-			    setMtlO(t4);
+			    setMtlO(t4, model);
 			    // for (Tree t5 : t4.getChildTs()) {
 			    // setMtlO(t5);
 			    // for (Tree t6 : t5.getChildTs()) {
@@ -238,7 +239,7 @@ public class MopetService {
 
     // regime
     public void initRegimeDocT(Model model) {
-	Tree regimeT = (Tree) model.asMap().get("regimeT");
+	Tree regimeT = (Tree) model.asMap().get(REGIMET);
 	model.addAttribute("drugNoticeExprM", new HashMap<Tree, List<Tree>>());
 	for (Tree t1 : regimeT.getChildTs()) {
 	    for (Tree t2 : t1.getChildTs()) {
@@ -267,19 +268,23 @@ public class MopetService {
 	}
     }
 
+    final static String REGIMET = "regimeT";
+    final static String fs_treeFromId = "treeFromId";
+
     @Transactional(readOnly = true)
     public void readRegimeDocT(Integer idRegime, Model model) {
-	Tree regimeT = setTreeWithMtlO(idRegime);
-	model.addAttribute("regimeT", regimeT);
+	model.addAttribute(fs_treeFromId, new HashMap<Integer, Tree>());
+	Tree regimeT = setTreeWithMtlO(idRegime, model);
+	model.addAttribute(REGIMET, regimeT);
 	List<Tree> regimeTimesTs = new ArrayList<Tree>();
 	for (Tree t1 : regimeT.getChildTs()) {
-	    setMtlO(t1);
+	    setMtlO(t1, model);
 	    for (Tree t2 : t1.getChildTs()) {
-		setMtlO(t2);
+		setMtlO(t2, model);
 		for (Tree t3 : t2.getChildTs()) {
-		    setMtlTimesO(t3, regimeTimesTs);
+		    setMtlTimesO(t3, regimeTimesTs, model);
 		    for (Tree t4 : t3.getChildTs()) {
-			setMtlTimesO(t4, regimeTimesTs);
+			setMtlTimesO(t4, regimeTimesTs, model);
 		    }
 		}
 	    }
@@ -287,15 +292,20 @@ public class MopetService {
 	model.addAttribute("regimeTimesTs", regimeTimesTs);
     }
 
-    private void setMtlTimesO(Tree tree, List<Tree> regimeTimesTs) {
-	setMtlO(tree);
+    private void setMtlTimesO(Tree tree, List<Tree> regimeTimesTs, Model model) {
+	setMtlO(tree, model);
 	if (tree.isTimes() && tree.getParentT().getParentT().isDrug())
 	    regimeTimesTs.add(tree);
     }
 
     // regime END
 
-    private void setMtlO(Tree tree) {
+    private void setMtlO(Tree tree, Model model) {
+	if (null != model && model.containsAttribute(fs_treeFromId)) {
+	    Map<Integer, Tree> treeFromId = (Map<Integer, Tree>) model.asMap().get(fs_treeFromId);
+	    treeFromId.put(tree.getId(), tree);
+	}
+
 	if (null == tree.getIdClass())
 	    return;
 	MObject mO = null;
@@ -336,12 +346,12 @@ public class MopetService {
 	tree.setMtlO(mO);
     }
 
-    private void setRefT(Tree t3) {
+    private void setRefT(Tree t3, Model model) {
 	if (t3.hasRef()) {
 	    Tree refT = em.find(Tree.class, t3.getRef());
 	    t3.setRefT(refT);
-	    setMtlO(refT);
-	    setMtlO(refT.getParentT());
+	    setMtlO(refT, model);
+	    setMtlO(refT.getParentT(), model);
 	}
     }
 
@@ -351,6 +361,25 @@ public class MopetService {
 	if (resultList.size() == 0)
 	    return null;
 	return (Tree) resultList.get(0);
+    }
+
+    @Transactional(readOnly = false)
+    public void order(Integer orderId2, String up_down) {
+	Tree orderT = setTreeWithMtlO(orderId2, null);
+	log.debug(orderT);
+	if (orderT.isTask()) {
+	    log.debug(1);
+	    if ("support".equals(orderT.getTaskO().getTask())) {
+		log.debug(2);
+		if ("down".equals(up_down)) {
+		    log.debug(3);
+		    long timeInMillis = Calendar.getInstance().getTimeInMillis();
+		    orderT.setSort(timeInMillis);
+		    log.debug(orderT);
+		    em.merge(orderT);
+		}
+	    }
+	}
     }
 
 }

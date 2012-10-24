@@ -33,19 +33,34 @@ public class MopetController {
     }
 
     // copy&paste
+    @RequestMapping(value = "/order", method = RequestMethod.POST)
+    public String order(@RequestParam("docId")
+    Integer docId, @RequestParam("up_down")
+    String up_down, @RequestParam("orderId")
+    String orderId, Model model) {
+	log.debug("up_down=" + up_down);
+	log.debug("orderId=" + orderId);
+	if (orderId.contains("_")) {
+	    Integer orderId2 = getIdFromHtmlId(orderId);
+	    log.debug("orderId2=" + orderId2);
+	    mopetService.order(orderId2, up_down);
+	}
+	return fromId(docId);
+    }
+
     @RequestMapping(value = "/paste", method = RequestMethod.POST)
     public String paste(@RequestParam("docId")
     Integer docId, @RequestParam("pasteId")
-    String pasteId) {
+    String pasteId, Model model) {
 	log.debug("pasteId=" + pasteId);
 	if (pasteId.contains("_")) {
-	    Integer pasteId2 = getIdFromHtmlId("pasteId");
-	    Tree pasteT = mopetService.setTreeWithMtlO(pasteId2);
+	    Integer pasteId2 = getIdFromHtmlId(pasteId);
+	    Tree pasteT = mopetService.setTreeWithMtlO(pasteId2, model);
 	    log.debug("pasteT=" + pasteT);
 	    Integer clipBoardId = (Integer) getRequest().getSession().getAttribute("clipBoardId");
 	    log.debug("clipBoardId=" + clipBoardId);
 	    if (null != clipBoardId) {
-		Tree copyT = mopetService.setTreeWithMtlO(clipBoardId);
+		Tree copyT = mopetService.setTreeWithMtlO(clipBoardId, model);
 		log.debug("copyT=" + copyT);
 	    }
 	}
@@ -62,6 +77,8 @@ public class MopetController {
 	return "<b>clipBoardId</b> " + getRequest().getParameter("id");
     }
 
+    // copy&paste END
+
     private Integer getIdFromHtmlId(String param) {
 	log.debug(param);
 	String id2 = param.split("_")[1];
@@ -70,7 +87,6 @@ public class MopetController {
 	return clipBoardId;
     }
 
-    // copy&paste END
     // home
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model) {
@@ -304,11 +320,11 @@ public class MopetController {
     @RequestMapping(value = "/xml={htmlId}", method = RequestMethod.GET, produces = "application/xml")
     public @ResponseBody
     Treex xml(@PathVariable
-    String htmlId) {
+    String htmlId, Model model) {
 	log.debug(1);
 	Integer id = getIdFromHtmlId(htmlId);
 	log.debug(id);
-	Tree t0 = mopetService.readNodes3(id);
+	Tree t0 = mopetService.readNodes3(id, model);
 	Treex mtlX = null;
 	if (t0.isDrug()) {
 	    mtlX = regimeDrugx(new Drugx(t0));

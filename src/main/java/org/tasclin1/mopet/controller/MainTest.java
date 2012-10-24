@@ -1,13 +1,25 @@
 package org.tasclin1.mopet.controller;
 
 import java.rmi.server.UID;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 public class MainTest {
     public static void main(String[] args) {
 	System.out.println("-----");
+	List<String> arrayList = new ArrayList<String>();
+	arrayList.add("q");
+	arrayList.add("w");
+	boolean contains = arrayList.contains("q");
+	System.out.println(contains);
+	int indexOf = arrayList.indexOf("w");
+	System.out.println(indexOf);
+	// mtUUID();
+    }
 
+    private static void mtUUID() {
 	getUid(22);
 	getUid(23);
 	System.out.println("-----");

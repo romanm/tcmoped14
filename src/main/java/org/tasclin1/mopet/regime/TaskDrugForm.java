@@ -117,23 +117,29 @@ public class TaskDrugForm implements Serializable {
     }
 
     public void initAbs() {
-	log.debug("-------------------");
 	if (null == getAbsset()) {
 	    absset = new HashSet<Integer>();
-	    absset.add(1);
-	    absset.add(3);
-	    absset.add(6);
-	    absset.add(-2);
-	    log.debug("-------------------");
+	    if ("a".equals(targetT.getDayO().getNewtype())) {
+		String abs = targetT.getDayO().getAbs();
+		String[] split = abs.split(",");
+		for (String string : split) {
+		    int parseInt = Integer.parseInt(string);
+		    absset.add(parseInt);
+		}
+	    }
 	}
     }
 
     public void initPeriod() {
-	log.debug("-------------------");
 	if (null == getFromday()) {
-	    setFromday(3);
-	    setTotheday(7);
-	    log.debug("-------------------");
+	    if ("p".equals(targetT.getDayO().getNewtype())) {
+		String abs = targetT.getDayO().getAbs();
+		String[] split = abs.split("-");
+		int parseInt = Integer.parseInt(split[0]);
+		int parseInt2 = Integer.parseInt(split[1]);
+		setFromday(parseInt);
+		setTotheday(parseInt2);
+	    }
 	}
     }
 }

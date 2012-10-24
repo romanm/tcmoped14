@@ -32,6 +32,12 @@ function moveMenuItem(isMyClass,childId){
 		ctxMenu.addChild(childE);
 	}
 }
+function menuSeparator(id){
+	Spring.addDecoration(new Spring.ElementDecoration({
+		elementId:id, widgetType:"dijit.MenuSeparator", widgetModule:"dijit.Menu"
+	}));
+}
+
 function init(){
 	console.log("init BEGIN");
 	// make select only for contextmenu, only by right maus klick, make not select for link maus klick
@@ -114,10 +120,21 @@ function cmiCopy(){
 	var deferred = dojo.xhrGet(xhrArgs);
 	console.log("copy deferred="+deferred);
 }
+function cmiDown(){
+	dojo.byId("up_down").value="down";
+	cmiFormClick("order");
+}
+function cmiUp(){
+	dojo.byId("up_down").value="up";
+	cmiFormClick("order");
+}
 function cmiPaste(){
-	console.log("paste "+getSelectedE().id);
-	dojo.byId("pasteId").value=getSelectedE().id;
-	dojo.byId("pasteSubmit").click();
+	cmiFormClick("paste");
+}
+function cmiFormClick(formName){
+	console.log(formName+" "+getSelectedE().id);
+	dojo.byId(formName+"Id").value=getSelectedE().id;
+	dojo.byId(formName+"Submit").click();
 }
 //cmiDrugInDrug=newAdditionalDrug
 function cmiDrugInDrug(){idtAction("cmiDrugInDrug");}

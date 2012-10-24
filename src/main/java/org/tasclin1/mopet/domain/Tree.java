@@ -492,4 +492,8 @@ public class Tree implements Serializable {
     public Times getTimesO() {
 	return (Times) getMtlO();
     }
+
+    public Task getTaskO() {
+	return (Task) getMtlO();
+    }
 }

@@ -90,6 +90,12 @@
 		<br/>
 		<br/>
 		<tiles:insertAttribute name="sidebar" />
+		<form action="${urlRoot}order" method="post">
+			<input id="up_down" type="hidden" name="up_down" value="up_down" />
+			<input id="docId" type="hidden" name="docId" value="${docId }" />
+			<input id="orderId" type="hidden" name="orderId" value="orderId" />
+			<input id="orderSubmit" type="submit" style="visibility: hidden;" />
+		</form>
 		<form action="${urlRoot}paste" method="post">
 			<input id="docId" type="hidden" name="docId" value="${docId }" />
 			<input id="pasteId" type="hidden" name="pasteId" value="pasteId" />
@@ -115,6 +121,12 @@
 				classes="dijitEditorIcon dijitEditorIconCopy" />
 			<rg:menuItem id="cmiPaste"
 				classes="dijitEditorIcon dijitEditorIconPaste" />
+			<rg:menuSeparator id="cm1s1"/>
+			<rg:menuItem id="cmiUp"
+				classes="dijitEditorIcon dijitEditorIconCopy" />
+			<rg:menuItem id="cmiDown"
+				classes="dijitEditorIcon dijitEditorIconCopy" />
+			<rg:menuSeparator id="cm1s2"/>
 			<rg:menuItem id="cmiJaxb" classes="noteIcon" />
 		</div>
 	</div>
