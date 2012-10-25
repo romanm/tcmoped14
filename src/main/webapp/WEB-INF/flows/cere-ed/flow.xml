@@ -4,13 +4,22 @@
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/webflow 
 		http://www.springframework.org/schema/webflow/spring-webflow.xsd">
-		
+
+	<var name="model"	class="org.springframework.ui.ExtendedModelMap" />
+
 	<input name="idRegime" required="true" type="int"/>
 	<input name="idt" required="true" type="int"/>
 	<input name="a" required="true" />
 	
 	<on-start>
-		<evaluate expression="mopetService.readTaskDrug(idt)"
+		<evaluate expression="mopetService.readRegimeDocT(idRegime,model)" />
+		<evaluate expression="model.asMap().get('regimeTimesTs')"
+		 result="flowScope.regimeTimesTs" />
+		<evaluate expression="model.asMap().get('regimeT')"
+		 result="flowScope.regimeT" />
+		<evaluate expression="model.asMap().get('treeFromId')"
+		 result="flowScope.treeFromId" />
+		<evaluate expression="mopetService.readTaskDrug(idt,model)"
 		 result="flowScope.drugT" />
 		<evaluate expression="taskDrugService.onStart(drugT,idt)"
 		 result="flowScope.taskDrugForm" />

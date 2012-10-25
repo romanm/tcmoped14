@@ -11,7 +11,6 @@ body {font-family:"Gill Sans MT","Gill Sans",GillSans,Verdana,sans-serif}
 .floatLeft {float: left;}
 .floatRight {float: right}
 
-
 tr.planday th, tr.planday td {
     border-top: 3px double;
 }
@@ -23,7 +22,14 @@ div#titleInline h3
 	padding-bottom: 4px;
 }
 #headline{ width:79%; left:0.1em; background-color:#F1F1E7; box-shadow:0 2px 8px #CCCCCC;}
-#sidebar { width: 20%; bottom: 0.1em; right: 0.1em; }
+#sidebar { width: 20%; bottom: 0.1em; right: 0.1em;
+	background: url("../images/bg_dotted.png") repeat;
+}
+/*
+background: url("../images/home-bkg.gif") repeat;
+background: url("../images/home-bkg.gif") repeat-x;
+background: url("../images/home-bkg.gif") repeat-x scroll 8px 0 #FFFFFF
+*/
 #content{width:79%; margin-top: 3em;}
 
 #menu_1_pane div:hover {background: #F1F1E7 } 
@@ -57,8 +63,7 @@ http://colorschemedesigner.com/
 .success {background:#E6EFC2;color:#264409;border-color:#C6D880;}
 .error a {color:#8a1f11;}
 .notice a {color:#514721;}
-.success a {color:#264409;}
-.success a {color:#264409;}
+	.success a {color:#264409;}
 /* buttons 
 a.button, button {display:block;margin:0.7em 0.5em 0.7em 0;padding:5px 10px 5px 7px;border:1px solid #dedede;border-top:1px solid #eee;border-left:1px solid #eee;background-color:#f5f5f5;font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;font-size:100%;line-height:130%;text-decoration:none;font-weight:bold;color:#565656;cursor:pointer;}
 */
@@ -66,6 +71,11 @@ a.button, button {display:block;float:left;margin:0.7em 0.5em 0.7em 0;padding:5p
 .nofloat{clear:both}
 .nowrap {white-space:nowrap;} 
 button {width:auto;overflow:visible;padding:4px 10px 3px 7px;}
+button[disabled=disabled],
+button[disabled=disabled]:hover
+{
+	background-color: #D9E3D9;
+}
 button[type] {padding:4px 10px 4px 7px;line-height:17px;}
 *:first-child+html button[type] {padding:4px 10px 3px 7px;}
 button img, a.button img {margin:0 3px -3px 0 !important;padding:0;border:none;width:16px;height:16px;float:none;}

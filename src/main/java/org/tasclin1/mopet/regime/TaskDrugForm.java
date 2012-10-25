@@ -119,7 +119,7 @@ public class TaskDrugForm implements Serializable {
     public void initAbs() {
 	if (null == getAbsset()) {
 	    absset = new HashSet<Integer>();
-	    if ("a".equals(targetT.getDayO().getNewtype())) {
+	    if (targetT.isMtlDayO() && "a".equals(targetT.getDayO().getNewtype())) {
 		String abs = targetT.getDayO().getAbs();
 		String[] split = abs.split(",");
 		for (String string : split) {
@@ -132,7 +132,7 @@ public class TaskDrugForm implements Serializable {
 
     public void initPeriod() {
 	if (null == getFromday()) {
-	    if ("p".equals(targetT.getDayO().getNewtype())) {
+	    if (targetT.isMtlDayO() && "p".equals(targetT.getDayO().getNewtype())) {
 		String abs = targetT.getDayO().getAbs();
 		String[] split = abs.split("-");
 		int parseInt = Integer.parseInt(split[0]);

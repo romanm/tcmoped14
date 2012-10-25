@@ -155,11 +155,15 @@ public class Tree implements Serializable {
     }
 
     public boolean isApp() {
-	return getMtlO() instanceof Day || "day".equals(getTabName());
+	return getMtlO() instanceof App || "app".equals(getTabName());
     }
 
     public boolean isDay() {
-	return getMtlO() instanceof Day || "day".equals(getTabName());
+	return isMtlDayO() || "day".equals(getTabName());
+    }
+
+    public boolean isMtlDayO() {
+	return getMtlO() instanceof Day;
     }
 
     public Tree getDrugDayT(int n) {

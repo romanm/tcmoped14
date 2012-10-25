@@ -7,11 +7,11 @@
 	<jsp:directive.attribute name="name" type="java.lang.String"
 		required="true" description="The html tag name" />
 
-	<jsp:element name="${name}">
+<jsp:element name="${name}">
 	<jsp:attribute name="id">${name}${tree.tabName }_${tree.id}</jsp:attribute>
 	<jsp:attribute name="class">select ${tree.tabName }</jsp:attribute>
 		<a id="a${name}${tree.tabName }_${tree.id}" class="toMoDi"
-		onclick="dojo.addClass(this, 'notice');"
+			onclick="dojo.addClass(this, 'notice');"
 			href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;idt=${tree.id 
 			}&amp;a=ed_${tree.tabName }">
 				<jsp:doBody />

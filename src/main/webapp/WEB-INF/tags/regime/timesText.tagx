@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<jsp:directive.attribute name="timesT"
+		type="org.tasclin1.mopet.domain.Tree" required="true"
+		description="The tree object" />
+		
+			<c:set var="leerTimes" value=".&#160;&#160;:&#160;&#160;."
+				scope="application" />
+			<c:choose>
+				<c:when test="${not empty timesT.ref}">
+					<spring:eval var="timesT_Nr"
+						expression="regimeTimesTs.indexOf(timesT)+1" />
+					<spring:eval var="refTimesT_Nr"
+						expression="regimeTimesTs.indexOf(treeFromId[timesT.ref])+1" />
+					<c:set var="relvalue"
+						value="${timesT.timesO.relvalue==1?'&gt;':'*' }" />
+					<c:out
+						value="${leerTimes }(.${refTimesT_Nr}|${relvalue}${timesT_Nr })" />
+				</c:when>
+				<c:when test="${not empty timesT.timesO.abs}">
+						${timesT.timesO.abs}
+					</c:when>
+				<c:otherwise>
+					<c:out value="${leerTimes }" />
+				</c:otherwise>
+			</c:choose>
+
+
+</jsp:root>

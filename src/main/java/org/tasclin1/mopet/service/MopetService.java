@@ -276,6 +276,11 @@ public class MopetService {
 	model.addAttribute(fs_treeFromId, new HashMap<Integer, Tree>());
 	Tree regimeT = setTreeWithMtlO(idRegime, model);
 	model.addAttribute(REGIMET, regimeT);
+	List<Tree> regimeTimesTs = regimeTimesTs(regimeT, model);
+	model.addAttribute("regimeTimesTs", regimeTimesTs);
+    }
+
+    private List<Tree> regimeTimesTs(Tree regimeT, Model model) {
 	List<Tree> regimeTimesTs = new ArrayList<Tree>();
 	for (Tree t1 : regimeT.getChildTs()) {
 	    setMtlO(t1, model);
@@ -289,7 +294,7 @@ public class MopetService {
 		}
 	    }
 	}
-	model.addAttribute("regimeTimesTs", regimeTimesTs);
+	return regimeTimesTs;
     }
 
     private void setMtlTimesO(Tree tree, List<Tree> regimeTimesTs, Model model) {

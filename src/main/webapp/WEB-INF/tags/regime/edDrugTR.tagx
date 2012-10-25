@@ -8,44 +8,24 @@
 		description="Current folder object" />
 	<tr>
 		<rg:taskDrugEdit name="td" tree="${taskDrugT }">
-					${taskDrugT.mtlO.drug }
-				</rg:taskDrugEdit>
+			${taskDrugT.mtlO.drug }
+		</rg:taskDrugEdit>
 
 		<c:set var="drugDoseT" value="${taskDrugT.drugDoseT}" />
 		<rg:taskDrugEdit name="td" tree="${drugDoseT }">
-			<c:if test="${empty drugDoseT.mtlO }">
-				###
-				</c:if>
-					${drugDoseT.mtlO.value} ${drugDoseT.mtlO.unit}
-				</rg:taskDrugEdit>
+			<rg:doseText doseT="${drugDoseT }" />
+		</rg:taskDrugEdit>
 		<td><rg:taskDrugEdit name="span" tree="${drugDoseT }">
 					${drugDoseT.mtlO.app}
 				</rg:taskDrugEdit></td>
 		<spring:eval var="drugDayT" expression="taskDrugT.getDrugDayT(0)" />
 		<rg:taskDrugEdit name="td" tree="${drugDayT}">
-					${drugDayT.mtlO.abs}
-			</rg:taskDrugEdit>
+			<rg:dayText dayT="${drugDayT }" />
+		</rg:taskDrugEdit>
 		<spring:eval var="drugDayTimesT"
 			expression="drugDayT.getDrugDayTimesT(0)" />
 		<rg:taskDrugEdit name="td" tree="${drugDayTimesT}">
-			<c:set var="leerTimes" value=".&#160;&#160;:&#160;&#160;." scope="application"/>
-			<c:choose>
-				<c:when test="${not empty drugDayTimesT.ref}">
-						<spring:eval var="timesT_Nr"
-				expression="regimeTimesTs.indexOf(drugDayTimesT)+1" />
-						<spring:eval var="refTimesT_Nr"
-				expression="regimeTimesTs.indexOf(treeFromId[drugDayTimesT.ref])+1" />
-					<c:set var="relvalue"
-						value="${drugDayTimesT.timesO.relvalue==1?'&gt;':'*' }" />
-					<c:out value="${leerTimes }(.${refTimesT_Nr}|${relvalue}${timesT_Nr })" />
-					</c:when>
-				<c:when test="${not empty drugDayTimesT.timesO.abs}">
-						${drugDayTimesT.timesO.abs}
-					</c:when>
-				<c:otherwise>
-					<c:out value="${leerTimes }"/>
-				</c:otherwise>
-			</c:choose>
+			<rg:timesText timesT="${drugDayTimesT}" />
 		</rg:taskDrugEdit>
 		<td><spring:eval
 				expression="regimeTimesTs.indexOf(drugDayTimesT)+1" /></td>
