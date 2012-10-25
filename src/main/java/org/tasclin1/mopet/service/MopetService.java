@@ -1,5 +1,6 @@
 package org.tasclin1.mopet.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -11,6 +12,8 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,10 +37,19 @@ import org.tasclin1.mopet.domain.Task;
 import org.tasclin1.mopet.domain.Times;
 import org.tasclin1.mopet.domain.Tree;
 
+/**
+ * @author roman
+ * 
+ */
 @Service("mopetService")
 @Repository
 public class MopetService {
     protected final Log log = LogFactory.getLog(getClass());
+
+    @Autowired
+    @Qualifier("dbStructurService")
+    private DbstructurService dbStructurService;
+
     private EntityManager em;
 
     @PersistenceContext
@@ -45,8 +57,23 @@ public class MopetService {
 	this.em = em;
     }
 
+    /**
+     * Get next value from DB 'dbid' sequence.
+     * @return next id number.
+     */
+    public int nextDbid() {
+	int intValue = ((BigInteger) em.createNativeQuery("SELECT nextval('dbid')").getSingleResult()).intValue();
+	return intValue;
+    }
+
+    public void init() {
+	log.debug("--------init--------" + dbStructurService);
+	dbStructurService.init();
+    }
+
     // home
     public void home(Model model) {
+	log.debug("----------------" + dbStructurService);
 	Folder patientF = (Folder) em.createQuery("SELECT f FROM Folder f WHERE f.folder=:folder")
 		.setParameter("folder", "patient").getSingleResult();
 	model.addAttribute("patientF", patientF);

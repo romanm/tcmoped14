@@ -23,6 +23,7 @@
 	<import resource="webflow-config.xml" />
 	<import resource="data-access-config.xml" />
 	<import resource="security-config.xml" />
+	<import resource="db-structure-config.xml" />
 
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="classpath:messages"/>

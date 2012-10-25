@@ -30,6 +30,7 @@ public class MopetController {
     @Autowired
     public MopetController(MopetService mopetService) {
 	this.mopetService = mopetService;
+	mopetService.init();
     }
 
     // copy&paste

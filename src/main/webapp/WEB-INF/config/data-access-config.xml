@@ -40,11 +40,15 @@
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url" value="jdbc:postgresql://localhost/ows_fuchs_2012-10-18" />
 		<!-- 
+		<property name="url" value="jdbc:postgresql://localhost/ows_fuchs_leerDB_2_2012-10-25" />
 		<property name="url" value="jdbc:postgresql://localhost/qtoo_imise_20120719" />
 		<property name="url" value="jdbc:postgresql://localhost/b1" />
 		 -->
 		<property name="username" value="ows_edit" />
 		<property name="password" value="ows123" />
 	</bean>
-	
+	<bean id="simpleJdbc" class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+		<constructor-arg ref="dataSource"/>
+	</bean>
+
 </beans>
