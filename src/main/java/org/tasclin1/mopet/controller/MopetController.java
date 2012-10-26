@@ -116,6 +116,7 @@ public class MopetController {
 	mopetService.readConceptT(idStudy, model);
 	mopetService.readRegimeDocT(idRegime, model);
 	mopetService.initRegimeDocT(model);
+	mopetService.readJaxb();
 	model.addAttribute("docId", idRegime);
 	getRequest().getSession().setAttribute("regimePart", regimePart);
     }
@@ -330,6 +331,8 @@ public class MopetController {
 	Treex mtlX = null;
 	if (t0.isDrug()) {
 	    mtlX = regimeDrugx(new Drugx(t0));
+	} else {
+	    log.info("TODO!");
 	}
 	return mtlX;
     }

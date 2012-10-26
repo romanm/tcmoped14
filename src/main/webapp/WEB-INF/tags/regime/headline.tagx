@@ -2,6 +2,27 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime">
+
+	<c:choose>
+		<c:when test="${docId==regimeT.id}">
+			<c:url var="previousDocUrl" value="/id=${conceptT.id }" />
+		</c:when>
+		<c:when test="${docId==conceptT.id and empty patientT}">
+			<c:url var="previousDocUrl" value="/id=${folderO.id }" />
+		</c:when>
+		<c:when test="${docId==conceptT.id and not empty patientT}">
+			<c:url var="previousDocUrl" value="/id=${patientT.id }" />
+		</c:when>
+		<c:when test="${folderO.parentF==folderO.parentF.parentF}">
+			<c:url var="previousDocUrl" value="/" />
+		</c:when>
+		<c:when test="${docId==folderO.id}">
+			<c:url var="previousDocUrl" value="/id=${folderO.parentF.id }" />
+		</c:when>
+	</c:choose>
+	<c:out value="&#160;" />
+	<a href="${previousDocUrl}"> <b> <c:out value="&lt;" /></b></a>
+	<c:out value=" | " />
 	<a href="${contextPath }"> home </a>
 	<c:if test="${not empty folderO }">
 		<c:choose>
