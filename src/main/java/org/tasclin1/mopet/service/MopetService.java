@@ -404,7 +404,7 @@ public class MopetService {
     public void order(Integer orderId2, String up_down) {
 	Tree orderT = setTreeWithMtlO(orderId2, null);
 	log.debug(orderT);
-	if (orderT.isTask()) {
+	if (orderT.isTask() && orderT.getParentT().isTask()) {
 	    log.debug(1);
 	    if ("support".equals(orderT.getTaskO().getTask())) {
 		log.debug(2);
@@ -413,7 +413,42 @@ public class MopetService {
 		    long timeInMillis = Calendar.getInstance().getTimeInMillis();
 		    orderT.setSort(timeInMillis);
 		    log.debug(orderT);
-		    em.merge(orderT);
+		    // em.merge(orderT);
+		}
+	    }
+	} else {
+	    List<Tree> childTs = orderT.getParentT().getChildTs();
+	    int indexOf = childTs.indexOf(orderT);
+	    int indexOfNeighbor = indexOf;
+	    log.debug(indexOf);
+	    int size = childTs.size();
+	    log.debug(size);
+	    if (size > 1) {
+		Tree neighborT = orderT;
+		Long sort = orderT.getSort();
+		log.debug(sort);
+		if ("down".equals(up_down)) {
+		    if (indexOf + 1 == size)
+			indexOfNeighbor = 0;
+		    else
+			indexOfNeighbor = indexOf + 1;
+		} else if ("up".equals(up_down)) {
+		    if (indexOf == 0)
+			indexOfNeighbor = size - 1;
+		    else
+			indexOfNeighbor = indexOf - 1;
+		}
+		neighborT = childTs.get(indexOfNeighbor);
+		log.debug(neighborT);
+		Long sortNext = neighborT.getSort();
+		log.debug(sortNext);
+		if (orderT == neighborT) {
+		    log.debug("orderT == neighborT");
+		} else if (sort != sortNext) {
+		    neighborT.setSort(sort);
+		    orderT.setSort(sortNext);
+		} else {
+		    log.info("TODO!");
 		}
 	    }
 	}
