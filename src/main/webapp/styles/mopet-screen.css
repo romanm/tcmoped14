@@ -21,7 +21,8 @@ div#titleInline h3
 #headline, #sidebar { position:fixed; top: 0.1em; border: 1px solid #CCCCCC;
 	padding-bottom: 4px;
 }
-#headline{ width:79%; left:0.1em; background-color:#F1F1E7; box-shadow:0 2px 8px #CCCCCC;}
+#headline{ width:79%; left:0.1em; background-color:#F1F1E7; box-shadow:0 2px 8px #CCCCCC;
+}
 #sidebar { width: 20%; bottom: 0.1em; right: 0.1em;
 	background: url("../images/bg_dotted.png") repeat;
 }

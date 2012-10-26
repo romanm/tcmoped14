@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/webflow 
+		http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+
+	<input name="idFolder" required="true" type="int" />
+
+	<on-start>
+		<evaluate expression="mopetService.createNewFolderBean()" result="flowScope.newFolderBean" />
+	</on-start>
+
+	<view-state id="new_folder" model="newFolderBean" view="new/new_folder" >
+		<binder>
+			<binding property="name" />
+		</binder>
+		<on-render>
+			<render fragments="body" />
+		</on-render>
+		<transition on="save" to="success"/>
+		<transition on="cancel" to="cancel" validate="false"/>
+	</view-state>
+
+	<end-state id="success" view="externalRedirect:folder=#{idFolder}?result=success"/>
+	<end-state id="cancel" view="externalRedirect:folder=#{idFolder}?result=cancel"/>
+
+</flow>

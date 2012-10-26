@@ -30,7 +30,7 @@ public class MopetController {
     @Autowired
     public MopetController(MopetService mopetService) {
 	this.mopetService = mopetService;
-	mopetService.init();
+	// mopetService.init();
     }
 
     // copy&paste
@@ -239,6 +239,7 @@ public class MopetController {
     public void folder(@PathVariable
     Integer idFolder, Model model) {
 	mopetService.readFolderO2folder(idFolder, model);
+	model.addAttribute("docId", idFolder);
     }
 
     // Folder END

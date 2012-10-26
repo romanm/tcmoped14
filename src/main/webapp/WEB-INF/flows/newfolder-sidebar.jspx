@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
+	xmlns:form="http://www.springframework.org/tags/form"
+	xmlns:spring="http://www.springframework.org/tags">
+
+	<rg:titlePane id="menu_1" mtitle="formNewFolder_title"
+		isOpened="${true}">
+		a1
+		<spring:hasBindErrors name="formBean">
+		a2
+			<div class="error">
+				<spring:bind path="formBean.*">
+					<c:forEach items="${status.errorMessages}" var="error">
+						<c:out value="${error}"/><br/>
+					</c:forEach>
+				</spring:bind>
+			</div>
+		</spring:hasBindErrors>
+		<form:form id="form_1" method="post" modelAttribute="formBean"
+			cssClass="cleanform">
+			<spring:bind path="*">
+			status.error=${status.error}
+				<c:if test="${status.error}">
+					<div id="message" class="error">Form has errors</div>
+				</c:if>
+			</spring:bind>
+			<fieldset>
+				<legend>new folder</legend>
+				<form:label path="name">
+		  			Name <form:errors path="name" cssClass="error" />
+				</form:label>
+				<form:input path="name" />
+			<p>
+				<button id="b_1" type="submit">Submit</button>
+			</p>
+			</fieldset>
+			<script type="text/javascript">
+				function drugFormButton(elementId){
+					Spring.addDecoration(new Spring.AjaxEventDecoration({
+						elementId:"b_1",
+						event:'onclick',
+						formId:'form_1',
+						params:{
+							fragments:"sidebar"
+								, mode : "embedded"
+						}
+					}));
+				}
+			</script>
+			
+		</form:form>
+	</rg:titlePane>
+
+</jsp:root>

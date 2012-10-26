@@ -18,6 +18,13 @@
 		<put-attribute name="sidebar" value="/WEB-INF/flows/folder-sidebar.jspx" />
 		<put-attribute name="body" value="/WEB-INF/folder/folder.jspx" />
 	</definition>
+	<definition name="newfolder" extends="tcmopet15_layout">
+		<put-attribute name="sidebar" value="/WEB-INF/flows/newfolder-sidebar.jspx" />
+		<put-attribute name="title" value="" />
+		<put-attribute name="tilesUrl" value="" />
+		<put-attribute name="head" value="" />
+		<put-attribute name="body" value="" />
+	</definition>
 	<definition name="f=*/patient=*" extends="tcmopet15_layout">
 		<put-attribute name="title" value="/WEB-INF/flows/title.jspx" />
 		<put-attribute name="tilesUrl" value="patient" />

@@ -37,7 +37,7 @@
 		<on-entry>
 			<evaluate expression="taskDrugForm.initTaskDrug()"/>
 		</on-entry>
-		<transition on="next" to="ed_dose"/> 
+		<transition on="next" to="ed_dose"/>
 	</view-state>
 
 	<view-state id="ed_dose"  model="taskDrugForm"  view="cere/ed_dose">
@@ -153,4 +153,5 @@
 		<transition on="save" to="success"/>
 		<transition on="cancel" to="cancel"/>
 	</global-transitions>
+
 </flow>

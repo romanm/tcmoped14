@@ -29,7 +29,8 @@
 	<mvc:view-controller path="/tcmintro" />
 	<mvc:view-controller path="/doc-study" />
 
-	<!-- Resolves logical view names returned by Controllers to Tiles; a view name to resolve is treated as the name of a tiles definition -->
+	<!-- Resolves logical view names returned by Controllers to Tiles; 
+	a view name to resolve is treated as the name of a tiles definition -->
 	<bean id="tilesViewResolver" class="org.springframework.js.ajax.AjaxUrlBasedViewResolver">
 		<property name="viewClass" value="org.springframework.webflow.mvc.view.FlowAjaxTilesView"/>
 	</bean>

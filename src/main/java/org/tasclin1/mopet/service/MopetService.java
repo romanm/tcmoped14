@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.tasclin1.mopet.controller.NewFolderBean;
 import org.tasclin1.mopet.domain.Arm;
 import org.tasclin1.mopet.domain.Concept;
 import org.tasclin1.mopet.domain.Day;
@@ -69,6 +70,10 @@ public class MopetService {
     public void init() {
 	log.debug("--------init--------" + dbStructurService);
 	dbStructurService.init();
+    }
+
+    public NewFolderBean createNewFolderBean() {
+	return new NewFolderBean();
     }
 
     // home
