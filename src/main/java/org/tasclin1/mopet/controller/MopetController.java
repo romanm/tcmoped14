@@ -1,5 +1,7 @@
 package org.tasclin1.mopet.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -320,6 +323,37 @@ public class MopetController {
     }
 
     // Jaxb
+
+    @RequestMapping(value = "/jaxb_drug2", method = RequestMethod.POST)
+    public @ResponseBody
+    String readXml2(@RequestBody
+    String drugXml) {
+	log.debug(drugXml);
+	return "Read from XML: " + drugXml;
+    }
+
+    @RequestMapping(value = "/jaxb_drug", method = RequestMethod.POST)
+    public @ResponseBody
+    String readXml(@RequestBody
+    Drugx drugXml) {
+	log.debug(1);
+	System.out.println("-------------------");
+	System.out.println(drugXml);
+	System.out.println(drugXml.getId());
+	System.out.println(drugXml.getDrug());
+	ArrayList<Dayx> day = drugXml.getDay();
+	for (Dayx dayx : day) {
+	    System.out.println(dayx);
+	    System.out.println(dayx.getAbs());
+	}
+	Dosex dose = drugXml.getDose();
+	System.out.println(dose);
+	System.out.println(dose.getId());
+	System.out.println(dose.getValue());
+	System.out.println(dose.getApp());
+	return "Read from XML: " + drugXml;
+    }
+
     @RequestMapping(value = "/xml={htmlId}", method = RequestMethod.GET, produces = "application/xml")
     public @ResponseBody
     Treex xml(@PathVariable
@@ -331,6 +365,7 @@ public class MopetController {
 	Treex mtlX = null;
 	if (t0.isDrug()) {
 	    mtlX = regimeDrugx(new Drugx(t0));
+	} else if (t0.isTask()) {
 	} else {
 	    log.info("TODO!");
 	}

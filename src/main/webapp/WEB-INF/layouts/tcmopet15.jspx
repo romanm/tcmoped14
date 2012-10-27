@@ -101,6 +101,9 @@
 			<input id="pasteId" type="hidden" name="pasteId" value="pasteId" />
 			<input id="pasteSubmit" type="submit" style="visibility: hidden;" />
 		</form>
+		<form id="readXml" action="${urlRoot}jaxb_drug" class="readXmlForm" method="post">
+			<input id="readXmlSubmit" type="submit" value="Read XML" />
+		</form>
 		<input id="urlRoot" type="hidden" name="urlRoot" value="${urlRoot }" />
 		<div id="copyClipboard">
 		<!-- //required for FF3 and Opera -->

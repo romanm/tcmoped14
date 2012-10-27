@@ -70,6 +70,38 @@ function init(){
 	console.log("init END");
 }
 function hasClass(editE,className){return dojo.hasClass(editE,className);}
+function cmiJaxbPaste(){
+//	console.log("cmiJaxbPaste "+getSelectedE().id);
+	console.log("cmiJaxbPaste ");
+	var targetNode = dojo.byId("copyClipboard");
+	var xhrArgs = {
+//		form: dojo.byId("readXml"),
+		//type: "POST",
+//		url: urlRoot+"jaxb_drug",
+		url: "/tcm14/jaxb_drug",
+		//url: "/tcm14/jaxb_drug2",
+		postData:"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
+		"<drug drug=\"Avastin\" did=\"1327794\" id=\"1339827\" idclass=\"305778\"" +
+		" sort=\"1274940692641\">" +
+		"<day abs=\"1,8\" newtype=\"a\" did=\"1339827\" id=\"1339836\"" +
+		" idclass=\"59538\" sort=\"-1328725113655\">" +
+		"<times did=\"1339836\" id=\"1339837\" sort=\"1274940692649\"/></day>" +
+		"<dose app=\"i.v.\" pro=\"\" type=\"p\" unit=\"mg/kg\" value=\"15.0\"" +
+		" did=\"1339827\" id=\"1339828\" idclass=\"332290\" sort=\"1274940692646\"/>" +
+		"</drug>",
+		contentType: "application/xml", dataType: "text",
+		load: function(data){
+			console.log("-data--"+data);
+		},
+		error: function(error){
+			targetNode.innerHTML 
+			= "An unexpected error occurred: " + error;
+		}
+	}
+	var deferred = dojo.xhrPost(xhrArgs);
+	var n1=targetNode.childNodes[0]
+	console.log("---"+n1);
+}
 function cmiJaxb(){
 	console.log("cmiJaxb "+getSelectedE().id);
 	var targetNode = dojo.byId("copyClipboard");
@@ -93,7 +125,8 @@ function cmiJaxb(){
 //				console.log(jsdom);
 			},
 			error: function(error){
-				targetNode.innerHTML = "An unexpected error occurred: " + error;
+				targetNode.innerHTML 
+				= "An unexpected error occurred: " + error;
 			}
 	}
 	// Call the asynchronous xhrGet

@@ -38,6 +38,10 @@ public class Drugx extends Treex {
 
     String drug;
 
+    public void setDrug(String drug) {
+	this.drug = drug;
+    }
+
     public Drugx() {
     }
 

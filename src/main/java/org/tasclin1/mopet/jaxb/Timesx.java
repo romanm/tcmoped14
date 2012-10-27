@@ -25,6 +25,19 @@ public class Timesx extends Treex {
     }
 
     private String abs, apporder, relunit;
+
+    public void setRelunit(String relunit) {
+	this.relunit = relunit;
+    }
+
+    public void setApporder(String apporder) {
+	this.apporder = apporder;
+    }
+
+    public void setAbs(String abs) {
+	this.abs = abs;
+    }
+
     private Integer relvalue, visual;
 
     @XmlAttribute

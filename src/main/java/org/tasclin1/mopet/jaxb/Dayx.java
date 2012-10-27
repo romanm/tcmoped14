@@ -31,6 +31,14 @@ public class Dayx extends Treex {
 
     private String abs, newtype;
 
+    public void setNewtype(String newtype) {
+	this.newtype = newtype;
+    }
+
+    public void setAbs(String abs) {
+	this.abs = abs;
+    }
+
     @XmlAttribute
     public String getAbs() {
 	return abs;

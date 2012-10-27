@@ -47,6 +47,27 @@ public class Dosex extends Treex {
     }
 
     private Float value;
+
+    public void setValue(Float value) {
+	this.value = value;
+    }
+
     private String unit, app, pro, type;
+
+    public void setType(String type) {
+	this.type = type;
+    }
+
+    public void setPro(String pro) {
+	this.pro = pro;
+    }
+
+    public void setApp(String app) {
+	this.app = app;
+    }
+
+    public void setUnit(String unit) {
+	this.unit = unit;
+    }
 
 }

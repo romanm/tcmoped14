@@ -6,6 +6,15 @@ import org.tasclin1.mopet.domain.Tree;
 
 public class Treex {
     Integer did, id, idclass;
+
+    public void setIdclass(Integer idclass) {
+	this.idclass = idclass;
+    }
+
+    public void setId(Integer id) {
+	this.id = id;
+    }
+
     private Tree tree;
     private Long sort;
 
