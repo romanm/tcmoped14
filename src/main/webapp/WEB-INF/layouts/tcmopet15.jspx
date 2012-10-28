@@ -71,7 +71,8 @@
 	<div id="sidebar">
 		<div id="titleInline">
 			<spring:message var="ui_reload" code="ui_reload" />
-			<div class="floatLeft" title="${ui_reload }">
+			<div class="floatLeft" title="${ui_reload }"
+			style="visibility:${empty docId?'hidden':'visible' };">
 			<a href="${urlRoot }id=${docId}" >
 				<c:url var="imgRefresh" value="/resources/images/refresh.png" />
 				<img src="${imgRefresh}" />
@@ -90,62 +91,9 @@
 		<br/>
 		<br/>
 		<tiles:insertAttribute name="sidebar" />
-		<form action="${urlRoot}order" method="post">
-			<input id="up_down" type="hidden" name="up_down" value="up_down" />
-			<input id="docId" type="hidden" name="docId" value="${docId }" />
-			<input id="orderId" type="hidden" name="orderId" value="orderId" />
-			<input id="orderSubmit" type="submit" style="visibility: hidden;" />
-		</form>
-		<form action="${urlRoot}paste" method="post">
-			<input id="docId" type="hidden" name="docId" value="${docId }" />
-			<input id="pasteId" type="hidden" name="pasteId" value="pasteId" />
-			<input id="pasteSubmit" type="submit" style="visibility: hidden;" />
-		</form>
-		<form id="readXml" action="${urlRoot}jaxb_drug" class="readXmlForm" method="post">
-			<input id="readXmlSubmit" type="submit" value="Read XML" />
-		</form>
 		<input id="urlRoot" type="hidden" name="urlRoot" value="${urlRoot }" />
-		<div id="copyClipboard">
-		<!-- //required for FF3 and Opera -->
-		</div>
-		<div id="jaxb">
-		<!-- //required for FF3 and Opera -->
-		</div>
+		<rg:contextMenu/>
 	</div>
-	<div style="visibility: hidden;">
-		<div id="contextMenuContainer">
-			<rg:menuItem id="cmiDrugInDrug"
-				classes="dijitEditorIcon dijitEditorIconCopy" />
-			<rg:menuItem id="cmiAddDrugDoseNotice" classes="noteIcon" />
-			<rg:menuItem id="cmiAddRule" classes="noteIcon" />
-		</div>
-		<div id="contextMenu">
-			<rg:menuItem id="cmiCopy"
-				classes="dijitEditorIcon dijitEditorIconCopy" />
-			<rg:menuItem id="cmiPaste"
-				classes="dijitEditorIcon dijitEditorIconPaste" />
-			<rg:menuSeparator id="cm1s1"/>
-			<rg:menuItem id="cmiUp"
-				classes="dijitEditorIcon dijitEditorIconCopy" />
-			<rg:menuItem id="cmiDown"
-				classes="dijitEditorIcon dijitEditorIconCopy" />
-			<rg:menuSeparator id="cm1s2"/>
-			<rg:menuItem id="cmiJaxb" classes="noteIcon" />
-		</div>
-	</div>
-	<script type="text/javascript">
-		Spring.addDecoration(new Spring.ElementDecoration({
-			elementId : "contextMenuContainer",
-			widgetType : "dijit.Menu",
-			widgetAttrs : {
-				style : "display: none;"
-			}
-		}));
-		makeContextMenu(dojo.query('.concept, .choice, .arm, .task, .drug, .dose, .day, .times'));
-		dojo.addOnLoad(function() {
-			init();
-		});
-	</script>
 </body>
 	</html>
 </jsp:root>

@@ -102,8 +102,23 @@ function cmiJaxbPaste(){
 	var n1=targetNode.childNodes[0]
 	console.log("---"+n1);
 }
+function cmiPasteFromRepository(){
+	console.log("cmiPasteFromRepository");
+	var node_aPasteFromRepository = dojo.byId("aPasteFromRepository");
+	var selectedE = getSelectedE();
+	var href=node_aPasteFromRepository.getAttribute("href")
+	+"idt="+selectedE.id.split("_")[1];
+	console.log("href "+href);
+	node_aPasteFromRepository.setAttribute("href",href);
+	node_aPasteFromRepository.click();
+}
+function cmiCopyIdForLocal(){
+	var selectedE = getSelectedE();
+	alert("Id for paste local server: "+selectedE.id.split("_")[1]);
+}
 function cmiJaxb(){
 	console.log("cmiJaxb "+getSelectedE().id);
+	var copyIdForLocalNode = dojo.byId("copyIdForLocal");
 	var targetNode = dojo.byId("copyClipboard");
 	var jaxbNode = dojo.byId("jaxb");
 	var urlRoot = dojo.byId('urlRoot').value;
@@ -116,6 +131,8 @@ function cmiJaxb(){
 				dojo.require("dojox.xml.parser");
 				var dom = dojox.xml.parser.parse(data);
 				var jaxbId=dom.documentElement.getAttribute("id");
+				copyIdForLocalNode.innerHTML =""+jaxbId;
+				dojo.addClass(copyIdForLocalNode, "notice");
 				targetNode.innerHTML = "<a href='"+urlRoot+"xml=x_"+jaxbId+"'>jaxbId"+jaxbId+"</a>";
 				jaxbNode.appendChild(document
 						.createTextNode("Jaxb XML: " + dojox.xml.parser

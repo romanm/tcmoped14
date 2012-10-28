@@ -3,25 +3,39 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime">
 
+	<!-- back button -->
 	<c:choose>
-		<c:when test="${docId==regimeT.id}">
-			<c:url var="previousDocUrl" value="/id=${conceptT.id }" />
+		<c:when test="${not empty docId}">
+			<c:choose>
+				<c:when test="${docId==regimeT.id}">
+					<c:url var="previousDocUrl" value="/id=${conceptT.id }" />
+				</c:when>
+				<c:when test="${docId==conceptT.id and empty patientT}">
+					<c:url var="previousDocUrl" value="/id=${folderO.id }" />
+				</c:when>
+				<c:when test="${docId==conceptT.id and not empty patientT}">
+					<c:url var="previousDocUrl" value="/id=${patientT.id }" />
+				</c:when>
+				<c:when test="${folderO.parentF==folderO.parentF.parentF}">
+					<c:url var="previousDocUrl" value="/" />
+				</c:when>
+				<c:when test="${docId==folderO.id}">
+					<c:url var="previousDocUrl" value="/id=${folderO.parentF.id }" />
+				</c:when>
+			</c:choose>
 		</c:when>
-		<c:when test="${docId==conceptT.id and empty patientT}">
-			<c:url var="previousDocUrl" value="/id=${folderO.id }" />
-		</c:when>
-		<c:when test="${docId==conceptT.id and not empty patientT}">
-			<c:url var="previousDocUrl" value="/id=${patientT.id }" />
-		</c:when>
-		<c:when test="${folderO.parentF==folderO.parentF.parentF}">
-			<c:url var="previousDocUrl" value="/" />
-		</c:when>
-		<c:when test="${docId==folderO.id}">
-			<c:url var="previousDocUrl" value="/id=${folderO.parentF.id }" />
+		<c:when test="${not empty flowRequestContext.currentState}">
+			<c:choose>
+				<c:when test="${not empty regimeT}">
+					<c:url var="previousDocUrl" value="/id=${regimeT.id }" />
+				</c:when>
+			</c:choose>
 		</c:when>
 	</c:choose>
 	<c:out value="&#160;" />
 	<a href="${previousDocUrl}"> <b> <c:out value="&lt;" /></b></a>
+	<!-- back button END -->
+
 	<c:out value=" | " />
 	<a href="${contextPath }"> home </a>
 	<c:if test="${not empty folderO }">
@@ -52,4 +66,16 @@
 			</c:if>
 		</c:if>
 	</c:if>
+	<c:if test="${not empty flowRequestContext.currentState }">
+		<c:out value=" ||edit| " />
+		<c:choose>
+			<c:when test="${not empty regimeT}">
+				&gt;
+				<a class="regimeContent" href="${contextPath }/id=${regimeT.id}">
+					<rg:regimeWithImg taskO="${regimeT.mtlO }" />
+				</a>
+			</c:when>
+		</c:choose>
+	</c:if>
+
 </jsp:root>

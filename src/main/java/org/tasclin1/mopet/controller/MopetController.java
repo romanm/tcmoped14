@@ -1,7 +1,5 @@
 package org.tasclin1.mopet.controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,11 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.tasclin1.mopet.domain.Tree;
-import org.tasclin1.mopet.jaxb.Dayx;
-import org.tasclin1.mopet.jaxb.Dosex;
-import org.tasclin1.mopet.jaxb.Drugx;
-import org.tasclin1.mopet.jaxb.Timesx;
-import org.tasclin1.mopet.jaxb.Treex;
 import org.tasclin1.mopet.service.MopetService;
 
 @Controller
@@ -45,7 +37,7 @@ public class MopetController {
 	log.debug("up_down=" + up_down);
 	log.debug("orderId=" + orderId);
 	if (orderId.contains("_")) {
-	    Integer orderId2 = getIdFromHtmlId(orderId);
+	    Integer orderId2 = mopetService.getIdFromHtmlId(orderId);
 	    log.debug("orderId2=" + orderId2);
 	    mopetService.order(orderId2, up_down);
 	}
@@ -58,7 +50,7 @@ public class MopetController {
     String pasteId, Model model) {
 	log.debug("pasteId=" + pasteId);
 	if (pasteId.contains("_")) {
-	    Integer pasteId2 = getIdFromHtmlId(pasteId);
+	    Integer pasteId2 = mopetService.getIdFromHtmlId(pasteId);
 	    Tree pasteT = mopetService.setTreeWithMtlO(pasteId2, model);
 	    log.debug("pasteT=" + pasteT);
 	    Integer clipBoardId = (Integer) getRequest().getSession().getAttribute("clipBoardId");
@@ -76,20 +68,12 @@ public class MopetController {
     @RequestMapping(value = "/copy", method = RequestMethod.GET)
     public @ResponseBody
     String copy() {
-	Integer clipBoardId = getIdFromHtmlId(getRequest().getParameter("id"));
+	Integer clipBoardId = mopetService.getIdFromHtmlId(getRequest().getParameter("id"));
 	getRequest().getSession().setAttribute("clipBoardId", clipBoardId);
 	return "<b>clipBoardId</b> " + getRequest().getParameter("id");
     }
 
     // copy&paste END
-
-    private Integer getIdFromHtmlId(String param) {
-	log.debug(param);
-	String id2 = param.split("_")[1];
-	log.debug(id2);
-	Integer clipBoardId = Integer.parseInt(id2);
-	return clipBoardId;
-    }
 
     // home
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -119,7 +103,6 @@ public class MopetController {
 	mopetService.readConceptT(idStudy, model);
 	mopetService.readRegimeDocT(idRegime, model);
 	mopetService.initRegimeDocT(model);
-	mopetService.readJaxb();
 	model.addAttribute("docId", idRegime);
 	getRequest().getSession().setAttribute("regimePart", regimePart);
     }
@@ -321,71 +304,5 @@ public class MopetController {
 	    studyPart = "sg";
 	return studyPart;
     }
-
-    // Jaxb
-
-    @RequestMapping(value = "/jaxb_drug2", method = RequestMethod.POST)
-    public @ResponseBody
-    String readXml2(@RequestBody
-    String drugXml) {
-	log.debug(drugXml);
-	return "Read from XML: " + drugXml;
-    }
-
-    @RequestMapping(value = "/jaxb_drug", method = RequestMethod.POST)
-    public @ResponseBody
-    String readXml(@RequestBody
-    Drugx drugXml) {
-	log.debug(1);
-	System.out.println("-------------------");
-	System.out.println(drugXml);
-	System.out.println(drugXml.getId());
-	System.out.println(drugXml.getDrug());
-	ArrayList<Dayx> day = drugXml.getDay();
-	for (Dayx dayx : day) {
-	    System.out.println(dayx);
-	    System.out.println(dayx.getAbs());
-	}
-	Dosex dose = drugXml.getDose();
-	System.out.println(dose);
-	System.out.println(dose.getId());
-	System.out.println(dose.getValue());
-	System.out.println(dose.getApp());
-	return "Read from XML: " + drugXml;
-    }
-
-    @RequestMapping(value = "/xml={htmlId}", method = RequestMethod.GET, produces = "application/xml")
-    public @ResponseBody
-    Treex xml(@PathVariable
-    String htmlId, Model model) {
-	log.debug(1);
-	Integer id = getIdFromHtmlId(htmlId);
-	log.debug(id);
-	Tree t0 = mopetService.readNodes3(id, model);
-	Treex mtlX = null;
-	if (t0.isDrug()) {
-	    mtlX = regimeDrugx(new Drugx(t0));
-	} else if (t0.isTask()) {
-	} else {
-	    log.info("TODO!");
-	}
-	return mtlX;
-    }
-
-    private Treex regimeDrugx(Drugx drugx) {
-	for (Tree t1 : drugx.getTree().getChildTs())
-	    if (t1.isDose()) {
-		drugx.setDose(new Dosex(t1));
-	    } else if (t1.isDay()) {
-		Dayx dayx = new Dayx(t1);
-		drugx.getDay().add(dayx);
-		for (Tree t2 : t1.getChildTs())
-		    if (t2.isTimes()) {
-			dayx.setTimes(new Timesx(t2));
-		    }
-	    }
-	return drugx;
-    }
-    // Jaxb END
 
 }

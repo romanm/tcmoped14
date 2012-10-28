@@ -1,0 +1,40 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Copy to clipboard</h1>
+	<h2>demo</h2>
+	<p id="p">All glitters are not gold</p>
+	<script type="text/javascript">
+		function s()
+		{
+			console.log(document);
+			var CopiedTxt=document.getSelection();
+			console.log(CopiedTxt);
+			console.log(document.getSelection().text);
+			console.log(window);
+			var taE=document.getElementById("ta_1");
+			console.log(taE);
+			console.log(taE.execCommand('Paste'));
+		}
+	</script>
+	<input type="button" value="Search" onclick="s('Hello copy')" />
+	<div>
+Copy selected Nr.
+for Paste in locale DB
+<textarea id="ta_1" rows="1" cols="8">
+123123
+</textarea>
+<div id="ta_2">
+234
+</div>
+	<script type="text/javascript">
+			var ta1E=document.getElementById("ta_1")
+			//ta1E.focus();
+			ta1E.select();
+	</script>
+	</div>
+</body>
+</html>
