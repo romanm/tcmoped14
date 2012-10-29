@@ -15,7 +15,6 @@ public class Treex {
 	this.id = id;
     }
 
-    private Tree tree;
     private Long sort;
 
     @XmlAttribute
@@ -23,12 +22,16 @@ public class Treex {
 	return sort;
     }
 
-    public Tree getTree() {
-	return tree;
-    }
+    /*
+     * private Tree tree;
+     * 
+     * public Tree getTree() { return tree; }
+     * 
+     * public void setTree(Tree tree) { this.tree = tree; }
+     */
 
     public Treex(Tree tree) {
-	this.tree = tree;
+	// this.tree = tree;
 	id = tree.getId();
 	idclass = tree.getIdClass();
 	did = tree.getParentT().getId();
@@ -56,4 +59,5 @@ public class Treex {
     public Integer getId() {
 	return id;
     }
+
 }

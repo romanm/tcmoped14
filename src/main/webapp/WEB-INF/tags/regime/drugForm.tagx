@@ -13,7 +13,7 @@
 	<form:form id="regimeDrugForm" modelAttribute="${modelAttribute }" 
 	action="${flowExecutionUrl}">
  -->
-		<form:form id="regimeDrugForm" modelAttribute="taskDrugForm"
+		<form:form id="bodyPopupForm" modelAttribute="taskDrugForm"
 			action="${flowExecutionUrl}">
 			<button
 				class="${'ed_drug'==flowRequestContext.currentState.id?'notice':''}"
@@ -109,22 +109,32 @@
 				<form:hidden path="idt" />
 			</div>
 			<script type="text/javascript">
-				drugFormButton('previous');
-				drugFormButton('next');
-				drugFormButton('cancel');
-				drugFormButton('save');
-				drugFormButton('edDrug');
-				drugFormButton('edDose');
-				drugFormButton('edDay');
-				drugFormButton('edTimes');
+			bodyPopupFormButton('previous');
+			bodyPopupFormButton('next');
+			bodyPopupFormButton('cancel');
+			bodyPopupFormButton('save');
+			bodyPopupFormButton('edDrug');
+			bodyPopupFormButton('edDose');
+			bodyPopupFormButton('edDay');
+			bodyPopupFormButton('edTimes');
 
-				drugFormButton('edDayAbs');
-				drugFormButton('edDayWeek');
-				drugFormButton('edDayPeriod');
+			bodyPopupFormButton('edDayAbs');
+			bodyPopupFormButton('edDayWeek');
+			bodyPopupFormButton('edDayPeriod');
 
-				drugFormButton('edTimesAbs');
-				drugFormButton('edTimesMeal');
-				drugFormButton('edTimesRelative');
+			bodyPopupFormButton('edTimesAbs');
+			bodyPopupFormButton('edTimesMeal');
+			bodyPopupFormButton('edTimesRelative');
+			function bodyPopupFormButton(elementId){
+				Spring.addDecoration(new Spring.AjaxEventDecoration({
+					elementId:elementId,
+					event:"onclick",
+					formId:"bodyPopupForm",
+					params:{
+						fragments:"body"
+					}
+				}));
+			}
 			</script>
 
 		</form:form>

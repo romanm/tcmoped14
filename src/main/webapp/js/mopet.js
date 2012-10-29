@@ -5,7 +5,6 @@ function titlePane(tpId,isOpened){
 	}
 	}));
 }
-
 function makeContextMenu(classDoseArray){
 	Spring.addDecoration(new Spring.ElementDecoration({
 		elementId : "contextMenu",
@@ -102,6 +101,12 @@ function cmiJaxbPaste(){
 	var n1=targetNode.childNodes[0]
 	console.log("---"+n1);
 }
+function testPasteFromRepository(){
+	console.log("testPasteFromRepository");
+	var pasteId = dojo.byId("pasteId");
+	console.log(pasteId);
+	console.log(pasteId.value);
+}
 function cmiPasteFromRepository(){
 	console.log("cmiPasteFromRepository");
 	var node_aPasteFromRepository = dojo.byId("aPasteFromRepository");
@@ -114,7 +119,8 @@ function cmiPasteFromRepository(){
 }
 function cmiCopyIdForLocal(){
 	var selectedE = getSelectedE();
-	alert("Id for paste local server: "+selectedE.id.split("_")[1]);
+	alert("Id for paste local server: "+selectedE.id);
+//	alert("Id for paste local server: "+selectedE.id.split("_")[1]);
 }
 function cmiJaxb(){
 	console.log("cmiJaxb "+getSelectedE().id);
@@ -131,7 +137,7 @@ function cmiJaxb(){
 				dojo.require("dojox.xml.parser");
 				var dom = dojox.xml.parser.parse(data);
 				var jaxbId=dom.documentElement.getAttribute("id");
-				copyIdForLocalNode.innerHTML =""+jaxbId;
+				copyIdForLocalNode.innerHTML =""+getSelectedE().id;
 				dojo.addClass(copyIdForLocalNode, "notice");
 				targetNode.innerHTML = "<a href='"+urlRoot+"xml=x_"+jaxbId+"'>jaxbId"+jaxbId+"</a>";
 				jaxbNode.appendChild(document
@@ -211,23 +217,10 @@ function correcturSelectElement(editE){
 	}
 	return editE;
 }
-function idtClick(targetId){
-	console.log("idt="+dojo.byId('idt').value);
-	console.log("targetId="+targetId);
+function openDay(targetId){
 	dojo.byId('idt').value=targetId;
-	console.log("idt="+dojo.byId('idt').value);
 	dojo.byId('edDay').click();
 	console.log("------------");
-}
-function drugFormButton(elementId){
-	Spring.addDecoration(new Spring.AjaxEventDecoration({
-		elementId:elementId,
-		event:'onclick',
-		formId:'regimeDrugForm',
-		params:{
-			fragments:"body"
-		}
-	}));
 }
 function link2modalDialog(elementId){
 	Spring.addDecoration(new Spring.AjaxEventDecoration({

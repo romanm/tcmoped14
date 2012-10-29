@@ -355,9 +355,11 @@ public class MopetService {
 	String tabName = tree.getTabName();
 	if ("folder".equals(tabName))
 	    mO = em.find(Folder.class, tree.getIdClass());
-	else if ("drug".equals(tabName))
-	    mO = em.find(Drug.class, tree.getIdClass());
-	else if ("dose".equals(tabName))
+	else if ("drug".equals(tabName)) {
+	    Drug drugO = em.find(Drug.class, tree.getIdClass());
+	    Drug generic = drugO.getGeneric();
+	    mO = drugO;
+	} else if ("dose".equals(tabName))
 	    mO = em.find(Dose.class, tree.getIdClass());
 	else if ("day".equals(tabName))
 	    mO = em.find(Day.class, tree.getIdClass());

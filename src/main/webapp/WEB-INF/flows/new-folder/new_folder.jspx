@@ -5,8 +5,13 @@
 	xmlns:form="http://www.springframework.org/tags/form"
 	xmlns:spring="http://www.springframework.org/tags">
 
-	<form:form id="regimeDrugForm" method="post" modelAttribute="newFolderBean"
-		cssClass="cleanform" action="${flowExecutionUrl}">
+<!-- 
+	id="regimeDrugForm" 
+	method="post"
+		cssClass="cleanform" 
+ -->
+	<form:form id="bodyPopupForm"  modelAttribute="newFolderBean"
+		action="${flowExecutionUrl}">
 			status.error=${status.error}
 		<spring:bind path="*">
 			<c:if test="${status.error}">
@@ -23,10 +28,18 @@
 			<button id="cancel" type="submit" name="_eventId_cancel">Cancel</button>
 			<button id="save" type="submit" name="_eventId_save">Save</button>
 			<script type="text/javascript">
-			//Spring.addDecoration(new Spring.ValidateAllDecoration({
-			//	elementId:'save', event:'onclick'}));
 				drugFormButton('cancel');
 				drugFormButton('save');
+				function drugFormButton(elementId){
+					Spring.addDecoration(new Spring.AjaxEventDecoration({
+						elementId:elementId,
+						event:"onclick",
+						formId:"bodyPopupForm",
+						params:{
+							fragments:"body"
+						}
+					}));
+				}
 			</script>
 	</form:form>
 

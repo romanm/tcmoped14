@@ -1,7 +1,5 @@
 package org.tasclin1.mopet.controller;
 
-import java.util.ArrayList;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,17 +41,17 @@ public class JaxbController {
 	System.out.println("-------------------");
 	System.out.println(drugXml);
 	System.out.println(drugXml.getId());
-	System.out.println(drugXml.getDrug());
-	ArrayList<Dayx> day = drugXml.getDay();
-	for (Dayx dayx : day) {
-	    System.out.println(dayx);
-	    System.out.println(dayx.getAbs());
-	}
-	Dosex dose = drugXml.getDose();
-	System.out.println(dose);
-	System.out.println(dose.getId());
-	System.out.println(dose.getValue());
-	System.out.println(dose.getApp());
+	// System.out.println(drugXml.getDrug());
+	// ArrayList<Dayx> day = drugXml.getDay();
+	// for (Dayx dayx : day) {
+	// System.out.println(dayx);
+	// System.out.println(dayx.getAbs());
+	// }
+	// Dosex dose = drugXml.getDose();
+	// System.out.println(dose);
+	// System.out.println(dose.getId());
+	// System.out.println(dose.getValue());
+	// System.out.println(dose.getApp());
 	return "Read from XML: " + drugXml;
     }
 
@@ -67,9 +65,9 @@ public class JaxbController {
 	Tree t0 = mopetService.readNodes3(id, model);
 	Treex mtlX = null;
 	if (t0.isTask()) {
-	    mtlX = regimeTaskx(new Taskx(t0));
+	    mtlX = regimeTaskx(t0);
 	} else if (t0.isDrug()) {
-	    mtlX = regimeDrugx(new Drugx(t0));
+	    mtlX = regimeDrugx(t0);
 	} else if (t0.isDose()) {
 	    mtlX = new Dosex(t0);
 	} else if (t0.isDay()) {
@@ -82,18 +80,20 @@ public class JaxbController {
 	return mtlX;
     }
 
-    private Taskx regimeTaskx(Taskx taskx) {
-	for (Tree t1 : taskx.getTree().getChildTs())
+    private Taskx regimeTaskx(Tree taskT) {
+	Taskx taskx = new Taskx(taskT);
+	for (Tree t1 : taskT.getChildTs())
 	    if (t1.isDrug()) {
-		taskx.getDrug().add(regimeDrugx(new Drugx(t1)));
+		taskx.getDrug().add(regimeDrugx(t1));
 	    } else if (t1.isTask()) {
-		taskx.getTask().add(regimeTaskx(new Taskx(t1)));
+		taskx.getTask().add(regimeTaskx(t1));
 	    }
 	return taskx;
     }
 
-    private Drugx regimeDrugx(Drugx drugx) {
-	for (Tree t1 : drugx.getTree().getChildTs())
+    private Drugx regimeDrugx(Tree drugT) {
+	Drugx drugx = new Drugx(drugT);
+	for (Tree t1 : drugT.getChildTs())
 	    if (t1.isDose()) {
 		drugx.setDose(new Dosex(t1));
 	    } else if (t1.isDay()) {

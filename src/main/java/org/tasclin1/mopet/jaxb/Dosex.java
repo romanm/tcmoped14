@@ -3,6 +3,7 @@ package org.tasclin1.mopet.jaxb;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.tasclin1.mopet.domain.Dose;
 import org.tasclin1.mopet.domain.Tree;
 
 @XmlRootElement
@@ -14,11 +15,14 @@ public class Dosex extends Treex {
 
     public Dosex(Tree doseT) {
 	super(doseT);
-	value = doseT.getDoseO().getValue();
-	unit = doseT.getDoseO().getUnit();
-	app = doseT.getDoseO().getApp();
-	pro = doseT.getDoseO().getPro();
-	type = doseT.getDoseO().getType();
+	Dose doseO = doseT.getDoseO();
+	if (null != doseO) {
+	    value = doseO.getValue();
+	    unit = doseO.getUnit();
+	    app = doseO.getApp();
+	    pro = doseO.getPro();
+	    type = doseO.getType();
+	}
     }
 
     @XmlAttribute

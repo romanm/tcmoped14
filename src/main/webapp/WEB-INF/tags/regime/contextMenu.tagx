@@ -25,7 +25,7 @@
 		<div id="copyClipboard">
 		<!-- //required for FF3 and Opera -->
 		</div>
-		<div id="jaxb">
+		<div id="jaxb">	
 		<!-- //required for FF3 and Opera -->
 		</div>
 
@@ -70,8 +70,9 @@
 	
 	<div style="visibility: hidden;">
 		<a id="aPasteFromRepository" 
-		href="/tcm14/pasteFromRepository?idRegime=1327794&amp;a=ed_drug&amp;">
+			href="/tcm14/importNodeForm?idRegime=1327794&amp;">
 		<!-- 
+		href="/tcm14/pasteFromRepository?idRegime=1327794&amp;a=ed_drug&amp;">
 		href="/tcm14/cere-ed?idRegime=1327794&amp;a=ed_drug&amp;">
 		href="/tcm14/cere-ed?idRegime=1327794&amp;a=ed_drug&amp;idt=1347491">
 		 -->

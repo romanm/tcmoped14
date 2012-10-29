@@ -34,12 +34,8 @@ public class TaskDrugForm implements Serializable {
     }
 
     public void setIdt(Integer idt) {
-	log.debug("targetT=" + targetT);
-	log.debug("idt=" + this.idt);
 	this.idt = idt;
 	setTargetT();
-	log.debug("idt=" + this.idt);
-	log.debug("targetT=" + targetT);
     }
 
     /**
@@ -117,8 +113,13 @@ public class TaskDrugForm implements Serializable {
     }
 
     public void initAbs() {
+	initTargetDayT();
+	log.debug("---------------" + getAbsset());
 	if (null == getAbsset()) {
 	    absset = new HashSet<Integer>();
+	    log.debug("---------------" + absset);
+	    log.debug("---------------" + targetT.isMtlDayO());
+	    log.debug("---------------" + targetT.getDayO());
 	    if (targetT.isMtlDayO() && "a".equals(targetT.getDayO().getNewtype())) {
 		String abs = targetT.getDayO().getAbs();
 		String[] split = abs.split(",");
@@ -127,6 +128,12 @@ public class TaskDrugForm implements Serializable {
 		    absset.add(parseInt);
 		}
 	    }
+	}
+    }
+
+    private void initTargetDayT() {
+	if (!targetT.isDay()) {
+	    targetT = drugT.getDrugDayT(0);
 	}
     }
 

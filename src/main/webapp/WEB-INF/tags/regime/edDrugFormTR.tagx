@@ -21,7 +21,7 @@
 			onclick="idtClick(${drugDayT.id });return false"
 		 -->
 			<a  href="javascript:void(0);" id="aEdDay_${drugDayT.id }"
-			onclick="idtClick(${drugDayT.id })"
+			onclick="openDay(${drugDayT.id })"
 			>
 				<rg:dayText dayT="${drugDayT }"/>
 			</a>

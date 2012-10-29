@@ -8,7 +8,10 @@
 		required="true" description="The html tag name" />
 
 <jsp:element name="${name}">
+<!-- 
 	<jsp:attribute name="id">${name}${tree.tabName }_${tree.id}</jsp:attribute>
+ -->
+	<jsp:attribute name="id">${tree.tabName }_${tree.id}</jsp:attribute>
 	<jsp:attribute name="class">select ${tree.tabName }</jsp:attribute>
 		<a id="a${name}${tree.tabName }_${tree.id}" class="toMoDi"
 			onclick="dojo.addClass(this, 'notice');"

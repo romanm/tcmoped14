@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/webflow 
+		http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+
+	<var name="model" class="org.springframework.ui.ExtendedModelMap" />
+
+	<input name="idRegime" required="true" type="int" />
+	<input name="idt" required="true" type="int" />
+
+	<on-start>
+		<evaluate expression="jaxbService.onStart(idt,model)" result="flowScope.pasteFromRepositoryForm" />
+	</on-start>
+
+	<view-state id="pasteImportId" model="pasteFromRepositoryForm"
+		view="importNodeForm/pasteImportId">
+		<binder>
+			<binding property="pasteId" />
+		</binder>
+		<transition on="checkImportNode" to="confirmImport">
+			<evaluate expression="jaxbService.pasteIdLoad(pasteFromRepositoryForm)"
+				result="flowScope.loadDrugT" />
+		</transition>
+	</view-state>
+
+	<view-state id="confirmImport" view="importNodeForm/confirmImport">
+		<transition on="cancelImport" to="cancel" />
+	</view-state>
+
+
+	<end-state id="cancel" view="externalRedirect:id=#{idRegime}?result=cancel" />
+
+</flow>

@@ -5,11 +5,19 @@ import java.util.ArrayList;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.tasclin1.mopet.domain.Tree;
 
 @XmlRootElement(name = "drug")
 public class Drugx extends Treex {
+    protected final Log log = LogFactory.getLog(getClass());
+
     Dosex dose;
+
+    public Dosex getDose() {
+	return dose;
+    }
 
     public void setDose(Dosex dose) {
 	this.dose = dose;
@@ -27,32 +35,35 @@ public class Drugx extends Treex {
 	this.day = day;
     }
 
-    public Dosex getDose() {
-	return dose;
-    }
-
     @XmlAttribute
     public String getDrug() {
 	return drug;
     }
 
-    String drug;
+    String drug, generic;
+
+    @XmlAttribute
+    public String getGeneric() {
+	return generic;
+    }
+
+    public void setGeneric(String generic) {
+	this.generic = generic;
+    }
 
     public void setDrug(String drug) {
 	this.drug = drug;
     }
 
+    /*
+     * public Drugx(int id, int idclass, String drug) { this.id = id; this.idclass = idclass; this.drug = drug; }
+     */
     public Drugx() {
-    }
-
-    public Drugx(int id, int idclass, String drug) {
-	this.id = id;
-	this.idclass = idclass;
-	this.drug = drug;
     }
 
     public Drugx(Tree tree) {
 	super(tree);
 	drug = tree.getDrugO().getDrug();
+	generic = tree.getDrugO().getGeneric().getDrug();
     }
 }

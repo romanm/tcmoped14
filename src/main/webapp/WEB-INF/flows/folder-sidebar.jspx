@@ -6,9 +6,11 @@
 
 	<div>
 		<rg:titlePane id="menu_1" mtitle="ui_menu" isOpened="${true}">
+		<!-- 
 			<a id="nf_1" href="newfolder">
 			new folder
 			</a>
+		 -->
 			<div>
 				<spring:message code="menu_newConcept" />
 			</div>
@@ -18,6 +20,7 @@
 			
 	<script type="text/javascript">
 		link2modalDialog("nf_2");
+		/*
 		Spring.addDecoration(new Spring.AjaxEventDecoration({
 			elementId : "nf_1",
 			event : "onclick",
@@ -27,6 +30,7 @@
 				, mode : "embedded"
 			}
 		}));
+		*/
 	</script>
 			
 		</rg:titlePane>

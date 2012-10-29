@@ -4,6 +4,10 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
+	<script type="text/javascript">
+			link2modalDialog("v1v2");
+	</script>
+
 	<table id="ctxTable">
 		<thead>
 			<tr>
