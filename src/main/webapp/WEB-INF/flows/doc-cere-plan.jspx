@@ -4,19 +4,31 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-	<c:forEach var="dayNr" items="${dayNrDayTs }">
-		<div>
-			<hr />
-			day: ${dayNr.key }
+	<table>
+		<c:forEach var="dayNr" items="${dayNrDayTs }" varStatus="varStatus">
+			<tr>
+				<th colspan="3">
+					<hr /> day: ${dayNr.key }
+				</th>
+				<c:if test="${varStatus.first }">
+				<th class="small">
+				#
+				</th>
+				</c:if>
+			</tr>
 			<c:forEach var="dayT" items="${dayNr.value }">
-				<div>
-					<spring:eval var="drugDayTimesT"
-						expression="dayT.getDrugDayTimesT(0)" />
-					<spring:eval expression="regimeTimesTs.indexOf(drugDayTimesT)+1" />
-					<c:out value="."/>
-					${dayT.parentT.drugO.drug }
-				</div>
+				<spring:eval var="drugDayTimesT"
+					expression="dayT.getDrugDayTimesT(0)" />
+				<tr>
+					<td><rg:timesText timesT="${drugDayTimesT}" /></td>
+					<td>${dayT.parentT.drugO.drug }</td>
+					<td><c:set var="drugDoseT" value="${dayT.parentT.drugDoseT}" />
+						<rg:doseText doseT="${drugDoseT }" /> ${drugDoseT.mtlO.app}</td>
+					<td><spring:eval
+							expression="regimeTimesTs.indexOf(drugDayTimesT)+1" /> <c:out
+							value="." /></td>
+				</tr>
 			</c:forEach>
-		</div>
-	</c:forEach>
+		</c:forEach>
+	</table>
 </jsp:root>
