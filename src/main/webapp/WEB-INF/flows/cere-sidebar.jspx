@@ -14,7 +14,7 @@
 		</a></li>
 		<li><a href="cere-plan=${regimeT.id }"> <spring:message
 					code="uiChemoTherapyPlan" />
-		</a> <c:if test="${'plan'==sessionScope['regimePart']}">
+		</a> <c:if test="${'plan'==sessionScope['regimeView']}">
 				<ul>
 					<li><spring:message code="uiChemoTherapyPlan_infoCheck" /></li>
 					<li><spring:message code="uiChemoTherapyPlan_drugNoteCheck" /></li>

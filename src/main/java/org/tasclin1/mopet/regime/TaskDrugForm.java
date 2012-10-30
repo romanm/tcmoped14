@@ -1,11 +1,11 @@
 package org.tasclin1.mopet.regime;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.tasclin1.mopet.domain.Day;
 import org.tasclin1.mopet.domain.Tree;
 
 public class TaskDrugForm implements Serializable {
@@ -114,20 +114,10 @@ public class TaskDrugForm implements Serializable {
 
     public void initAbs() {
 	initTargetDayT();
-	log.debug("---------------" + getAbsset());
-	if (null == getAbsset()) {
-	    absset = new HashSet<Integer>();
-	    log.debug("---------------" + absset);
-	    log.debug("---------------" + targetT.isMtlDayO());
-	    log.debug("---------------" + targetT.getDayO());
-	    if (targetT.isMtlDayO() && "a".equals(targetT.getDayO().getNewtype())) {
-		String abs = targetT.getDayO().getAbs();
-		String[] split = abs.split(",");
-		for (String string : split) {
-		    int parseInt = Integer.parseInt(string);
-		    absset.add(parseInt);
-		}
-	    }
+	log.debug("---------------" + absset);
+	if (null == absset) {
+	    Day dayO = targetT.getDayO();
+	    absset = dayO.initAbsSet();
 	}
     }
 

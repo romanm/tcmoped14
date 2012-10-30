@@ -1,7 +1,9 @@
 package org.tasclin1.mopet.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -150,5 +152,18 @@ public class Day implements MObject, Serializable {
 	setAbs((String) map.get("abs"));
 	setNewtype((String) map.get("newtype"));
 	return this;
+    }
+
+    public Set<Integer> initAbsSet() {
+	Set<Integer> hashSet = new HashSet<Integer>();
+	if ("a".equals(getNewtype())) {
+	    String abs = getAbs();
+	    for (String dayNr : abs.split(","))
+		if (dayNr.length() > 0) {
+		    int parseInt = Integer.parseInt(dayNr);
+		    hashSet.add(parseInt);
+		}
+	}
+	return hashSet;
     }
 }

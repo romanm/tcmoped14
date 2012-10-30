@@ -11,9 +11,13 @@
 		required="true" rtexprvalue="true"
 		description="The country label for the language to be added." />
 		 -->
+	<jsp:directive.attribute name="nolink" type="java.lang.Boolean"
+		required="false" rtexprvalue="false"
+		description="Indicate if the contents of this tag is link (default 'false')" />
 	<jsp:directive.attribute name="render" type="java.lang.Boolean"
 		required="false" rtexprvalue="true"
-		description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
+		description="Indicate if the contents of this tag and all enclosed tags 
+		should be rendered (default 'true')" />
 
 	<c:if test="${empty render or render}">
 		<spring:url var="img" value="/resources/images/${locale}.png" />
@@ -25,9 +29,16 @@
 			var="lang_label" htmlEscape="false" />
 		<a href="${url}" title="${fn:escapeXml(lang_label)}"> <img
 		 -->
+		<c:choose>
+			<c:when test="${nolink }">
+		<img class="flag" src="${img}" alt="${locale}" title="${locale}"/>
+			</c:when>
+			<c:otherwise>
 		<a href="${url}" title="${locale}"> <img class="flag" src="${img}"
 			alt="${locale}" />
 		</a>
+			</c:otherwise>
+		</c:choose>
 		<c:out value=" " />
 	</c:if>
 

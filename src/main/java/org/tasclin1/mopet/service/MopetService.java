@@ -4,8 +4,10 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -278,35 +280,55 @@ public class MopetService {
     // regime
     public void initRegimeDocT(Model model) {
 	Tree regimeT = (Tree) model.asMap().get(REGIMET);
-	model.addAttribute("drugNoticeExprM", new HashMap<Tree, List<Tree>>());
+	model.addAttribute(MopetService.drugNoticeExprM, new HashMap<Tree, List<Tree>>());
 	for (Tree t1 : regimeT.getChildTs()) {
 	    for (Tree t2 : t1.getChildTs()) {
-		addDrugNoticeExpr(model, t2);
+		initModel(model, t2);
 		for (Tree t3 : t2.getChildTs()) {
-		    addDrugNoticeExpr(model, t3);
+		    initModel(model, t3);
 		    for (Tree t4 : t3.getChildTs()) {
-			addDrugNoticeExpr(model, t4);
+			initModel(model, t4);
 		    }
 		}
 	    }
 	}
+	if ("plan".equals((String) model.asMap().get(MopetService.regimeView))) {
+	    Map<Integer, List<Tree>> dayNrDayTs = new TreeMap<Integer, List<Tree>>();
+	    model.addAttribute(MopetService.dayNrDayTs, dayNrDayTs);
+	    HashSet<Tree> regimeDrugDayTs = new HashSet<Tree>();
+	    model.addAttribute(MopetService.regimeDrugDayTs, regimeDrugDayTs);
+	    for (Tree tree : regimeT.getDocNodes())
+		if (tree.isMtlDayO()) {
+		    for (Integer dayNr : tree.getDayO().initAbsSet()) {
+			if (!dayNrDayTs.containsKey(dayNr))
+			    dayNrDayTs.put(dayNr, new ArrayList<Tree>());
+			dayNrDayTs.get(dayNr).add(tree);
+		    }
+		    regimeDrugDayTs.add(tree);
+		}
+	}
     }
 
-    private void addDrugNoticeExpr(Model model, Tree noticeExprT) {
-	Map<Tree, List<Tree>> drugNoticeExprM = (Map<Tree, List<Tree>>) model.asMap().get("drugNoticeExprM");
-	Tree drugT = noticeExprT.getParentT();
-	while (!drugT.getParentT().isTask())
-	    drugT = drugT.getParentT();
-	if (noticeExprT.isNotice() || noticeExprT.isExpr()) {
+    private void initModel(Model model, Tree tree) {
+	if (tree.isNotice() || tree.isExpr()) {
+	    Map<Tree, List<Tree>> drugNoticeExprM = (Map<Tree, List<Tree>>) model.asMap().get(
+		    MopetService.drugNoticeExprM);
+	    Tree drugT = tree.getParentT();
+	    while (!drugT.getParentT().isTask())
+		drugT = drugT.getParentT();
 	    if (!drugNoticeExprM.containsKey(drugT)) {
 		List<Tree> drugNoticeExprL = new ArrayList<Tree>();
 		drugNoticeExprM.put(drugT, drugNoticeExprL);
 	    }
-	    drugNoticeExprM.get(drugT).add(noticeExprT);
+	    drugNoticeExprM.get(drugT).add(tree);
 	}
     }
 
-    final static String REGIMET = "regimeT";
+    public final static String dayNrDayTs = "dayNrDayTs";
+    public final static String regimeDrugDayTs = "regimeDrugDayTs";
+    public final static String drugNoticeExprM = "drugNoticeExprM";
+    public final static String regimeView = "regimeView";
+    public final static String REGIMET = "regimeT";
     final static String fs_treeFromId = "treeFromId";
 
     @Transactional(readOnly = true)
@@ -331,6 +353,8 @@ public class MopetService {
 		    }
 		}
 	    }
+	}
+	for (Tree t : regimeT.getDocNodes()) {
 	}
 	return regimeTimesTs;
     }

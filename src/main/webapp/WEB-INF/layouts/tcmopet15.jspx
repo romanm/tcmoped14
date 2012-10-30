@@ -85,7 +85,19 @@
 				<h3>
 					<c:out value="MOPET " />
 				</h3>
+					<c:out value=" " />
+					<!-- 
 					<c:out value="." />
+					 -->
+					<jsp:directive.page import="javax.servlet.http.Cookie" />
+					<jsp:scriptlet>
+					pageContext.setAttribute("cl", request.getCookies());
+					</jsp:scriptlet>
+					<c:forEach var="c" items="${cl }">
+						<c:if test="${'locale'==c.name }">
+							<rg:language locale="${c.value}" nolink="true" />
+						</c:if>
+					</c:forEach>
 			</div>
 		</div>
 		<br/>

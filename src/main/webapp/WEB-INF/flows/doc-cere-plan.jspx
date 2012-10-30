@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
->
-	plan
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<c:forEach var="dayNr" items="${dayNrDayTs }">
+		<div>
+			<hr />
+			day: ${dayNr.key }
+			<c:forEach var="dayT" items="${dayNr.value }">
+				<div>
+					<spring:eval var="drugDayTimesT"
+						expression="dayT.getDrugDayTimesT(0)" />
+					<spring:eval expression="regimeTimesTs.indexOf(drugDayTimesT)+1" />
+					<c:out value="."/>
+					${dayT.parentT.drugO.drug }
+				</div>
+			</c:forEach>
+		</div>
+	</c:forEach>
 </jsp:root>

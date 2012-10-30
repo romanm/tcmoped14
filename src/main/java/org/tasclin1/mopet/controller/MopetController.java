@@ -85,35 +85,40 @@ public class MopetController {
     // home END
 
     // Patient ChemoRegime
-    @RequestMapping(value = "/f={idFolder}/p={idPatient}/s={idStudy}/cere-{regimePart}={idRegime}", method = RequestMethod.GET)
+    @RequestMapping(value = "/f={idFolder}/p={idPatient}/s={idStudy}/cere-{regimeView}={idRegime}", method = RequestMethod.GET)
     public void folderPatientConceptRegime(@PathVariable
     Integer idFolder, @PathVariable
     Integer idPatient, @PathVariable
     Integer idStudy, @PathVariable
-    String regimePart, @PathVariable
+    String regimeView, @PathVariable
     Integer idRegime, Model model) {
 	mopetService.readPatientDocShort(idPatient, model);
-	readRegime(idFolder, idStudy, regimePart, idRegime, model);
+	readRegime(idFolder, idStudy, regimeView, idRegime, model);
     }
 
     // Patient ChemoRegime END
     // ChemoRegime
-    private void readRegime(Integer idFolder, Integer idStudy, String regimePart, Integer idRegime, Model model) {
+    private void readRegime(Integer idFolder, Integer idStudy, String regimeView, Integer idRegime, Model model) {
+	addRegimeView(regimeView, model);
 	mopetService.readFolderO2doc(idFolder, model);
 	mopetService.readConceptT(idStudy, model);
 	mopetService.readRegimeDocT(idRegime, model);
 	mopetService.initRegimeDocT(model);
 	model.addAttribute("docId", idRegime);
-	getRequest().getSession().setAttribute("regimePart", regimePart);
     }
 
-    @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-{regimePart}={idRegime}", method = RequestMethod.GET)
+    private void addRegimeView(String regimeView, Model model) {
+	model.addAttribute(MopetService.regimeView, regimeView);
+	getRequest().getSession().setAttribute(MopetService.regimeView, regimeView);
+    }
+
+    @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-{regimeView}={idRegime}", method = RequestMethod.GET)
     public void folderConceptRegime(@PathVariable
     Integer idFolder, @PathVariable
     Integer idStudy, @PathVariable
-    String regimePart, @PathVariable
+    String regimeView, @PathVariable
     Integer idRegime, Model model) {
-	readRegime(idFolder, idStudy, regimePart, idRegime, model);
+	readRegime(idFolder, idStudy, regimeView, idRegime, model);
     }
 
     private HttpServletRequest getRequest() {
@@ -258,7 +263,7 @@ public class MopetController {
 	boolean isConcept = "protocol".equals(tree.getTabName());
 	if (isConcept) {
 	    idConcept = tree.getId();
-	    String study_Part_Id_Url = "/study-" + getStudyPart() + "=" + idConcept;
+	    String study_Part_Id_Url = "/study-" + getStudyView() + "=" + idConcept;
 	    isPatient = "patient".equals(tree.getParentT().getTabName());
 	    if (isPatient) {
 		idPatient = tree.getParentT().getId();
@@ -276,7 +281,7 @@ public class MopetController {
 	    idRegime = tree.getId();
 	    Tree conceptT = tree.getDocT();
 	    idConcept = conceptT.getId();
-	    String cere_Part_Id_Url = "/cere-" + getRegimePart() + "=" + idRegime;
+	    String cere_Part_Id_Url = "/cere-" + getRegimeView() + "=" + idRegime;
 	    isPatient = "patient".equals(conceptT.getParentT().getTabName());
 	    if (isPatient) {
 		idPatient = conceptT.getParentT().getId();
@@ -291,18 +296,18 @@ public class MopetController {
 	return "redirect:/";
     }
 
-    private String getRegimePart() {
-	String regimePart = (String) getRequest().getSession().getAttribute("regimePart");
-	if (null == regimePart)
-	    regimePart = "ed";
-	return regimePart;
+    private String getRegimeView() {
+	String regimeView = (String) getRequest().getSession().getAttribute("regimeView");
+	if (null == regimeView)
+	    regimeView = "ed";
+	return regimeView;
     }
 
-    private String getStudyPart() {
-	String studyPart = (String) getRequest().getSession().getAttribute("studyPart");
-	if (null == studyPart)
-	    studyPart = "sg";
-	return studyPart;
+    private String getStudyView() {
+	String studyView = (String) getRequest().getSession().getAttribute("studyView");
+	if (null == studyView)
+	    studyView = "sg";
+	return studyView;
     }
 
 }
