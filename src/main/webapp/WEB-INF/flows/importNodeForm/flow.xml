@@ -29,7 +29,6 @@
 		<transition on="cancelImport" to="cancel" />
 	</view-state>
 
-
 	<end-state id="cancel" view="externalRedirect:id=#{idRegime}?result=cancel" />
 
 </flow>

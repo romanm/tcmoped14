@@ -1,7 +1,11 @@
-<div>
+<?xml version="1.0" encoding="UTF-8"?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
 	<div>
 		basic
-
 		<div>
 			<a href="${contextPath }/folder=${patientF.id}">Patient folder </a>
 		</div>
@@ -15,4 +19,13 @@
 			<a href="${contextPath }/folder=${drugF.id}">Medikament folder </a>
 		</div>
 	</div>
-</div>
+	<div class="floatRight">
+		<span>i18n</span>
+		<c:out value=" "/>
+		<rg:language locale="en" />
+		<rg:language locale="de" />
+		<rg:language locale="ua" />
+		<rg:language locale="ru" />
+	</div>
+
+</jsp:root>

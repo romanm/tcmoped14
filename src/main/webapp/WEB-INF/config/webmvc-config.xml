@@ -2,9 +2,15 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+<!-- 
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+-->
 
 	<!-- Enables controllers mapped with @RequestMapping annotations, formatting annotations @NumberFormat @DateTimeFormat, and JSR 303 style validation -->
 	<mvc:annotation-driven/>
@@ -18,10 +24,37 @@
 		<property name="flowRegistry" ref="flowRegistry" />
 	</bean>
 
+<!-- Register "global" interceptor beans to apply to all registered HandlerMappings -->
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"/>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
+    </mvc:interceptors>
+    <!-- Resolves localized messages*.properties and application.properties files in the application to allow 
+    for internationalization. 
+    The messages*.properties files translate Roo generated messages which are part of the admin interface, the 
+    application.properties resource bundle localizes all application specific messages such as entity names and menu items.
+    -->
+    <bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="messageSource" 
+    p:basenames="WEB-INF/i18n/messages,WEB-INF/i18n/application" 
+    p:fallbackToSystemLocale="false"
+    p:defaultEncoding="UTF-8"
+    p:fileEncodings="UTF-8"
+    />
+
+    <!-- Store preferred language configuration in a cookie -->
+    <bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" id="localeResolver" p:cookieName="locale"/>
+
+    <!-- Resolves localized <theme_name>.properties files in the classpath to allow for theme support -->
+    <bean class="org.springframework.ui.context.support.ResourceBundleThemeSource" id="themeSource"/>
+
+    <!-- Store preferred theme configuration in a cookie -->
+    <bean class="org.springframework.web.servlet.theme.CookieThemeResolver" id="themeResolver" p:cookieName="theme" p:defaultThemeName="standard"/>
+
 	<!-- Map paths directly to view names without controller processing. Use the view-name attribute if necessary: by convention the view name equals the path without the leading slash 
 	<mvc:view-controller path="/" view-name="intro" />
 	<mvc:view-controller path="/" view-name="home"/>
 	-->
+
 	<mvc:view-controller path="/intro" />
 	<mvc:view-controller path="/login" />
 	<mvc:view-controller path="/logoutSuccess" />
@@ -43,13 +76,13 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<!-- Dispatches requests mapped to flows to FlowHandler implementations -->
 	<bean class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
 		<property name="flowExecutor" ref="flowExecutor"/>
 	</bean>
 
 	<!-- Custom FlowHandler for the hotel booking flow -->
-	<bean name="hotels/booking" class="org.springframework.webflow.samples.booking.BookingFlowHandler" />	
-		
+	<bean name="hotels/booking" class="org.springframework.webflow.samples.booking.BookingFlowHandler" />
+
 </beans>
