@@ -43,6 +43,12 @@
 			</c:set>
 			<c:choose>
 				<c:when test="${fn:contains(style,'skew')}">
+				<!-- 
+				0 -↘↑- beginAfterEnd
+				1 -↑↖- beginBeforeBegin
+				2 -↘↓- endAfterEnd
+				3 -↓↖- endBeforeBegin
+				 -->
 			<c:set var="apporder"
 				value="${
 						timesT.timesO.apporder==0?'↘↑'

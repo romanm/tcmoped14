@@ -45,6 +45,10 @@ public class App implements MObject, Serializable, Comparable<App> {
     public App() {
     }
 
+    public Integer getDurationValue() {
+	return this.appapp;
+    }
+
     public Integer getAppapp() {
 	return this.appapp;
     }

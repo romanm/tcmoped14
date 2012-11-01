@@ -62,7 +62,7 @@
 				</tr>
 			</c:forEach>
 			<tr>
-				<td colspan="3">
+				<th colspan="3">
 				<spring:eval
 						var="iterator"
 						expression="dayNrTaskRuns.get(dayNr.key).iterator()" /> <spring:eval
@@ -71,7 +71,7 @@
 						<spring:eval var="next" expression="iterator.next()" />
 						<joda:format value="${next.begin }" style="L-" locale="${jodaLocale }"/>
 					</c:if>
-				</td>
+				</th>
 			</tr>
 			<c:forEach var="taskRun" items="${dayNrTaskRuns[dayNr.key] }">
 				<tr>
@@ -80,7 +80,6 @@
 					<td colspan="3">${taskRun.timesT }</td>
 					<td><spring:eval
 							expression="regimeTimesTs.indexOf(taskRun.timesT)+1" /></td>
-
 				</tr>
 			</c:forEach>
 		</c:forEach>

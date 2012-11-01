@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -316,8 +315,7 @@ public class MopetService {
 	}
 	if ("plan".equals((String) model.asMap().get(MopetService.regimeView))) {
 	    model.addAttribute(MopetService.regimeTaskRuns, new TreeMap<Long, TaskRun>());
-	    Map<Integer, Set<TaskRun>> dayNrTaskRuns = new TreeMap<Integer, Set<TaskRun>>();
-	    model.addAttribute("dayNrTaskRuns", dayNrTaskRuns);
+	    model.addAttribute("dayNrTaskRuns", new TreeMap<Integer, Set<TaskRun>>());
 	    Map<Integer, List<Tree>> dayNrDayTs = new TreeMap<Integer, List<Tree>>();
 	    model.addAttribute(MopetService.dayNrDayTs, dayNrDayTs);
 	    HashSet<Tree> regimeDrugDayTs = new HashSet<Tree>();
@@ -345,31 +343,30 @@ public class MopetService {
     }
 
     private void calcTimes1iteration(Model model) {
-	Map<Integer, Set<TaskRun>> dayNrTaskRuns = (Map<Integer, Set<TaskRun>>) model.asMap().get("dayNrTaskRuns");
 	Set<Tree> regimeDrugDayTs = (Set<Tree>) model.asMap().get(MopetService.regimeDrugDayTs);
 	for (Tree dayT : regimeDrugDayTs)
 	    for (Tree timesT : dayT.getChildTs())
 		if (timesT.isTimes()) {
-		    Set<Integer> absSet = timesT.getParentT().getDayO().getAbsSet();
 		    if (0 == timesT.getTaskRuns().size()) {
+			Set<Integer> absSet = timesT.getParentT().getDayO().getAbsSet();
 			if (null == timesT.getRef()) {
 			    log.debug("-------without ref---------");
 			    for (Integer dayNr : absSet) {
-				TaskRun taskRun = new TaskRun(timesT, dayNr, model);
-				timesT.getTaskRuns().add(taskRun);
-				if (!dayNrTaskRuns.containsKey(dayNr))
-				    dayNrTaskRuns.put(dayNr, new ConcurrentSkipListSet<TaskRun>());
-				dayNrTaskRuns.get(dayNr).add(taskRun);
+				new TaskRun(timesT, dayNr, model);
 			    }
 			} else {// with ref
-			    Tree refT = timesT.getRefT();
-			    if (null == refT) {
-				refT = getTreeFromId(model).get(timesT.getRef());
-				timesT.setRefT(refT);
-			    }
-			    if (0 != refT.getTaskRuns().size()) {
+			    if (null == timesT.getRefT())
+				timesT.setRefT(getTreeFromId(model).get(timesT.getRef()));
+			    if (0 != timesT.getRefT().getTaskRuns().size()) {// refT is calculated
 				log.debug("----------------" + timesT.getId() + "/" + timesT.getRef());
-				log.debug("----------------" + refT);
+				log.debug("----------------" + timesT.getRefT());
+				for (Integer dayNr : absSet) {
+				    for (TaskRun refTaskRun : timesT.getRefT().getTaskRuns()) {
+					if (refTaskRun.getDefDay().equals(dayNr)) {
+					    new TaskRun(timesT, refTaskRun, model);
+					}
+				    }
+				}
 			    }
 			}
 		    }
@@ -391,6 +388,7 @@ public class MopetService {
 	}
     }
 
+    public final static String dayNrTaskRuns = "dayNrTaskRuns";
     public final static String regimeTaskRuns = "regimeTaskRuns";
     public final static String dayNrDayTs = "dayNrDayTs";
     public final static String regimeDrugDayTs = "regimeDrugDayTs";
