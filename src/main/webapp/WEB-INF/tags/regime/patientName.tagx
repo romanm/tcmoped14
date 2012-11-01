@@ -13,7 +13,7 @@
 	</span>
 	<c:out value=" " />
 	<span class="small"> <c:out value="*" /> <joda:format
-			value="${patientO.birthdateDT}" style="L-" />
+			value="${patientO.birthdateDT}" style="L-" locale="${jodaLocale }"/>
 	</span>
 
 </jsp:root>

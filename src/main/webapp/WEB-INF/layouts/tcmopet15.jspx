@@ -15,6 +15,16 @@
 	<c:url var="urlRoot" value="/" scope="application" />
 	<c:set var="contextPath" value="${pageContext.request.contextPath}"
 		scope="application" />
+	<c:set var="locale" value="en" scope="request" />
+	<jsp:directive.page import="javax.servlet.http.Cookie" />
+	<jsp:scriptlet>pageContext.setAttribute("cl", request.getCookies());</jsp:scriptlet>
+	<c:forEach var="c" items="${cl }">
+		<c:if test="${'locale'==c.name }">
+			<c:set var="locale" value="${c.value }" scope="request" />
+		</c:if>
+	</c:forEach>
+	<c:set var="jodaLocale" value="${'ua'==locale?'uk':locale}"
+		scope="request" />
 
 	<html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -89,15 +99,7 @@
 					<!-- 
 					<c:out value="." />
 					 -->
-					<jsp:directive.page import="javax.servlet.http.Cookie" />
-					<jsp:scriptlet>
-					pageContext.setAttribute("cl", request.getCookies());
-					</jsp:scriptlet>
-					<c:forEach var="c" items="${cl }">
-						<c:if test="${'locale'==c.name }">
-							<rg:language locale="${c.value}" nolink="true" />
-						</c:if>
-					</c:forEach>
+					<rg:language locale="${locale}" nolink="true" />
 			</div>
 		</div>
 		<br/>

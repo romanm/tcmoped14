@@ -5,7 +5,16 @@ import javax.xml.bind.annotation.XmlAttribute;
 import org.tasclin1.mopet.domain.Tree;
 
 public class Treex {
-    Integer did, id, idclass;
+    Integer did, id, idclass, ref;
+
+    @XmlAttribute
+    public Integer getRef() {
+	return ref;
+    }
+
+    public void setRef(Integer ref) {
+	this.ref = ref;
+    }
 
     public void setIdclass(Integer idclass) {
 	this.idclass = idclass;
@@ -36,6 +45,8 @@ public class Treex {
 	idclass = tree.getIdClass();
 	did = tree.getParentT().getId();
 	sort = tree.getSort();
+	if (null != tree.getRef())
+	    ref = tree.getRef();
     }
 
     public Treex() {

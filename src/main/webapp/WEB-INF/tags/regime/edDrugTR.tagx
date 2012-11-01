@@ -3,9 +3,11 @@
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
 	<jsp:directive.attribute name="taskDrugT"
 		type="org.tasclin1.mopet.domain.Tree" required="true"
 		description="Current folder object" />
+
 	<tr>
 		<rg:taskDrugEdit name="td" tree="${taskDrugT }">
 			${taskDrugT.mtlO.drug }
@@ -17,7 +19,9 @@
 		</rg:taskDrugEdit>
 		<td><rg:taskDrugEdit name="span" tree="${drugDoseT }">
 					${drugDoseT.mtlO.app}
-				</rg:taskDrugEdit></td>
+			</rg:taskDrugEdit> <rg:taskDrugEdit name="span" tree="${taskDrugT.drugAppT }">
+				<rg:appText appT="${taskDrugT.drugAppT}" />
+			</rg:taskDrugEdit></td>
 		<spring:eval var="drugDayT" expression="taskDrugT.getDrugDayT(0)" />
 		<rg:taskDrugEdit name="td" tree="${drugDayT}">
 			<rg:dayText dayT="${drugDayT }" />

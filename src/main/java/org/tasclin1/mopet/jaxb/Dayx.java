@@ -15,8 +15,10 @@ public class Dayx extends Treex {
     public Dayx(Tree dayT) {
 	super(dayT);
 	Day dayO = dayT.getDayO();
-	abs = dayO.getAbs();
-	newtype = dayO.getNewtype();
+	if (null != dayO) {
+	    abs = dayO.getAbs();
+	    newtype = dayO.getNewtype();
+	}
     }
 
     Timesx times;

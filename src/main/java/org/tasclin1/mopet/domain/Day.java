@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 /**
  * The persistent class for the day database table.
@@ -154,15 +155,20 @@ public class Day implements MObject, Serializable {
 	return this;
     }
 
-    public Set<Integer> initAbsSet() {
-	Set<Integer> hashSet = new HashSet<Integer>();
-	if ("a".equals(getNewtype())) {
-	    String abs = getAbs();
-	    for (String dayNr : abs.split(","))
-		if (dayNr.length() > 0) {
-		    int parseInt = Integer.parseInt(dayNr);
-		    hashSet.add(parseInt);
-		}
+    @Transient
+    Set<Integer> hashSet;
+
+    public Set<Integer> getAbsSet() {
+	if (null == hashSet) {
+	    hashSet = new HashSet<Integer>();
+	    if ("a".equals(getNewtype())) {
+		String abs = getAbs();
+		for (String dayNr : abs.split(","))
+		    if (dayNr.length() > 0) {
+			int parseInt = Integer.parseInt(dayNr);
+			hashSet.add(parseInt);
+		    }
+	    }
 	}
 	return hashSet;
     }

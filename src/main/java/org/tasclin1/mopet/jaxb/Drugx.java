@@ -15,8 +15,18 @@ public class Drugx extends Treex {
 
     Dosex dose;
 
+    private Appx app;
+
+    public Appx getApp() {
+	return app;
+    }
+
     public Dosex getDose() {
 	return dose;
+    }
+
+    public void setApp(Appx app) {
+	this.app = app;
     }
 
     public void setDose(Dosex dose) {

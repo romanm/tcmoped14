@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.tasclin1.mopet.regime.TaskRun;
 
 /**
  * The persistent class for the tree database table.
@@ -82,6 +83,14 @@ public class Tree implements Serializable {
 	return null;
     }
 
+    public Tree getDrugAppT() {
+	if (isDrug())
+	    for (Tree appT : this.getChildTs())
+		if (appT.isApp())
+		    return appT;
+	return null;
+    }
+
     public Tree getDrugDoseT() {
 	if (isDrug())
 	    for (Tree doseT : this.getChildTs())
@@ -134,10 +143,6 @@ public class Tree implements Serializable {
 	return getMtlO() instanceof Task || "task".equals(getTabName());
     }
 
-    public boolean isTimes() {
-	return getMtlO() instanceof Times || "times".equals(getTabName());
-    }
-
     public boolean isDrug() {
 	return getMtlO() instanceof Drug || "drug".equals(getTabName());
     }
@@ -156,6 +161,14 @@ public class Tree implements Serializable {
 
     public boolean isApp() {
 	return getMtlO() instanceof App || "app".equals(getTabName());
+    }
+
+    public boolean isTimes() {
+	return isMtlTimesO() || "times".equals(getTabName());
+    }
+
+    public boolean isMtlTimesO() {
+	return getMtlO() instanceof Times;
     }
 
     public boolean isDay() {
@@ -391,10 +404,10 @@ public class Tree implements Serializable {
     }
 
     public String toString() {
-	return "tree:id:" + id + ":tabName:" + tabName + ":idclass:" + idClass + ":did:"
-		+ (parentT == null ? 0 : parentT.getId()) + ":ref:" + ref + ":sort:" + sort + ":iddoc:"
+	return "tree:id:" + id + " :tabName:" + tabName + " :idclass:" + idClass + " :did:"
+		+ (parentT == null ? 0 : parentT.getId()) + " :ref:" + ref + " :sort:" + sort + " :iddoc:"
 		+ (docT == null ? 0 : docT.getId()) + "\n mtlO=" + getMtlO()
-		+ (null == getHistory() ? "" : "\n" + getHistory())
+		+ (null == getHistory() ? "" : "\n " + getHistory())
 	// +":hashCode:"+this.hashCode()
 	;
     }
@@ -485,6 +498,10 @@ public class Tree implements Serializable {
 	return (Drug) getMtlO();
     }
 
+    public App getAppO() {
+	return (App) getMtlO();
+    }
+
     public Dose getDoseO() {
 	return (Dose) getMtlO();
     }
@@ -499,5 +516,15 @@ public class Tree implements Serializable {
 
     public Task getTaskO() {
 	return (Task) getMtlO();
+    }
+
+    @Transient
+    private Set<TaskRun> taskRuns;
+
+    public Set<TaskRun> getTaskRuns() {
+	if (null == taskRuns) {
+	    taskRuns = new ConcurrentSkipListSet<TaskRun>();
+	}
+	return taskRuns;
     }
 }

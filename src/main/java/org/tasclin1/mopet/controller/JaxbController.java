@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tasclin1.mopet.domain.Tree;
+import org.tasclin1.mopet.jaxb.Appx;
 import org.tasclin1.mopet.jaxb.Dayx;
 import org.tasclin1.mopet.jaxb.Dosex;
 import org.tasclin1.mopet.jaxb.Drugx;
@@ -62,7 +63,7 @@ public class JaxbController {
 	log.debug(1);
 	Integer id = mopetService.getIdFromHtmlId(htmlId);
 	log.debug(id);
-	Tree t0 = mopetService.readNodes3(id, model);
+	Tree t0 = mopetService.readNodes4(id, model);
 	Treex mtlX = null;
 	if (t0.isTask()) {
 	    mtlX = regimeTaskx(t0);
@@ -96,6 +97,8 @@ public class JaxbController {
 	for (Tree t1 : drugT.getChildTs())
 	    if (t1.isDose()) {
 		drugx.setDose(new Dosex(t1));
+	    } else if (t1.isApp()) {
+		drugx.setApp(new Appx(t1));
 	    } else if (t1.isDay()) {
 		drugx.getDay().add(regimeDrugDay(t1));
 	    }
@@ -104,10 +107,11 @@ public class JaxbController {
 
     private Dayx regimeDrugDay(Tree t1) {
 	Dayx dayx = new Dayx(t1);
-	for (Tree t2 : t1.getChildTs())
+	for (Tree t2 : t1.getChildTs()) {
 	    if (t2.isTimes()) {
 		dayx.setTimes(new Timesx(t2));
 	    }
+	}
 	return dayx;
     }
 

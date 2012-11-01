@@ -117,7 +117,7 @@ public class TaskDrugForm implements Serializable {
 	log.debug("---------------" + absset);
 	if (null == absset) {
 	    Day dayO = targetT.getDayO();
-	    absset = dayO.initAbsSet();
+	    absset = dayO.getAbsSet();
 	}
     }
 
