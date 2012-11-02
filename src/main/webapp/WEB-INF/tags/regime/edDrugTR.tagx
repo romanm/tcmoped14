@@ -31,8 +31,7 @@
 		<rg:taskDrugEdit name="td" tree="${drugDayTimesT}">
 			<rg:timesText timesT="${drugDayTimesT}" />
 		</rg:taskDrugEdit>
-		<td><spring:eval
-				expression="regimeTimesTs.indexOf(drugDayTimesT)+1" /></td>
+		<td><rg:timesNr timesT="${drugDayTimesT}" /></td>
 	</tr>
 	<c:forEach var="drugDrugT" items="${taskDrugT.childTs }">
 		<c:if test="${'drug'==drugDrugT.tabName }">
