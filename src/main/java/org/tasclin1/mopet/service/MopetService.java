@@ -15,6 +15,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.MutableDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -360,7 +361,19 @@ public class MopetService {
 			if (null == timesT.getRef()) {
 			    log.debug("-------without ref---------");
 			    for (Integer dayNr : timesT.getParentT().getDayO().getAbsSet()) {
-				new TaskRun(timesT, dayNr, model);
+				Times timesO = timesT.getTimesO();
+				if (null != timesO) {
+				    for (String timesAbs2 : timesO.getAbs().split(",")) {
+					log.debug(timesAbs2);
+					String hour = timesAbs2.split(":")[0];
+					log.debug(hour);
+					int hour2 = Integer.parseInt(hour);
+					MutableDateTime mutableDateTime = TaskRun.instanceMutableDateTime(
+						dayNr, hour2);
+					new TaskRun(timesT, dayNr, mutableDateTime, model);
+				    }
+				} else
+				    new TaskRun(timesT, dayNr, model);
 			    }
 			} else {// with ref
 			    if (null == timesT.getRefT())

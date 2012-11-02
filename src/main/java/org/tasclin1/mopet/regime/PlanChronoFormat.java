@@ -19,8 +19,8 @@ public class PlanChronoFormat {
 	plancolumns.add(Plancolumns.times);
 	plancolumns.add(Plancolumns.drug);
 	plancolumns.add(Plancolumns.dose);
-	plancolumns.add(Plancolumns.appDuration);
-	plancolumns.add(Plancolumns.doseHour);
+	// plancolumns.add(Plancolumns.appDuration);
+	plancolumns.add(Plancolumns.dayHour);
 	plancolumns.add(Plancolumns.timesNumer);
     }
 }

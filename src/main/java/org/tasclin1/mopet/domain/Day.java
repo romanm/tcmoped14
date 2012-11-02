@@ -168,6 +168,15 @@ public class Day implements MObject, Serializable {
 			int parseInt = Integer.parseInt(dayNr);
 			hashSet.add(parseInt);
 		    }
+	    } else if ("p".equals(getNewtype())) {
+		String[] splitAbsperiod = getAbs().split("-");
+		String beginDay = splitAbsperiod[0];
+		int beginDay2 = Integer.parseInt(beginDay);
+		String endDay = splitAbsperiod[1];
+		int enddDay2 = Integer.parseInt(endDay);
+		for (int i = beginDay2; i < enddDay2; i++) {
+		    hashSet.add(i);
+		}
 	    }
 	}
 	return hashSet;

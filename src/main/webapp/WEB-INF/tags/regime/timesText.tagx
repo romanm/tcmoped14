@@ -95,8 +95,12 @@
 				</c:choose>
 			</c:when>
 			<c:when test="${not empty timesT.timesO.abs}">
-				<c:set var="timesText" value="${timesT.timesO.abs}" />
-			</c:when>
+				<c:choose>
+					<c:when test="${fn:contains(timesT.timesO.abs,'=')}">
+					</c:when>
+				</c:choose>
+			<c:set var="timesText" value="${timesT.timesO.abs}" />
+		</c:when>
 	</c:choose>
 <c:out value="${timesText }" />
 <span class="small">

@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.joda.time.MutableDateTime;
 import org.springframework.ui.Model;
 import org.tasclin1.mopet.domain.App;
@@ -15,6 +17,8 @@ import org.tasclin1.mopet.service.MopetService;
 
 public class TaskRun implements Serializable, Comparable<TaskRun> {
     private static final long serialVersionUID = 1L;
+    protected final Log log = LogFactory.getLog(getClass());
+
     private Integer defDay, calcDay;
 
     public Integer getDefDay() {
@@ -33,15 +37,18 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 	return timesT;
     }
 
+    public TaskRun(Tree timesT, Integer dayNr, MutableDateTime mutableDateTime, Model model) {
+	init(timesT, dayNr, mutableDateTime, model);
+    }
+
     public TaskRun(Tree timesT, Integer dayNr, Model model) {
+	MutableDateTime mutableDateTime = instanceMutableDateTime(dayNr, 10);
+	init(timesT, dayNr, mutableDateTime, model);
+    }
+
+    private void init(Tree timesT, Integer dayNr, MutableDateTime mutableDateTime, Model model) {
 	this.timesT = timesT;
 	defDay = dayNr;
-	MutableDateTime mutableDateTime = new MutableDateTime();
-	mutableDateTime.addDays(dayNr - 1);
-	mutableDateTime.setHourOfDay(10);
-	mutableDateTime.setMinuteOfHour(0);
-	mutableDateTime.setSecondOfMinute(0);
-	mutableDateTime.setMillisOfSecond(100);
 	// correctur begin
 	Map<Long, TaskRun> regimeTaskRuns = (Map<Long, TaskRun>) model.asMap().get(MopetService.regimeTaskRuns);
 	while (regimeTaskRuns.containsKey(mutableDateTime.getMillis())) {
@@ -54,7 +61,16 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 	end = endFromBegin().secondOfDay().add(durationValueSecond);
 
 	modelThisDay(model);
+    }
 
+    public static MutableDateTime instanceMutableDateTime(Integer dayNr, int hour) {
+	MutableDateTime mutableDateTime = new MutableDateTime();
+	mutableDateTime.addDays(dayNr - 1);
+	mutableDateTime.setHourOfDay(hour);
+	mutableDateTime.setMinuteOfHour(0);
+	mutableDateTime.setSecondOfMinute(0);
+	mutableDateTime.setMillisOfSecond(100);
+	return mutableDateTime;
     }
 
     private void modelThisDay(Model model) {
@@ -116,18 +132,62 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 
     }
 
-    private Integer getAppDurationSecond() {
-	Tree drugAppT = timesT.getParentT().getParentT().getDrugAppT();
-	Integer durationValueSecond = 0;
-	if (null != drugAppT) {
-	    App appO = drugAppT.getAppO();
-	    durationValueSecond = appO.getDurationValue();
-	    if ("min".equals(appO.getUnit()))
-		durationValueSecond *= 60;
-	    if ("h".equals(appO.getUnit()))
-		durationValueSecond *= 60 * 60;
-	    if ("d".equals(appO.getUnit()))
-		durationValueSecond *= 60 * 60 * 24;
+    public String symbolToHour(int h) {
+	if (0 == getAppDurationSecond() && begin.getHourOfDay() == h)
+	    return addMinuteDottDuration(begin.getMinuteOfHour(), "&#160;") + "*";
+	String symbol = ".";
+
+	if (begin.getHourOfDay() == h) {
+	    symbol = addMinuteDottDuration(begin.getMinuteOfHour(), "&#160;") + "|";
+	    int minuteOfHour = 0;
+	    if (end.getHourOfDay() > begin.getHourOfDay()) {
+		minuteOfHour = 60 - begin.getMinuteOfDay();
+	    } else if (getAppDurationSecond() > 0) {
+		minuteOfHour = getAppDurationSecond() / 60;
+	    }
+	    symbol += addMinuteDottDuration(minuteOfHour, "·");
+	}
+	if (end.getHourOfDay() == h) {
+	    if (begin.getHourOfDay() == h) {
+		symbol += "|";
+	    } else {
+		symbol = addMinuteDottDuration(end.getMinuteOfHour(), "·") + "|";
+	    }
+	}
+	if (begin.getHourOfDay() < h && end.getHourOfDay() > h) {
+	    symbol = "-";
+	}
+	return symbol;
+    }
+
+    private String addMinuteDottDuration(int minuteOfHour, String c) {
+	String symbol = "";
+	if (0 == minuteOfHour) {
+	} else if (15 >= minuteOfHour)
+	    symbol += c;
+	else if (30 >= minuteOfHour)
+	    symbol += c + c;
+	else if (45 >= minuteOfHour)
+	    symbol += c + c + c;
+	return symbol;
+    }
+
+    Integer durationValueSecond;
+
+    public Integer getAppDurationSecond() {
+	if (null == durationValueSecond) {
+	    durationValueSecond = 0;
+	    Tree drugAppT = timesT.getParentT().getParentT().getDrugAppT();
+	    if (null != drugAppT) {
+		App appO = drugAppT.getAppO();
+		durationValueSecond = appO.getDurationValue();
+		if ("min".equals(appO.getUnit()))
+		    durationValueSecond *= 60;
+		if ("h".equals(appO.getUnit()))
+		    durationValueSecond *= 60 * 60;
+		if ("d".equals(appO.getUnit()))
+		    durationValueSecond *= 60 * 60 * 24;
+	    }
 	}
 	return durationValueSecond;
     }

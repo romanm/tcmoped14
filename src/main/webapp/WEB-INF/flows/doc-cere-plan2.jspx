@@ -11,7 +11,7 @@
 			<spring:eval var="dayFirstTaskRun"
 				expression="dayNrTaskRuns.get(dayNr.key).first()" scope="request" />
 			<spring:eval var="dayLastTaskRun"
-				expression="dayNrTaskRuns.get(dayNr.key).last()" />
+				expression="dayNrTaskRuns.get(dayNr.key).last()" scope="request" />
 			<joda:format value="${dayFirstTaskRun.begin }" style="L-"
 				locale="${jodaLocale }" />
 			<joda:format value="${dayFirstTaskRun.begin }" pattern=" EEE"
@@ -25,15 +25,12 @@
 							<td>${dayFirstTaskRun.begin.hourOfDay } ..
 								${dayLastTaskRun.end.hourOfDay}</td>
 						</c:when>
-						<c:when test="${plancolumn=='doseHour'}">
-							<c:forEach var="h" begin="${dayFirstTaskRun.begin.hourOfDay }"
-								end="${dayLastTaskRun.end.hourOfDay}">
-								<td>${h }</td>
-							</c:forEach>
+						<c:when test="${plancolumn=='dayHour'}">
+							<rg:planDayHour viewType="head"/>
 						</c:when>
 						<c:when test="${plancolumn=='timesNumer'}">
-								<td class="small">#</td>
-							</c:when>
+							<td class="small">#</td>
+						</c:when>
 						<c:otherwise>
 							<td></td>
 						</c:otherwise>
@@ -65,24 +62,16 @@
 										idprefix="d${taskRun.defDay }h${taskRun.begin.hourOfDay }"
 										name="span" tree="${drugDoseT}">
 										<rg:doseText doseT="${drugDoseT }" /> ${drugDoseT.mtlO.app} 
-									</rg:taskDrugEdit> 
-									<rg:appText appT="${dayT.parentT.drugAppT}" />
+									</rg:taskDrugEdit> <rg:appText appT="${dayT.parentT.drugAppT}" />
 								</td>
 							</c:when>
-							<c:when test="${plancolumn=='doseHour'}">
-								<c:forEach var="h" begin="${dayFirstTaskRun.begin.hourOfDay }"
-									end="${dayLastTaskRun.end.hourOfDay}">
-									<td><c:set var="x" value="" /> <c:forEach
-											var="hourTaskRun" items="${daysHoursTaskRuns[dayNr.key][h]}">
-											<c:if test="${hourTaskRun.timesT==timesT}">
-												<c:set var="x" value="x" />
-											</c:if>
-										</c:forEach> <c:out value="${x }" /> <c:out value="${''==x?'.':'' }" /></td>
-								</c:forEach>
+							<c:when test="${plancolumn=='dayHour'}">
+								<rg:planDayHour taskRun="${taskRun}"/>
 							</c:when>
 							<c:when test="${plancolumn=='appDuration'}">
 								<td><rg:appText appT="${dayT.parentT.drugAppT}"
-										style="dotted" /></td>
+										style="dotted" />
+								</td>
 							</c:when>
 							<c:when test="${plancolumn=='timesNumer'}">
 								<td><rg:timesNr timesT="${timesT}" /></td>
@@ -90,6 +79,39 @@
 						</c:choose>
 					</c:forEach>
 				</tr>
+				<c:forEach var="drugDrugT" items="${drugT.childTs }">
+					<c:if test="${drugDrugT.drug }">
+						<tr>
+							<c:forEach var="plancolumn"
+								items="${planChronoFormat.plancolumns }">
+								<c:choose>
+									<c:when test="${plancolumn=='drug'}">
+										<rg:taskDrugEdit
+											idprefix="d${taskRun.defDay }h${taskRun.begin.hourOfDay }"
+											name="td" tree="${drugDrugT}">
+											<c:out value="+" />
+								${drugDrugT.drugO.drug }
+								</rg:taskDrugEdit>
+									</c:when>
+									<c:when test="${plancolumn=='dose'}">
+										<c:set var="drugDoseT" value="${drugDrugT.drugDoseT}" />
+										<td><rg:taskDrugEdit
+												idprefix="d${taskRun.defDay }h${taskRun.begin.hourOfDay }"
+												name="span" tree="${drugDoseT}">
+												<rg:doseText doseT="${drugDoseT }" /> ${drugDoseT.mtlO.app} 
+									</rg:taskDrugEdit></td>
+									</c:when>
+									<c:when test="${plancolumn=='dayHour'}">
+										<rg:planDayHour viewType="drugDrug"/>
+									</c:when>
+									<c:otherwise>
+										<td></td>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</tr>
+					</c:if>
+				</c:forEach>
 			</c:forEach>
 		</table>
 	</c:forEach>
