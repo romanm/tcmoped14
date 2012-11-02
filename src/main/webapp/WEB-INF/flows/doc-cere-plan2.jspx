@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
+	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
+	xmlns:joda="http://www.joda.org/joda/time/tags"
+	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<c:set var="style" value="hhmm skew" />
+	<c:forEach var="dayNr" items="${dayNrDayTs }">
+		<div class="bold">
+			<spring:eval var="dayFirstTaskRun"
+				expression="dayNrTaskRuns.get(dayNr.key).first()" scope="request" />
+			<spring:eval var="dayLastTaskRun"
+				expression="dayNrTaskRuns.get(dayNr.key).last()" />
+			<joda:format value="${dayFirstTaskRun.begin }" style="L-"
+				locale="${jodaLocale }" />
+			<joda:format value="${dayFirstTaskRun.begin }" pattern=" EEE"
+				locale="${jodaLocale }" />
+		</div>
+		<table>
+			<tr>
+				<c:forEach var="plancolumn" items="${planChronoFormat.plancolumns }">
+					<c:choose>
+						<c:when test="${plancolumn=='times'}">
+							<td>${dayFirstTaskRun.begin.hourOfDay } ..
+								${dayLastTaskRun.end.hourOfDay}</td>
+						</c:when>
+						<c:when test="${plancolumn=='doseHour'}">
+							<c:forEach var="h" begin="${dayFirstTaskRun.begin.hourOfDay }"
+								end="${dayLastTaskRun.end.hourOfDay}">
+								<td>${h }</td>
+							</c:forEach>
+						</c:when>
+						<c:otherwise>
+							<td></td>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</tr>
+			<c:forEach var="taskRun" items="${dayNrTaskRuns[dayNr.key] }">
+				<c:set var="timesT" value="${taskRun.timesT }" />
+				<c:set var="dayT" value="${timesT.parentT }" />
+				<c:set var="drugT" value="${dayT.parentT }" />
+				<tr class="${timesT.parentT.parentT.parentT==regimeT?'bold':'' }">
+					<c:forEach var="plancolumn"
+						items="${planChronoFormat.plancolumns }">
+						<c:choose>
+							<c:when test="${plancolumn=='times'}">
+								<td><rg:timesText timesT="${timesT}" taskRun="${taskRun }"
+										style="${style }" /></td>
+							</c:when>
+							<c:when test="${plancolumn=='drug'}">
+								<rg:taskDrugEdit
+									idprefix="d${taskRun.defDay }h${taskRun.begin.hourOfDay }"
+									name="td" tree="${drugT}">
+								${drugT.drugO.drug }
+								</rg:taskDrugEdit>
+							</c:when>
+							<c:when test="${plancolumn=='dose'}">
+								<c:set var="drugDoseT" value="${drugT.drugDoseT}" />
+								<td><rg:taskDrugEdit
+										idprefix="d${taskRun.defDay }h${taskRun.begin.hourOfDay }"
+										name="span" tree="${drugDoseT}">
+										<rg:doseText doseT="${drugDoseT }" /> ${drugDoseT.mtlO.app} 
+									</rg:taskDrugEdit> 
+									<rg:appText appT="${dayT.parentT.drugAppT}" />
+								</td>
+							</c:when>
+							<c:when test="${plancolumn=='doseHour'}">
+								<c:forEach var="h" begin="${dayFirstTaskRun.begin.hourOfDay }"
+									end="${dayLastTaskRun.end.hourOfDay}">
+									<td><c:set var="x" value="" /> <c:forEach
+											var="hourTaskRun" items="${daysHoursTaskRuns[dayNr.key][h]}">
+											<c:if test="${hourTaskRun.timesT==timesT}">
+												<c:set var="x" value="x" />
+											</c:if>
+										</c:forEach> <c:out value="${x }" /> <c:out value="${''==x?'.':'' }" /></td>
+								</c:forEach>
+							</c:when>
+							<c:when test="${plancolumn=='appDuration'}">
+								<td><rg:appText appT="${dayT.parentT.drugAppT}"
+										style="dotted" /></td>
+							</c:when>
+							<c:when test="${plancolumn=='timesNumer'}">
+								<td><rg:timesNr timesT="${timesT}" /></td>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+				</tr>
+			</c:forEach>
+		</table>
+	</c:forEach>
+	<script type="text/javascript">
+		dojo.query(".toMoDi").forEach(function(e) {
+			link2modalDialog(e.id);
+		});
+	</script>
+</jsp:root>

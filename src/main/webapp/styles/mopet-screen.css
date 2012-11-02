@@ -52,8 +52,8 @@ http://www.colorcombos.com/color-schemes/173/ColorCombo173.html
 http://colorschemedesigner.com/
 */
 .nofloat{clear:both}
-.nowrap {white-space:nowrap;} 
-
+.nowrap {white-space:nowrap;}
+.bold{font-weight:bold;}
 /* color palette */
 .regimeContent	{background-color: #D9E3D9}
 .conceptContent	{background-color: #C1D6CC;}

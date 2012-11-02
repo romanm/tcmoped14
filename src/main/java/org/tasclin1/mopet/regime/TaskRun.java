@@ -3,6 +3,7 @@ package org.tasclin1.mopet.regime;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import org.joda.time.MutableDateTime;
@@ -52,24 +53,29 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 	Integer durationValueSecond = getAppDurationSecond();
 	end = endFromBegin().secondOfDay().add(durationValueSecond);
 
-	modelThis(model);
+	modelThisDay(model);
 
     }
 
-    private void modelThis(Model model) {
+    private void modelThisDay(Model model) {
 	timesT.getTaskRuns().add(this);
 	Map<Integer, Set<TaskRun>> dayNrTaskRuns = (Map<Integer, Set<TaskRun>>) model.asMap().get(
 		MopetService.dayNrTaskRuns);
 	if (!dayNrTaskRuns.containsKey(defDay))
 	    dayNrTaskRuns.put(defDay, new ConcurrentSkipListSet<TaskRun>());
 	dayNrTaskRuns.get(defDay).add(this);
+	Map<Integer, Map<Integer, Set<TaskRun>>> daysHoursTaskRuns = (Map<Integer, Map<Integer, Set<TaskRun>>>) model
+		.asMap().get(MopetService.daysHoursTaskRuns);
+	if (!daysHoursTaskRuns.containsKey(defDay))
+	    daysHoursTaskRuns.put(defDay, new TreeMap<Integer, Set<TaskRun>>());
+	Integer hourOfDay = begin.getHourOfDay();
+	Map<Integer, Set<TaskRun>> dayHoursTaskRuns = daysHoursTaskRuns.get(defDay);
+	if (!dayHoursTaskRuns.containsKey(hourOfDay))
+	    dayHoursTaskRuns.put(hourOfDay, new ConcurrentSkipListSet<TaskRun>());
+	dayHoursTaskRuns.get(hourOfDay).add(this);
+
     }
 
-    // apporder
-    // 0 -↘↑- beginAfterEnd
-    // 1 -↑↖- beginBeforeBegin
-    // 2 -↘↓- endAfterEnd
-    // 3 -↓↖- endBeforeBegin
     public TaskRun(Tree timesT, TaskRun refTaskRun, Model model) {
 	this.timesT = timesT;
 	defDay = refTaskRun.getDefDay();
@@ -84,6 +90,13 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 	else if ("H".equals(relUnit))
 	    relValueSecond *= 60 * 60;
 
+	// apporder
+	// ↘↖ - leading
+	// ↑↓ - driven
+	// 0 -↘↑- beginAfterEnd
+	// 1 -↑↖- beginBeforeBegin
+	// 2 -↘↓- endAfterEnd
+	// 3 -↓↖- endBeforeBegin
 	String apporder = refTimesO.getApporder();
 	if ("0".equals(apporder)) {
 	    begin = refTaskRun.getEnd().copy().secondOfDay().add(relValueSecond);
@@ -99,7 +112,7 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 	    begin = beginFromEnd().secondOfDay().add(0 - durationValueSecond);
 	}
 
-	modelThis(model);
+	modelThisDay(model);
 
     }
 

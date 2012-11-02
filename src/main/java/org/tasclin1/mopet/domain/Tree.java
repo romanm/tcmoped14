@@ -527,4 +527,8 @@ public class Tree implements Serializable {
 	}
 	return taskRuns;
     }
+
+    public char getCharNr(int i) {
+	return (char) (87 + i);
+    }
 }

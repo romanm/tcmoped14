@@ -6,14 +6,17 @@
 		description="The tree object" />
 	<jsp:directive.attribute name="name" type="java.lang.String"
 		required="true" description="The html tag name" />
+	<jsp:directive.attribute name="idprefix" type="java.lang.String"
+		required="false" description="The html tag name" />
 
+<c:set var="tagId" value="${idprefix}${not empty idprefix?'.':''}${tree.tabName }_${tree.id}" />
 <jsp:element name="${name}">
+	<jsp:attribute name="id">${tagId }</jsp:attribute>
 <!-- 
-	<jsp:attribute name="id">${name}${tree.tabName }_${tree.id}</jsp:attribute>
- -->
 	<jsp:attribute name="id">${tree.tabName }_${tree.id}</jsp:attribute>
+ -->
 	<jsp:attribute name="class">select ${tree.tabName }</jsp:attribute>
-		<a id="a${name}${tree.tabName }_${tree.id}" class="toMoDi"
+		<a id="a${tagId }" class="toMoDi"
 			onclick="dojo.addClass(this, 'notice');"
 			href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;idt=${tree.id 
 			}&amp;a=ed_${tree.tabName }">

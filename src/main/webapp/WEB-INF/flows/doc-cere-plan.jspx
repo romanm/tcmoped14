@@ -19,10 +19,12 @@
 				<tr>
 					<td>${chemoDrugT.mtlO.drug }</td>
 					<c:forEach var="dayNr" items="${dayNrDayTs }" varStatus="varStatus">
-						<td><spring:eval var="isDay"
-								expression="drugT_dayNr.get(chemoDrugT).contains(dayNr.key)" />
-							<c:if test="${isDay }">
+						<td><c:if test="${not empty drugT_dayNr[chemoDrugT]}">
+								<spring:eval var="isDay"
+									expression="drugT_dayNr.get(chemoDrugT).contains(dayNr.key)" />
+								<c:if test="${isDay }">
 								###
+							</c:if>
 							</c:if></td>
 					</c:forEach>
 					<td>${chemoDrugT.drugDoseT.mtlO.app}</td>
@@ -35,6 +37,7 @@
 
 	<table>
 		<c:forEach var="dayNr" items="${dayNrDayTs }" varStatus="varStatus">
+			<!-- 
 			<tr>
 				<th colspan="4">
 					<hr /> day: ${dayNr.key } <span class="small">dayNrDayTs </span>
@@ -46,41 +49,69 @@
 			<c:forEach var="dayT" items="${dayNr.value }">
 				<spring:eval var="drugDayTimesT"
 					expression="dayT.getDrugDayTimesT(0)" />
-				<tr>
-					<td><rg:timesText timesT="${drugDayTimesT}" /></td>
-					<td>${dayT.parentT.drugO.drug }</td>
-					<td><c:set var="drugDoseT" value="${dayT.parentT.drugDoseT}" />
-						<rg:doseText doseT="${drugDoseT }" /> ${drugDoseT.mtlO.app}
-						<rg:appText appT="${dayT.parentT.drugAppT}"/>
-					</td>
-					<td><rg:appText appT="${dayT.parentT.drugAppT}" style="dotted" />
-					</td>
-					<td>
-						<spring:eval expression="regimeTimesTs.indexOf(drugDayTimesT)+1" /> 
-						<c:out value="." />
-					</td>
-				</tr>
+				<rg:planTR timesT="${drugDayTimesT}" style="hhmm"/>
 			</c:forEach>
+		 -->
 			<tr>
-				<th colspan="3">
-				<spring:eval
-						var="iterator"
+				<th colspan="3"><spring:eval var="iterator"
 						expression="dayNrTaskRuns.get(dayNr.key).iterator()" /> <spring:eval
 						var="hasNext" expression="iterator.hasNext()" /> <c:if
 						test="${hasNext}">
 						<spring:eval var="next" expression="iterator.next()" />
-						<joda:format value="${next.begin }" style="L-" locale="${jodaLocale }"/>
-					</c:if>
-				</th>
+						<joda:format value="${next.begin }" style="L-"
+							locale="${jodaLocale }" />
+						<joda:format value="${next.begin }" pattern=" EEE"
+							locale="${jodaLocale }" />
+					</c:if></th>
+			</tr>
+			<tr>
+				<td colspan="3"><c:set var="dayTaskRuns"
+						value="${dayNrTaskRuns[dayNr.key]}" /> <spring:eval
+						var="dayFirstTaskRun" expression="dayTaskRuns.first()"
+						scope="request" /> <spring:eval var="dayLastTaskRun"
+						expression="dayTaskRuns.last()" />
+					<table>
+						<tr>
+							<td>${dayFirstTaskRun.begin.hourOfDay } ..
+								${dayLastTaskRun.end.hourOfDay}</td>
+							<c:forEach var="h" begin="${dayFirstTaskRun.begin.hourOfDay }"
+								end="${dayLastTaskRun.end.hourOfDay}">
+								<td>${h }</td>
+							</c:forEach>
+						</tr>
+						<tr>
+							<td></td>
+							<c:forEach var="h" begin="${dayFirstTaskRun.begin.hourOfDay }"
+								end="${dayLastTaskRun.end.hourOfDay}">
+								<td><c:forEach var="hourTaskRun"
+										items="${daysHoursTaskRuns[dayNr.key][h]}">
+										<rg:timesNr timesT="${hourTaskRun.timesT}" />
+									</c:forEach></td>
+							</c:forEach>
+						</tr>
+						<tr>
+							<td>x</td>
+							<c:forEach var="h" begin="${dayFirstTaskRun.begin.hourOfDay }"
+								end="${dayLastTaskRun.end.hourOfDay}">
+								<td><c:forEach var="hourTaskRun"
+										items="${daysHoursTaskRuns[dayNr.key][h]}">
+										<div>
+											<c:forEach begin="1"
+												end="${hourTaskRun.begin.minuteOfHour/15 }">
+												<c:out value="." />
+											</c:forEach>
+											<rg:appText
+												appT="${hourTaskRun.timesT.parentT.parentT.drugAppT}"
+												style="dotted" />
+										</div>
+									</c:forEach></td>
+							</c:forEach>
+						</tr>
+					</table></td>
 			</tr>
 			<c:forEach var="taskRun" items="${dayNrTaskRuns[dayNr.key] }">
-				<tr>
-					<td><joda:format value="${taskRun.begin }" pattern="kk:mm" />
-					</td>
-					<td colspan="3">${taskRun.timesT }</td>
-					<td><spring:eval
-							expression="regimeTimesTs.indexOf(taskRun.timesT)+1" /></td>
-				</tr>
+				<rg:planTR timesT="${taskRun.timesT}" taskRun="${taskRun }"
+					style="hhmm skew" />
 			</c:forEach>
 		</c:forEach>
 	</table>

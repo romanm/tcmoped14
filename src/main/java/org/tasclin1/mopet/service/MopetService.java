@@ -41,10 +41,11 @@ import org.tasclin1.mopet.domain.Pvariable;
 import org.tasclin1.mopet.domain.Task;
 import org.tasclin1.mopet.domain.Times;
 import org.tasclin1.mopet.domain.Tree;
+import org.tasclin1.mopet.regime.PlanChronoFormat;
 import org.tasclin1.mopet.regime.TaskRun;
 
 /**
- * @author roman
+ * @author Roman Mishchenko
  * 
  */
 @Service("mopetService")
@@ -313,9 +314,12 @@ public class MopetService {
 		}
 	    }
 	}
-	if ("plan".equals((String) model.asMap().get(MopetService.regimeView))) {
+	if (isRegimeViewPlan(model)) {
+	    PlanChronoFormat planChronoFormat = new PlanChronoFormat();
+	    model.addAttribute(planChronoFormat);
 	    model.addAttribute(MopetService.regimeTaskRuns, new TreeMap<Long, TaskRun>());
-	    model.addAttribute("dayNrTaskRuns", new TreeMap<Integer, Set<TaskRun>>());
+	    model.addAttribute(MopetService.dayNrTaskRuns, new TreeMap<Integer, Set<TaskRun>>());
+	    model.addAttribute(MopetService.daysHoursTaskRuns, new TreeMap<Integer, Map<Integer, Set<TaskRun>>>());
 	    Map<Integer, List<Tree>> dayNrDayTs = new TreeMap<Integer, List<Tree>>();
 	    model.addAttribute(MopetService.dayNrDayTs, dayNrDayTs);
 	    HashSet<Tree> regimeDrugDayTs = new HashSet<Tree>();
@@ -335,11 +339,16 @@ public class MopetService {
 		    }
 		    regimeDrugDayTs.add(dayT);
 		}
-	    log.debug("--------------1--");
 	    calcTimes1iteration(model);
-	    log.debug("--------------2--");
+	    calcTimes1iteration(model);
+	    calcTimes1iteration(model);
 	    calcTimes1iteration(model);
 	}
+    }
+
+    private boolean isRegimeViewPlan(Model model) {
+	return "plan".equals((String) model.asMap().get(MopetService.regimeView))
+		|| "plan2".equals((String) model.asMap().get(MopetService.regimeView));
     }
 
     private void calcTimes1iteration(Model model) {
@@ -348,10 +357,9 @@ public class MopetService {
 	    for (Tree timesT : dayT.getChildTs())
 		if (timesT.isTimes()) {
 		    if (0 == timesT.getTaskRuns().size()) {
-			Set<Integer> absSet = timesT.getParentT().getDayO().getAbsSet();
 			if (null == timesT.getRef()) {
 			    log.debug("-------without ref---------");
-			    for (Integer dayNr : absSet) {
+			    for (Integer dayNr : timesT.getParentT().getDayO().getAbsSet()) {
 				new TaskRun(timesT, dayNr, model);
 			    }
 			} else {// with ref
@@ -360,7 +368,7 @@ public class MopetService {
 			    if (0 != timesT.getRefT().getTaskRuns().size()) {// refT is calculated
 				log.debug("----------------" + timesT.getId() + "/" + timesT.getRef());
 				log.debug("----------------" + timesT.getRefT());
-				for (Integer dayNr : absSet) {
+				for (Integer dayNr : timesT.getParentT().getDayO().getAbsSet()) {
 				    for (TaskRun refTaskRun : timesT.getRefT().getTaskRuns()) {
 					if (refTaskRun.getDefDay().equals(dayNr)) {
 					    new TaskRun(timesT, refTaskRun, model);
@@ -388,6 +396,7 @@ public class MopetService {
 	}
     }
 
+    public final static String daysHoursTaskRuns = "daysHoursTaskRuns";
     public final static String dayNrTaskRuns = "dayNrTaskRuns";
     public final static String regimeTaskRuns = "regimeTaskRuns";
     public final static String dayNrDayTs = "dayNrDayTs";
