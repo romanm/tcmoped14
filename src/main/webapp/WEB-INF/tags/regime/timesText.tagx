@@ -27,9 +27,14 @@
 	</c:if>
 	<c:set var="leerTimes" value=".&#160;&#160;:&#160;&#160;."
 		scope="application" />
-	<c:if test="${not empty taskRun and fn:contains(style,'hhmm') }">
-		<joda:format var="leerTimes" value="${taskRun.begin }" pattern="kk:mm" />
-	</c:if>
+	<c:choose>
+		<c:when  test="${not empty taskRun and fn:contains(style,'hhmm') }">
+			<joda:format var="timesText" value="${taskRun.begin }" pattern="kk:mm" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="timesText" value="${leerTimes }" />
+		</c:otherwise>
+	</c:choose>
 	<c:choose>
 			<c:when test="${not empty timesT.ref}">
 				<c:set var="timesT_Nr"><rg:timesNr timesT="${timesT}" /></c:set>
@@ -49,12 +54,12 @@
 				</c:set>
 				<c:choose>
 					<c:when test="${fn:contains(style,'skew')}">
-						<!-- 
+				<!--
 				0 -↘↑- beginAfterEnd
 				1 -↑↖- beginBeforeBegin
 				2 -↘↓- endAfterEnd
 				3 -↓↖- endBeforeBegin
-				 -->
+				-->
 						<c:set var="apporder"
 							value="${
 						timesT.timesO.apporder==0?'↘↑'
@@ -65,14 +70,14 @@
 						<c:choose>
 							<c:when
 								test="${timesT.timesO.apporder==1 or timesT.timesO.apporder==3}">
-								<c:out
-									value="${leerTimes }|${timesT_Nr
+								<c:set var="timesTextRelation"
+									value="|${timesT_Nr
 				}${fn:substring(apporder,0,1)}${interval
 				}${fn:substring(apporder,1,2)}${refTimesT_Nr }" />
 							</c:when>
 							<c:otherwise>
-								<c:out
-									value="${leerTimes }|${refTimesT_Nr
+								<c:set var="timesTextRelation"
+									value="|${refTimesT_Nr
 				}${fn:substring(apporder,0,1)}${interval
 				}${fn:substring(apporder,1,2)}${timesT_Nr }" />
 							</c:otherwise>
@@ -84,17 +89,17 @@
 						timesT.timesO.apporder==0?'&gt;'
 						:timesT.timesO.apporder==1?'&lt;'
 						:'*' }" />
-						<c:out
-							value="${leerTimes }(.${refTimesT_Nr}${apporder}|${interval}|${timesT_Nr })" />
+						<c:set var="timesTextRelation"
+							value="(.${refTimesT_Nr}${apporder}|${interval}|${timesT_Nr })" />
 					</c:otherwise>
 				</c:choose>
 			</c:when>
 			<c:when test="${not empty timesT.timesO.abs}">
 						${timesT.timesO.abs}
 					</c:when>
-			<c:otherwise>
-				<c:out value="${leerTimes }" />
-			</c:otherwise>
 	</c:choose>
-
+<c:out value="${timesText }" />
+<span class="small">
+<c:out value="${timesTextRelation }" />
+</span>
 </jsp:root>

@@ -31,6 +31,9 @@
 								<td>${h }</td>
 							</c:forEach>
 						</c:when>
+						<c:when test="${plancolumn=='timesNumer'}">
+								<td class="small">#</td>
+							</c:when>
 						<c:otherwise>
 							<td></td>
 						</c:otherwise>
