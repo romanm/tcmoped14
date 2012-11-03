@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.tasclin1.mopet.domain.Dose;
 import org.tasclin1.mopet.domain.Tree;
 
-@XmlRootElement
+@XmlRootElement(name = "dose")
 public class Dosex extends Treex {
 
     public Dosex() {

@@ -54,15 +54,14 @@
 					times abs</button>
 				<button
 					class="${'ed_times_relative'==flowRequestContext.currentState.id?'notice':''}"
-					id="edTimesRelative" type="submit" name="_eventId_edTimesRelative">ed
-					times period</button>
+					id="edTimesRelative" type="submit" name="_eventId_edTimesRelative">edTimesRelative</button>
 				<button
 					class="${'ed_times_meal'==flowRequestContext.currentState.id?'notice':''}"
 					id="edTimesMeal" type="submit" name="_eventId_edTimesMeal">ed
 					times week</button>
 			</c:if>
 			<div class="nofloat" />
-			<table width="100%">
+			<table width="100%" class="small">
 				<rg:edDrugFormTR taskDrugT="${drugT }" />
 			</table>
 			<hr />
@@ -75,8 +74,7 @@
 			</p>
 		,
 			<c:choose>
-				<c:when
-					test="${'ed_drug'==flowRequestContext.currentState.id}">
+				<c:when test="${'ed_drug'==flowRequestContext.currentState.id}">
 					<button id="previous" type="submit" name="_eventId_previous"
 						disabled="disabled">
 						<c:out value="&lt;&lt; Previous" />

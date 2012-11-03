@@ -28,7 +28,7 @@ public class MopetController {
 	// mopetService.init();
     }
 
-    // copy&paste
+    // copy&paste order delete
     @RequestMapping(value = "/order", method = RequestMethod.POST)
     public String order(@RequestParam("docId")
     Integer docId, @RequestParam("up_down")
@@ -41,6 +41,17 @@ public class MopetController {
 	    log.debug("orderId2=" + orderId2);
 	    mopetService.order(orderId2, up_down);
 	}
+	return fromId(docId);
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String delete(@RequestParam("docId")
+    Integer docId, @RequestParam("deleteId")
+    String deleteId, Model model) {
+	log.debug("-----------------" + deleteId);
+	Integer deleteId2 = mopetService.getIdFromHtmlId(deleteId);
+	log.debug("orderId2=" + deleteId2);
+	mopetService.delete(deleteId2);
 	return fromId(docId);
     }
 
@@ -103,7 +114,7 @@ public class MopetController {
 	mopetService.readFolderO2doc(idFolder, model);
 	mopetService.readConceptT(idStudy, model);
 	mopetService.readRegimeDocT(idRegime, model);
-	mopetService.initRegimeDocT(model);
+	// mopetService.initRegimeDocT(model);
 	model.addAttribute("docId", idRegime);
     }
 

@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.tasclin1.mopet.domain.Day;
 import org.tasclin1.mopet.domain.Tree;
 
-@XmlRootElement
+@XmlRootElement(name = "day")
 public class Dayx extends Treex {
 
     public Dayx() {

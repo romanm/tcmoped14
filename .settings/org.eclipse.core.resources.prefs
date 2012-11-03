@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/main/webapp/WEB-INF/i18n/messages.properties=UTF-8
+encoding//src/main/webapp/WEB-INF/i18n/messages_de.properties=UTF-8
 encoding//src/main/webapp/WEB-INF/i18n/messages_ru.properties=UTF-8
 encoding//src/main/webapp/WEB-INF/i18n/messages_ua.properties=UTF-8

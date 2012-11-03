@@ -21,7 +21,7 @@
 			<c:forEach begin="1" end="${duration}" var="weekNr" step="7">
 			<tr class="dotted">
 				<th>${w}</th>
-				<c:forEach begin="${weekNr}" end="${weekNr + 6}" var="dayNr">
+				<c:forEach  var="dayNr" begin="${weekNr}" end="${weekNr + 6}">
 					<td> <form:checkbox path="absset" value="${dayNr }" label="${dayNr }" /> </td>
 				</c:forEach>
 				<c:set var="w" value="${w + 1}"/>

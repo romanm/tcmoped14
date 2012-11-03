@@ -65,6 +65,16 @@ public class Tree implements Serializable {
 	return null;
     }
 
+    public Tree getDrugDayT(int n) {
+	int i = 0;
+	if (isDrug())
+	    for (Tree dayT : this.getChildTs())
+		if (dayT.isDay())
+		    if (n == i++)
+			return dayT;
+	return null;
+    }
+
     public Tree getDrugDayTimesT(int n) {
 	int i = 0;
 	if (isDay())
@@ -177,16 +187,6 @@ public class Tree implements Serializable {
 
     public boolean isMtlDayO() {
 	return getMtlO() instanceof Day;
-    }
-
-    public Tree getDrugDayT(int n) {
-	int i = 0;
-	if (isDrug())
-	    for (Tree dayT : this.getChildTs())
-		if (dayT.isDay())
-		    if (n == i++)
-			return dayT;
-	return null;
     }
 
     @Transient

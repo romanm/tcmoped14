@@ -17,9 +17,10 @@
 		<rg:taskDrugEdit name="td" tree="${drugDoseT }">
 			<rg:doseText doseT="${drugDoseT }" />
 		</rg:taskDrugEdit>
-		<td><rg:taskDrugEdit name="span" tree="${drugDoseT }">
+		<td><rg:taskDrugEdit name="span"  idprefix="d2" tree="${drugDoseT }">
 					${drugDoseT.mtlO.app}
-			</rg:taskDrugEdit> <rg:taskDrugEdit name="span" tree="${taskDrugT.drugAppT }">
+			</rg:taskDrugEdit> 
+			<rg:taskDrugEdit name="span" tree="${taskDrugT.drugAppT }">
 				<rg:appText appT="${taskDrugT.drugAppT}" />
 			</rg:taskDrugEdit></td>
 		<spring:eval var="drugDayT" expression="taskDrugT.getDrugDayT(0)" />
@@ -33,13 +34,29 @@
 		</rg:taskDrugEdit>
 		<td><rg:timesNr timesT="${drugDayTimesT}" /></td>
 	</tr>
+	<c:set var="ddNumber" value="1" />
 	<c:forEach var="drugDrugT" items="${taskDrugT.childTs }">
 		<c:if test="${'drug'==drugDrugT.tabName }">
 			<tr>
-				<td>${drugDrugT.mtlO.drug }</td>
+				<td class="small">+ ${drugDrugT.mtlO.drug }</td>
 				<c:set var="drugDoseT" value="${drugDrugT.drugDoseT}" />
-				<td>${drugDoseT.mtlO.value} ${drugDoseT.mtlO.unit}</td>
+				<td class="small">${drugDoseT.mtlO.value} ${drugDoseT.mtlO.unit}</td>
+				<spring:eval var="drugDayT"
+					expression="taskDrugT.getDrugDayT(ddNumber)" />
+				<c:if test="${not empty drugDayT}">
+					<td></td>
+					<rg:taskDrugEdit name="td" tree="${drugDayT}">
+						<rg:dayText dayT="${drugDayT }" />
+					</rg:taskDrugEdit>
+					<spring:eval var="drugDayTimesT"
+						expression="drugDayT.getDrugDayTimesT(0)" />
+					<rg:taskDrugEdit name="td" tree="${drugDayTimesT}">
+						<rg:timesText timesT="${drugDayTimesT}" />
+					</rg:taskDrugEdit>
+					<td><rg:timesNr timesT="${drugDayTimesT}" /></td>
+				</c:if>
 			</tr>
+			<c:set var="ddNumber" value="${ddNumber+1 }" />
 		</c:if>
 	</c:forEach>
 	<c:if test="${not empty drugNoticeExprM[taskDrugT] }">

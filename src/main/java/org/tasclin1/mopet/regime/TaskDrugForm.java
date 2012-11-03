@@ -1,11 +1,13 @@
 package org.tasclin1.mopet.regime;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tasclin1.mopet.domain.Day;
+import org.tasclin1.mopet.domain.Times;
 import org.tasclin1.mopet.domain.Tree;
 
 public class TaskDrugForm implements Serializable {
@@ -74,6 +76,9 @@ public class TaskDrugForm implements Serializable {
 	return string;
     };
 
+    /**
+     * Set of days.
+     */
     Set<Integer> absset;
 
     public Set<Integer> getAbsset() {
@@ -82,6 +87,19 @@ public class TaskDrugForm implements Serializable {
 
     public void setAbsset(Set<Integer> absset) {
 	this.absset = absset;
+    }
+
+    /**
+     * Set of hour.
+     */
+    Set<Integer> absHourSet;
+
+    public Set<Integer> getAbsHourSet() {
+	return absHourSet;
+    }
+
+    public void setAbsHourSet(Set<Integer> absHourSet) {
+	this.absHourSet = absHourSet;
     }
 
     String type;
@@ -112,13 +130,82 @@ public class TaskDrugForm implements Serializable {
 	this.totheday = totheday;
     }
 
-    public void initAbs() {
+    public String actionStateTimes() {
+	initTargetTimesT();
+	if (null == edTimes) {
+	    edTimes = "edTimesAbs";
+	    Times timesO = targetT.getTimesO();
+	    if (null != timesO) {
+		if (null != targetT.getRef()) {
+		    edTimes = "edTimesRelative";
+		} else {
+		    String abs = timesO.getAbs();
+		    if (abs.contains("=")) {
+			edTimes = "edTimesMeal";
+		    } else if (abs.contains(",")) {
+			edTimes = "edTimesAbs";
+		    }
+		}
+	    }
+	}
+	return edTimes;
+    }
+
+    String edDay, edTimes;
+
+    public String actionStateDay() {
 	initTargetDayT();
+	if (null == edDay) {
+	    edDay = "edDayAbs";
+	    Day dayO = targetT.getDayO();
+	    if (null != dayO) {
+		String newtype = dayO.getNewtype();
+		if ("a".equals(newtype))
+		    edDay = "edDayAbs";
+		else if ("p".equals(newtype))
+		    edDay = "edDayPeriod";
+	    }
+	}
+	return edDay;
+    }
+
+    public void initHourAbs() {
+	edTimes = "edTimesAbs";
+	if (null == absHourSet) {
+	    log.debug(targetT);
+	    Times timesO = targetT.getTimesO();
+	    if (null != timesO) {
+		absHourSet = timesO.getAbsSet();
+	    } else {
+		absHourSet = new HashSet();
+	    }
+	}
+    }
+
+    public void initAbs() {
+	edDay = "edDayAbs";
+	// initTargetDayT();
 	log.debug("---------------" + absset);
 	if (null == absset) {
 	    Day dayO = targetT.getDayO();
-	    absset = dayO.getAbsSet();
+	    if (null != dayO)
+		absset = dayO.getAbsSet();
+	    else
+		absset = new HashSet<Integer>();
 	}
+    }
+
+    private void initTargetTimesT() {
+	if (!targetT.isTimes()) {
+	    if (targetT.isDay())
+		targetT = targetT.getDrugDayTimesT(0);
+	    else {
+		Tree dayT = drugT.getDrugDayT(0);
+		targetT = dayT.getDrugDayTimesT(0);
+	    }
+	    idt = targetT.getId();
+	}
+
     }
 
     private void initTargetDayT() {
@@ -128,6 +215,7 @@ public class TaskDrugForm implements Serializable {
     }
 
     public void initPeriod() {
+	edDay = "edDayPeriod";
 	if (null == getFromday()) {
 	    if (targetT.isMtlDayO() && "p".equals(targetT.getDayO().getNewtype())) {
 		String abs = targetT.getDayO().getAbs();

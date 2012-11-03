@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.tasclin1.mopet.domain.Times;
 import org.tasclin1.mopet.domain.Tree;
 
-@XmlRootElement
+@XmlRootElement(name = "times")
 public class Timesx extends Treex {
 
     public Timesx() {

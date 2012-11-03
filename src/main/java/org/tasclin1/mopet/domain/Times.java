@@ -2,7 +2,9 @@ package org.tasclin1.mopet.domain;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -266,6 +268,26 @@ public class Times implements MObject, Serializable, Comparable<Times> {
 	    setRelvalue((Integer) map.get("relvalue"));
 	}
 	return this;
+    }
+
+    @Transient
+    Set<Integer> hashSet;
+
+    public Set<Integer> getAbsSet() {
+	if (null == hashSet) {
+	    hashSet = new HashSet<Integer>();
+	    if (abs.length() > 0) {
+		String[] split = abs.split(",");
+		for (String string : split) {
+		    log.debug(string);
+		    String[] split2 = string.split(":");
+		    String hour = split2[0];
+		    int hour2 = Integer.parseInt(hour);
+		    hashSet.add(hour2);
+		}
+	    }
+	}
+	return hashSet;
     }
 
 }

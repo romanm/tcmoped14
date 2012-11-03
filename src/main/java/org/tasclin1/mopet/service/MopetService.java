@@ -47,7 +47,6 @@ import org.tasclin1.mopet.regime.TaskRun;
 
 /**
  * @author Roman Mishchenko
- * 
  */
 @Service("mopetService")
 @Repository
@@ -226,6 +225,10 @@ public class MopetService {
 
     @Transactional(readOnly = true)
     public Tree setTreeWithMtlO(Integer id, Model model) {
+	return readTreeWithMtlO(id, model);
+    }
+
+    private Tree readTreeWithMtlO(Integer id, Model model) {
 	Tree tree = em.find(Tree.class, id);
 	setMtlO(tree, model);
 	return tree;
@@ -363,15 +366,19 @@ public class MopetService {
 			    for (Integer dayNr : timesT.getParentT().getDayO().getAbsSet()) {
 				Times timesO = timesT.getTimesO();
 				if (null != timesO) {
-				    for (String timesAbs2 : timesO.getAbs().split(",")) {
-					log.debug(timesAbs2);
-					String hour = timesAbs2.split(":")[0];
-					log.debug(hour);
-					int hour2 = Integer.parseInt(hour);
-					MutableDateTime mutableDateTime = TaskRun.instanceMutableDateTime(
-						dayNr, hour2);
-					new TaskRun(timesT, dayNr, mutableDateTime, model);
-				    }
+				    String abs = timesO.getAbs();
+				    if (abs.contains("="))
+					new TaskRun(timesT, dayNr, model);
+				    else
+					for (String timesAbs2 : abs.split(",")) {
+					    log.debug(timesAbs2);
+					    String hour = timesAbs2.split(":")[0];
+					    log.debug(hour);
+					    int hour2 = Integer.parseInt(hour);
+					    MutableDateTime mutableDateTime = TaskRun.instanceMutableDateTime(dayNr,
+						    hour2);
+					    new TaskRun(timesT, dayNr, mutableDateTime, model);
+					}
 				} else
 				    new TaskRun(timesT, dayNr, model);
 			    }
@@ -426,6 +433,7 @@ public class MopetService {
 	model.addAttribute(REGIMET, regimeT);
 	List<Tree> regimeTimesTs = regimeTimesTs(regimeT, model);
 	model.addAttribute("regimeTimesTs", regimeTimesTs);
+	initRegimeDocT(model);
     }
 
     private List<Tree> regimeTimesTs(Tree regimeT, Model model) {
@@ -525,6 +533,25 @@ public class MopetService {
 	if (resultList.size() == 0)
 	    return null;
 	return (Tree) resultList.get(0);
+    }
+
+    private void delete(Tree tree) {
+	em.createNativeQuery("DELETE FROM Tree WHERE id=" + tree.getId()).executeUpdate();
+    }
+
+    @Transactional
+    public void delete(Integer deleteId) {
+	Tree deleteT = readTreeWithMtlO(deleteId, null);
+	log.debug(deleteT);
+	Tree parentT = deleteT.getParentT();
+	if (deleteT.isTask() && parentT.isTask()) {
+	    if ("support".equals(deleteT.getTaskO().getTask())) {
+		if (0 == deleteT.getChildTs().size()) {
+		    delete(deleteT);
+		}
+	    }
+
+	}
     }
 
     @Transactional(readOnly = false)

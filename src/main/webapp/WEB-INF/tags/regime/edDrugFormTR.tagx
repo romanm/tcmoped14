@@ -15,11 +15,7 @@
 		</td>
 		<td><span class="${'ed_dose'==flowRequestContext.currentState.id?'notice':''}"> ${drugDoseT.mtlO.app} </span></td>
 		<spring:eval var="drugDayT" expression="taskDrugT.getDrugDayT(0)" />
-		<td class="${fn:contains(flowRequestContext.currentState.id,'ed_day')?'notice':''}">
-		<!-- 
-			 onclick="javascript:goToDayWithId(${drugDayT.id});"
-			onclick="idtClick(${drugDayT.id });return false"
-		 -->
+		<td class="${taskDrugForm.targetT.id == drugDayT.id?'notice':''}">
 			<a  href="javascript:void(0);" id="aEdDay_${drugDayT.id }"
 			onclick="openDay(${drugDayT.id })"
 			>
@@ -28,17 +24,35 @@
 		</td>
 		<spring:eval var="drugDayTimesT"
 			expression="drugDayT.getDrugDayTimesT(0)" />
-		<td class="${
-		fn:contains(flowRequestContext.currentState.id,'ed_times')?'notice':''}">
+		<td class="${taskDrugForm.targetT.id == drugDayTimesT.id?'notice':''}">
 				<rg:timesText timesT="${drugDayTimesT }"/>
 		</td>
 	</tr>
+	<c:set var="ddNumber" value="1" />
 	<c:forEach var="drugDrugT" items="${taskDrugT.childTs }">
 		<c:if test="${'drug'==drugDrugT.tabName }">
 			<tr>
-				<td>${drugDrugT.mtlO.drug }</td>
+				<td>+ ${drugDrugT.mtlO.drug }</td>
 				<c:set var="drugDoseT" value="${drugDrugT.drugDoseT}" />
 				<td>${drugDoseT.mtlO.value} ${drugDoseT.mtlO.unit}</td>
+				<spring:eval var="drugDayT"
+					expression="taskDrugT.getDrugDayT(ddNumber)" />
+				<c:if test="${not empty drugDayT}">
+					<td></td>
+					<td class="${taskDrugForm.targetT.id == drugDayT.id?'notice':''}">
+						<a  href="javascript:void(0);" id="aEdDay_${drugDayT.id }"
+						onclick="openDay(${drugDayT.id })"
+						>
+							<rg:dayText dayT="${drugDayT }"/>
+						</a>
+					</td>
+					<spring:eval var="drugDayTimesT"
+						expression="drugDayT.getDrugDayTimesT(0)" />
+					<td class="${taskDrugForm.targetT.id == drugDayTimesT.id?'notice':''}">
+							<rg:timesText timesT="${drugDayTimesT }"/>
+					</td>
+				</c:if>
+				<c:set var="ddNumber" value="${ddNumber+1 }" />
 			</tr>
 		</c:if>
 	</c:forEach>

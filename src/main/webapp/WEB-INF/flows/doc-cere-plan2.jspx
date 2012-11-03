@@ -7,6 +7,7 @@
 
 	<c:set var="style" value="hhmm skew" />
 	<c:forEach var="dayNr" items="${dayNrDayTs }">
+	<c:if test="${not empty dayNrTaskRuns[dayNr.key] }">
 		<div class="bold">
 			<spring:eval var="dayFirstTaskRun"
 				expression="dayNrTaskRuns.get(dayNr.key).first()" scope="request" />
@@ -81,7 +82,7 @@
 				</tr>
 				<c:forEach var="drugDrugT" items="${drugT.childTs }">
 					<c:if test="${drugDrugT.drug }">
-						<tr>
+						<tr class="small">
 							<c:forEach var="plancolumn"
 								items="${planChronoFormat.plancolumns }">
 								<c:choose>
@@ -114,6 +115,7 @@
 				</c:forEach>
 			</c:forEach>
 		</table>
+		</c:if>
 	</c:forEach>
 	<script type="text/javascript">
 		dojo.query(".toMoDi").forEach(function(e) {

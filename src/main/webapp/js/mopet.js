@@ -187,6 +187,9 @@ function cmiUp(){
 function cmiPaste(){
 	cmiFormClick("paste");
 }
+function cmiDelete(){
+	cmiFormClick("delete");
+}
 function cmiFormClick(formName){
 	console.log(formName+" "+getSelectedE().id);
 	dojo.byId(formName+"Id").value=getSelectedE().id;
