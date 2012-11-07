@@ -6,7 +6,6 @@
 
 <jsp:directive.attribute name="blockT"
 		type="org.tasclin1.mopet.domain.Tree" required="true" />
-
 	<c:forEach var="workflowT" items="${blockT.childTs }">
 		<c:choose>
 			<c:when test="${'task'==workflowT.tabName }">

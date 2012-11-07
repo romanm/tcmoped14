@@ -1,13 +1,11 @@
 package org.tasclin1.mopet.regime;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tasclin1.mopet.domain.Day;
-import org.tasclin1.mopet.domain.Times;
 import org.tasclin1.mopet.domain.Tree;
 
 public class TaskDrugForm implements Serializable {
@@ -70,36 +68,26 @@ public class TaskDrugForm implements Serializable {
     }
 
     public String toString() {
-	String string = "day::type=" + type + ":fromday=" + fromday + ":totheday=" + totheday + ":absset=" + absset
-		+ ":-:idt=" + idt;
+	String string = "day::type=" + type + ":fromday=" + getFromday() + ":totheday=" + getTotheday() + ":absset="
+		+ getAbsset() + ":-:idt=" + idt;
 	// log.debug(string);
 	return string;
     };
 
-    /**
-     * Set of days.
-     */
-    Set<Integer> absset;
-
     public Set<Integer> getAbsset() {
-	return absset;
+	return targetT.getDayO().getAbsSet();
     }
 
     public void setAbsset(Set<Integer> absset) {
-	this.absset = absset;
+	targetT.getDayO().setAbsSet(absset);
     }
 
-    /**
-     * Set of hour.
-     */
-    Set<Integer> absHourSet;
-
     public Set<Integer> getAbsHourSet() {
-	return absHourSet;
+	return targetT.getTimesO().getAbsHourSet();
     }
 
     public void setAbsHourSet(Set<Integer> absHourSet) {
-	this.absHourSet = absHourSet;
+	targetT.getTimesO().setAbsHourSet(absHourSet);
     }
 
     String type;
@@ -112,87 +100,44 @@ public class TaskDrugForm implements Serializable {
 	this.type = type;
     }
 
-    Integer fromday, totheday;
-
     public Integer getFromday() {
-	return fromday;
+	return targetT.getDayO().getFromday();
     }
 
     public void setFromday(Integer fromday) {
-	this.fromday = fromday;
+	targetT.getDayO().setFromday(fromday);
     }
 
     public Integer getTotheday() {
-	return totheday;
+	return targetT.getDayO().getTotheday();
     }
 
     public void setTotheday(Integer totheday) {
-	this.totheday = totheday;
+	targetT.getDayO().setTotheday(totheday);
+    }
+
+    public String actionStateDay() {
+	initTargetDayT();
+	return targetT.getDayO().actionStateDay();
     }
 
     public String actionStateTimes() {
 	initTargetTimesT();
-	if (null == edTimes) {
-	    edTimes = "edTimesAbs";
-	    Times timesO = targetT.getTimesO();
-	    if (null != timesO) {
-		if (null != targetT.getRef()) {
-		    edTimes = "edTimesRelative";
-		} else {
-		    String abs = timesO.getAbs();
-		    if (abs.contains("=")) {
-			edTimes = "edTimesMeal";
-		    } else if (abs.contains(",")) {
-			edTimes = "edTimesAbs";
-		    }
-		}
-	    }
-	}
-	return edTimes;
+	return targetT.getTimesO().actionStateTimes(targetT);
     }
 
-    String edDay, edTimes;
-
-    public String actionStateDay() {
-	initTargetDayT();
-	if (null == edDay) {
-	    edDay = "edDayAbs";
-	    Day dayO = targetT.getDayO();
-	    if (null != dayO) {
-		String newtype = dayO.getNewtype();
-		if ("a".equals(newtype))
-		    edDay = "edDayAbs";
-		else if ("p".equals(newtype))
-		    edDay = "edDayPeriod";
-	    }
-	}
-	return edDay;
-    }
+    // String edDay, edTimes;
 
     public void initHourAbs() {
-	edTimes = "edTimesAbs";
-	if (null == absHourSet) {
-	    log.debug(targetT);
-	    Times timesO = targetT.getTimesO();
-	    if (null != timesO) {
-		absHourSet = timesO.getAbsSet();
-	    } else {
-		absHourSet = new HashSet();
-	    }
-	}
+	targetT.getTimesO().initHourAbs();
     }
 
     public void initAbs() {
-	edDay = "edDayAbs";
-	// initTargetDayT();
-	log.debug("---------------" + absset);
-	if (null == absset) {
-	    Day dayO = targetT.getDayO();
-	    if (null != dayO)
-		absset = dayO.getAbsSet();
-	    else
-		absset = new HashSet<Integer>();
-	}
+	targetT.getDayO().initAbs();
+    }
+
+    public void initPeriod() {
+	targetT.getDayO().initPeriod();
     }
 
     private void initTargetTimesT() {
@@ -212,19 +157,8 @@ public class TaskDrugForm implements Serializable {
 	if (!targetT.isDay()) {
 	    targetT = drugT.getDrugDayT(0);
 	}
+	if (null == targetT.getDayO())
+	    targetT.setMtlO(new Day());
     }
 
-    public void initPeriod() {
-	edDay = "edDayPeriod";
-	if (null == getFromday()) {
-	    if (targetT.isMtlDayO() && "p".equals(targetT.getDayO().getNewtype())) {
-		String abs = targetT.getDayO().getAbs();
-		String[] split = abs.split("-");
-		int parseInt = Integer.parseInt(split[0]);
-		int parseInt2 = Integer.parseInt(split[1]);
-		setFromday(parseInt);
-		setTotheday(parseInt2);
-	    }
-	}
-    }
 }

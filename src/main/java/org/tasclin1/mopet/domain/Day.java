@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * The persistent class for the day database table.
  * 
@@ -19,6 +22,8 @@ import javax.persistence.Transient;
 @Entity
 public class Day implements MObject, Serializable {
     private static final long serialVersionUID = 1L;
+    @Transient
+    protected final Log log = LogFactory.getLog(getClass());
 
     public Integer getId() {
 	return id;
@@ -156,29 +161,109 @@ public class Day implements MObject, Serializable {
     }
 
     @Transient
-    Set<Integer> hashSet;
+    String edDay;
 
-    public Set<Integer> getAbsSet() {
-	if (null == hashSet) {
-	    hashSet = new HashSet<Integer>();
-	    if ("a".equals(getNewtype())) {
-		String abs = getAbs();
-		for (String dayNr : abs.split(","))
-		    if (dayNr.length() > 0) {
-			int parseInt = Integer.parseInt(dayNr);
-			hashSet.add(parseInt);
-		    }
-	    } else if ("p".equals(getNewtype())) {
+    @Transient
+    Set<Integer> hashSet, absSet, periodSet;
+
+    public Set<Integer> getPeriodSet() {
+	if (null == periodSet) {
+	    periodSet = new HashSet<Integer>();
+	    if ("p".equals(getNewtype())) {
 		String[] splitAbsperiod = getAbs().split("-");
 		String beginDay = splitAbsperiod[0];
 		int beginDay2 = Integer.parseInt(beginDay);
 		String endDay = splitAbsperiod[1];
 		int enddDay2 = Integer.parseInt(endDay);
-		for (int i = beginDay2; i < enddDay2; i++) {
+		for (int i = beginDay2; i < enddDay2; i++)
 		    hashSet.add(i);
-		}
+	    }
+	}
+	return periodSet;
+    }
+
+    public Set<Integer> getHashSet() {
+	log.debug(hashSet);
+	if (null == hashSet) {
+	    hashSet = new HashSet<Integer>();
+	    log.debug(getNewtype());
+	    log.debug(getNewtype().length());
+	    if ("a".equals(getNewtype())) {
+		hashSet.addAll(getAbsSet());
+	    } else if ("p".equals(getNewtype())) {
+		hashSet.addAll(getPeriodSet());
+	    } else if ("l".equals(getNewtype())) {
+		log.debug(abs);
+		hashSet.add(Integer.parseInt(abs));
 	    }
 	}
 	return hashSet;
     }
+
+    public Set<Integer> getAbsSet() {
+	if (null == absSet) {
+	    absSet = new HashSet<Integer>();
+	    if ("a".equals(getNewtype()))
+		for (String dayNr : getAbs().split(","))
+		    if (dayNr.length() > 0)
+			absSet.add(Integer.parseInt(dayNr));
+	}
+	return absSet;
+    }
+
+    public void setAbsSet(Set<Integer> absSet) {
+	this.absSet = absSet;
+    }
+
+    public void initAbs() {
+	edDay = "edDayAbs";
+	log.debug("---------------" + absSet);
+    }
+
+    public String actionStateDay() {
+	if (null == edDay) {
+	    edDay = "edDayAbs";
+	    String newtype = getNewtype();
+	    if ("a".equals(newtype))
+		edDay = "edDayAbs";
+	    else if ("p".equals(newtype))
+		edDay = "edDayPeriod";
+	}
+	return edDay;
+    }
+
+    public void initPeriod() {
+	edDay = "edDayPeriod";
+	if (null == getFromday()) {
+	    if ("p".equals(getNewtype())) {
+		String abs = getAbs();
+		String[] split = abs.split("-");
+		int parseInt = Integer.parseInt(split[0]);
+		int parseInt2 = Integer.parseInt(split[1]);
+		this.fromday = parseInt;
+		this.totheday = parseInt2;
+	    }
+	}
+
+    }
+
+    @Transient
+    private Integer fromday, totheday;
+
+    public Integer getTotheday() {
+	return totheday;
+    }
+
+    public void setTotheday(Integer totheday) {
+	this.totheday = totheday;
+    }
+
+    public Integer getFromday() {
+	return fromday;
+    }
+
+    public void setFromday(Integer fromday) {
+	this.fromday = fromday;
+    }
+
 }

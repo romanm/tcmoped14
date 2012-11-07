@@ -271,11 +271,17 @@ public class Times implements MObject, Serializable, Comparable<Times> {
     }
 
     @Transient
-    Set<Integer> hashSet;
+    private String edTimes;
+    @Transient
+    Set<Integer> absHourSet;
 
-    public Set<Integer> getAbsSet() {
-	if (null == hashSet) {
-	    hashSet = new HashSet<Integer>();
+    public void setAbsHourSet(Set<Integer> absHourSet) {
+	this.absHourSet = absHourSet;
+    }
+
+    public Set<Integer> getAbsHourSet() {
+	if (null == absHourSet) {
+	    absHourSet = new HashSet<Integer>();
 	    if (abs.length() > 0) {
 		String[] split = abs.split(",");
 		for (String string : split) {
@@ -283,11 +289,32 @@ public class Times implements MObject, Serializable, Comparable<Times> {
 		    String[] split2 = string.split(":");
 		    String hour = split2[0];
 		    int hour2 = Integer.parseInt(hour);
-		    hashSet.add(hour2);
+		    absHourSet.add(hour2);
 		}
 	    }
 	}
-	return hashSet;
+	return absHourSet;
+    }
+
+    public void initHourAbs() {
+	edTimes = "edTimesAbs";
+    }
+
+    public String actionStateTimes(Tree timesT) {
+	if (null == edTimes) {
+	    edTimes = "edTimesAbs";
+	    if (null != timesT.getRef()) {
+		edTimes = "edTimesRelative";
+	    } else {
+		String abs = getAbs();
+		if (abs.contains("=")) {
+		    edTimes = "edTimesMeal";
+		} else if (abs.contains(",")) {
+		    edTimes = "edTimesAbs";
+		}
+	    }
+	}
+	return edTimes;
     }
 
 }

@@ -42,6 +42,7 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
     }
 
     public TaskRun(Tree timesT, Integer dayNr, Model model) {
+	log.debug(1);
 	MutableDateTime mutableDateTime = instanceMutableDateTime(dayNr, 10);
 	init(timesT, dayNr, mutableDateTime, model);
     }
@@ -68,7 +69,8 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 	mutableDateTime.addDays(dayNr - 1);
 	mutableDateTime.setHourOfDay(hour);
 	mutableDateTime.setMinuteOfHour(0);
-	mutableDateTime.setSecondOfMinute(0);
+	// mutableDateTime.setSecondOfMinute(0);
+	mutableDateTime.setSecondOfMinute(5);
 	mutableDateTime.setMillisOfSecond(100);
 	return mutableDateTime;
     }
@@ -77,8 +79,10 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 	timesT.getTaskRuns().add(this);
 	Map<Integer, Set<TaskRun>> dayNrTaskRuns = (Map<Integer, Set<TaskRun>>) model.asMap().get(
 		MopetService.dayNrTaskRuns);
+	log.debug(defDay);
 	if (!dayNrTaskRuns.containsKey(defDay))
 	    dayNrTaskRuns.put(defDay, new ConcurrentSkipListSet<TaskRun>());
+	log.debug(dayNrTaskRuns);
 	dayNrTaskRuns.get(defDay).add(this);
 	Map<Integer, Map<Integer, Set<TaskRun>>> daysHoursTaskRuns = (Map<Integer, Map<Integer, Set<TaskRun>>>) model
 		.asMap().get(MopetService.daysHoursTaskRuns);

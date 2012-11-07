@@ -285,12 +285,15 @@ public class MopetService {
 			setMtlO(t3, model);
 			for (Tree t4 : t3.getChildTs()) {
 			    setMtlO(t4, model);
-			    // for (Tree t5 : t4.getChildTs()) {
-			    // setMtlO(t5);
-			    // for (Tree t6 : t5.getChildTs()) {
-			    // setMtlO(t6);
-			    // }
-			    // }
+			    for (Tree t5 : t4.getChildTs()) {
+				setMtlO(t5, model);
+				for (Tree t6 : t5.getChildTs()) {
+				    setMtlO(t6, model);
+				    for (Tree t7 : t6.getChildTs()) {
+					setMtlO(t7, model);
+				    }
+				}
+			    }
 			}
 		    }
 	    }
@@ -323,6 +326,7 @@ public class MopetService {
 	    model.addAttribute(planChronoFormat);
 	    model.addAttribute(MopetService.regimeTaskRuns, new TreeMap<Long, TaskRun>());
 	    model.addAttribute(MopetService.dayNrTaskRuns, new TreeMap<Integer, Set<TaskRun>>());
+	    log.debug(1);
 	    model.addAttribute(MopetService.daysHoursTaskRuns, new TreeMap<Integer, Map<Integer, Set<TaskRun>>>());
 	    Map<Integer, List<Tree>> dayNrDayTs = new TreeMap<Integer, List<Tree>>();
 	    model.addAttribute(MopetService.dayNrDayTs, dayNrDayTs);
@@ -335,7 +339,7 @@ public class MopetService {
 		    Tree drugT = dayT.getParentT();
 		    if (!drugT_dayNr.containsKey(drugT))
 			drugT_dayNr.put(drugT, new HashSet<Integer>());
-		    for (Integer dayNr : dayT.getDayO().getAbsSet()) {
+		    for (Integer dayNr : dayT.getDayO().getHashSet()) {
 			if (!dayNrDayTs.containsKey(dayNr))
 			    dayNrDayTs.put(dayNr, new ArrayList<Tree>());
 			dayNrDayTs.get(dayNr).add(dayT);
@@ -363,17 +367,20 @@ public class MopetService {
 		    if (0 == timesT.getTaskRuns().size()) {
 			if (null == timesT.getRef()) {
 			    log.debug("-------without ref---------");
-			    for (Integer dayNr : timesT.getParentT().getDayO().getAbsSet()) {
+			    log.debug(timesT.getParentT().getDayO());
+			    Set<Integer> hashSet = timesT.getParentT().getDayO().getHashSet();
+			    log.debug(hashSet);
+			    for (Integer dayNr : hashSet) {
+				log.debug(1);
 				Times timesO = timesT.getTimesO();
 				if (null != timesO) {
+				    log.debug(2);
 				    String abs = timesO.getAbs();
 				    if (abs.contains("="))
 					new TaskRun(timesT, dayNr, model);
 				    else
 					for (String timesAbs2 : abs.split(",")) {
-					    log.debug(timesAbs2);
 					    String hour = timesAbs2.split(":")[0];
-					    log.debug(hour);
 					    int hour2 = Integer.parseInt(hour);
 					    MutableDateTime mutableDateTime = TaskRun.instanceMutableDateTime(dayNr,
 						    hour2);
@@ -385,10 +392,14 @@ public class MopetService {
 			} else {// with ref
 			    if (null == timesT.getRefT())
 				timesT.setRefT(getTreeFromId(model).get(timesT.getRef()));
-			    if (0 != timesT.getRefT().getTaskRuns().size()) {// refT is calculated
+			    if (timesT.getRefT() == timesT.getDocT()) {
+				for (Integer dayNr : timesT.getParentT().getDayO().getHashSet()) {
+				    new TaskRun(timesT, dayNr, model);
+				}
+			    } else if (0 != timesT.getRefT().getTaskRuns().size()) {// refT is calculated
 				log.debug("----------------" + timesT.getId() + "/" + timesT.getRef());
 				log.debug("----------------" + timesT.getRefT());
-				for (Integer dayNr : timesT.getParentT().getDayO().getAbsSet()) {
+				for (Integer dayNr : timesT.getParentT().getDayO().getHashSet()) {
 				    for (TaskRun refTaskRun : timesT.getRefT().getTaskRuns()) {
 					if (refTaskRun.getDefDay().equals(dayNr)) {
 					    new TaskRun(timesT, refTaskRun, model);
