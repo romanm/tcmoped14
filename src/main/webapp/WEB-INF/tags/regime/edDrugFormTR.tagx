@@ -7,15 +7,16 @@
 	<jsp:directive.attribute name="taskDrugT"
 		type="org.tasclin1.mopet.domain.Tree" required="true"
 		description="Current folder object" />
+
 	<tr>
-		<td class="${'ed_drug'==flowRequestContext.currentState.id?'notice':''}">${taskDrugT.mtlO.drug }</td>
+		<td class="${'ed_drug'==flowRequestContext.currentState.id?'noticeCss':''}">${taskDrugT.mtlO.drug }</td>
 		<c:set var="drugDoseT" value="${taskDrugT.drugDoseT}" />
-		<td class="${'ed_dose'==flowRequestContext.currentState.id?'notice':''}">
+		<td class="${'ed_dose'==flowRequestContext.currentState.id?'noticeCss':''}">
 			<rg:doseText doseT="${drugDoseT }"/>
 		</td>
-		<td><span class="${'ed_dose'==flowRequestContext.currentState.id?'notice':''}"> ${drugDoseT.mtlO.app} </span></td>
+		<td><span class="${'ed_dose'==flowRequestContext.currentState.id?'noticeCss':''}"> ${drugDoseT.mtlO.app} </span></td>
 		<spring:eval var="drugDayT" expression="taskDrugT.getDrugDayT(0)" />
-		<td class="${taskDrugForm.targetT.id == drugDayT.id?'notice':''}">
+		<td class="${taskDrugForm.targetT.id == drugDayT.id?'noticeCss':''}">
 			<a  href="javascript:void(0);" id="aEdDay_${drugDayT.id }"
 			onclick="openDay(${drugDayT.id })"
 			>
@@ -24,10 +25,11 @@
 		</td>
 		<spring:eval var="drugDayTimesT"
 			expression="drugDayT.getDrugDayTimesT(0)" />
-		<td class="${taskDrugForm.targetT.id == drugDayTimesT.id?'notice':''}">
+		<td class="${taskDrugForm.targetT.id == drugDayTimesT.id?'noticeCss':''}">
 				<rg:timesText timesT="${drugDayTimesT }"/>
 		</td>
 	</tr>
+
 	<c:set var="ddNumber" value="1" />
 	<c:forEach var="drugDrugT" items="${taskDrugT.childTs }">
 		<c:if test="${'drug'==drugDrugT.tabName }">
@@ -39,7 +41,7 @@
 					expression="taskDrugT.getDrugDayT(ddNumber)" />
 				<c:if test="${not empty drugDayT}">
 					<td></td>
-					<td class="${taskDrugForm.targetT.id == drugDayT.id?'notice':''}">
+					<td class="${taskDrugForm.targetT.id == drugDayT.id?'noticeCss':''}">
 						<a  href="javascript:void(0);" id="aEdDay_${drugDayT.id }"
 						onclick="openDay(${drugDayT.id })"
 						>
@@ -48,7 +50,7 @@
 					</td>
 					<spring:eval var="drugDayTimesT"
 						expression="drugDayT.getDrugDayTimesT(0)" />
-					<td class="${taskDrugForm.targetT.id == drugDayTimesT.id?'notice':''}">
+					<td class="${taskDrugForm.targetT.id == drugDayTimesT.id?'noticeCss':''}">
 							<rg:timesText timesT="${drugDayTimesT }"/>
 					</td>
 				</c:if>

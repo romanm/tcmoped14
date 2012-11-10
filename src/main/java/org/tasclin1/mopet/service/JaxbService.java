@@ -24,7 +24,7 @@ import org.tasclin1.mopet.domain.Tree;
 import org.tasclin1.mopet.jaxb.Drugx;
 
 /**
- * @author roman, Roman Mishchenko
+ * @author Roman Mishchenko
  * 
  */
 @Service("jaxbService")

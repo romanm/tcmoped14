@@ -67,12 +67,17 @@ public class Tree implements Serializable {
 
     public Tree getDrugDayT(int n) {
 	int i = 0;
-	if (isDrug())
+	// if (isDrug())
+	if (isTaskOne())
 	    for (Tree dayT : this.getChildTs())
 		if (dayT.isDay())
 		    if (n == i++)
 			return dayT;
 	return null;
+    }
+
+    public boolean isTaskOne() {
+	return isDrug() || isLabor() || isFinding() || isNotice();
     }
 
     public Tree getDrugDayTimesT(int n) {
@@ -496,6 +501,18 @@ public class Tree implements Serializable {
 
     public Drug getDrugO() {
 	return (Drug) getMtlO();
+    }
+
+    public Notice getNoticeO() {
+	return (Notice) getMtlO();
+    }
+
+    public Finding getFindingO() {
+	return (Finding) getMtlO();
+    }
+
+    public Labor getLaborO() {
+	return (Labor) getMtlO();
     }
 
     public App getAppO() {

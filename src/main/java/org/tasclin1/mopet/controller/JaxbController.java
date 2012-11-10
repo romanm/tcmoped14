@@ -15,6 +15,7 @@ import org.tasclin1.mopet.jaxb.Appx;
 import org.tasclin1.mopet.jaxb.Dayx;
 import org.tasclin1.mopet.jaxb.Dosex;
 import org.tasclin1.mopet.jaxb.Drugx;
+import org.tasclin1.mopet.jaxb.Laborx;
 import org.tasclin1.mopet.jaxb.Taskx;
 import org.tasclin1.mopet.jaxb.Timesx;
 import org.tasclin1.mopet.jaxb.Treex;
@@ -85,11 +86,23 @@ public class JaxbController {
 	Taskx taskx = new Taskx(taskT);
 	for (Tree t1 : taskT.getChildTs())
 	    if (t1.isDrug()) {
+		// taskx.getTaskOne().add(regimeDrugx(t1));
 		taskx.getDrug().add(regimeDrugx(t1));
 	    } else if (t1.isTask()) {
 		taskx.getTask().add(regimeTaskx(t1));
+	    } else if (t1.isLabor()) {
+		taskx.getLabor().add(regimeLaborx(t1));
 	    }
 	return taskx;
+    }
+
+    private Laborx regimeLaborx(Tree laborT) {
+	Laborx laborx = new Laborx(laborT);
+	for (Tree t1 : laborT.getChildTs())
+	    if (t1.isDay()) {
+		laborx.getDay().add(regimeDrugDay(t1));
+	    }
+	return laborx;
     }
 
     private Drugx regimeDrugx(Tree drugT) {
@@ -109,7 +122,8 @@ public class JaxbController {
 	Dayx dayx = new Dayx(t1);
 	for (Tree t2 : t1.getChildTs()) {
 	    if (t2.isTimes()) {
-		dayx.setTimes(new Timesx(t2));
+		// dayx.setTimes(new Timesx(t2));
+		dayx.getTimes().add(new Timesx(t2));
 	    }
 	}
 	return dayx;

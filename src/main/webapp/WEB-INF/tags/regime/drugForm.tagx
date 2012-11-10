@@ -16,47 +16,47 @@
 		<form:form id="bodyPopupForm" modelAttribute="taskDrugForm"
 			action="${flowExecutionUrl}">
 			<button
-				class="${'ed_drug'==flowRequestContext.currentState.id?'notice':''}"
+				class="${'ed_drug'==flowRequestContext.currentState.id?'noticeCss':''}"
 				id="edDrug" type="submit" name="_eventId_edDrug">ed drug</button>
 			<button
-				class="${'ed_dose'==flowRequestContext.currentState.id?'notice':''}"
+				class="${'ed_dose'==flowRequestContext.currentState.id?'noticeCss':''}"
 				id="edDose" type="submit" name="_eventId_edDose">ed dose</button>
 			<button
 				class="${
-		fn:contains(flowRequestContext.currentState.id,'ed_day')?'notice':''}"
+		fn:contains(flowRequestContext.currentState.id,'ed_day')?'noticeCss':''}"
 				id="edDay" type="submit" name="_eventId_edDay">ed day</button>
 			<button
 				class="${
-		fn:contains(flowRequestContext.currentState.id,'ed_times')?'notice':''}"
+		fn:contains(flowRequestContext.currentState.id,'ed_times')?'noticeCss':''}"
 				id="edTimes" type="submit" name="_eventId_edTimes">ed times</button>
 			<div class="nofloat" />
 			<c:if
 				test="${fn:contains(flowRequestContext.currentState.id,'ed_day')}">
 				<button
 					class="${
-		'ed_day_abs'==flowRequestContext.currentState.id?'notice':''}"
+		'ed_day_abs'==flowRequestContext.currentState.id?'noticeCss':''}"
 					id="edDayAbs" type="submit" name="_eventId_edDayAbs">ed
 					day abs</button>
 				<button
-					class="${'ed_day_week'==flowRequestContext.currentState.id?'notice':''}"
+					class="${'ed_day_week'==flowRequestContext.currentState.id?'noticeCss':''}"
 					id="edDayWeek" type="submit" name="_eventId_edDayWeek">ed
 					day week</button>
 				<button
-					class="${'ed_day_period'==flowRequestContext.currentState.id?'notice':''}"
+					class="${'ed_day_period'==flowRequestContext.currentState.id?'noticeCss':''}"
 					id="edDayPeriod" type="submit" name="_eventId_edDayPeriod">ed
 					day period</button>
 			</c:if>
 			<c:if
 				test="${fn:contains(flowRequestContext.currentState.id,'ed_times')}">
 				<button
-					class="${'ed_times_abs'==flowRequestContext.currentState.id?'notice':''}"
+					class="${'ed_times_abs'==flowRequestContext.currentState.id?'noticeCss':''}"
 					id="edTimesAbs" type="submit" name="_eventId_edTimesAbs">ed
 					times abs</button>
 				<button
-					class="${'ed_times_relative'==flowRequestContext.currentState.id?'notice':''}"
+					class="${'ed_times_relative'==flowRequestContext.currentState.id?'noticeCss':''}"
 					id="edTimesRelative" type="submit" name="_eventId_edTimesRelative">edTimesRelative</button>
 				<button
-					class="${'ed_times_meal'==flowRequestContext.currentState.id?'notice':''}"
+					class="${'ed_times_meal'==flowRequestContext.currentState.id?'noticeCss':''}"
 					id="edTimesMeal" type="submit" name="_eventId_edTimesMeal">ed
 					times week</button>
 			</c:if>
@@ -68,9 +68,11 @@
 			<p>
 				<jsp:doBody />
 			</p>
-			<p class="notice">${flowRequestContext.currentState.id} idt=${idt
+			<p class="noticeCss">
+			${flowRequestContext.currentState.id} idt=${idt
 				} taskDrugForm.idt=${taskDrugForm.idt}
-				taskDrugForm.targetT=${taskDrugForm.targetT.tabName}.${taskDrugForm.targetT.id}
+				taskDrugForm.targetT=${taskDrugForm.targetT.tabName
+				}.${taskDrugForm.targetT.id}
 			</p>
 		,
 			<c:choose>

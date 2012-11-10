@@ -14,6 +14,14 @@ body {font-family:"Gill Sans MT","Gill Sans",GillSans,Verdana,sans-serif}
 tr.planday th, tr.planday td {
     border-top: 3px double;
 }
+tr.planday th,
+tr.planday td,
+table caption
+{border-top: 3px double
+}
+.nofloat{clear:both}
+.nowrap {white-space:nowrap;}
+.bold{font-weight:bold;}
 
 div#titleInline h5,
 div#titleInline h3
@@ -51,22 +59,21 @@ http://www.colorcombos.com/color-schemes/173/ColorCombo173.html
     206BA4 BBD9EE EBF4FA C0C0C0 E7E4D3 F1EFE2
 http://colorschemedesigner.com/
 */
-.nofloat{clear:both}
-.nowrap {white-space:nowrap;}
-.bold{font-weight:bold;}
 /* color palette */
 .regimeContent	{background-color: #D9E3D9}
 .conceptContent	{background-color: #C1D6CC;}
 .patientContent	{background-color: #E3E3CF}
 
-/* from blueprint */
-.error, .notice, .success {padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
+/* from blueprint 
+.error, .noticeCss, .success {padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
+*/
+.error, .noticeCss, .success {border:2px solid #ddd;}
 .error {background:#FBE3E4;color:#8a1f11;border-color:#FBC2C4;}
-.notice {background:#FFF6BF;color:#514721;border-color:#FFD324;}
+.noticeCss {background:#FFF6BF;color:#514721;border-color:#FFD324;}
 .success {background:#E6EFC2;color:#264409;border-color:#C6D880;}
 .error a {color:#8a1f11;}
-.notice a {color:#514721;}
-	.success a {color:#264409;}
+.noticeCss a {color:#514721;}
+.success a {color:#264409;}
 /*
 	border-bottom: 1px dotted #AAAAAA;
 	color: #FC3; border-bottom: 1px dotted;

@@ -5,15 +5,11 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-<!-- 
-${dayNrTaskRuns }
-${dayNrDayTs }
- -->
-
 	<c:set var="style" value="hhmm skew" />
 	<c:forEach var="dayNr" items="${dayNrDayTs }">
 	<c:if test="${not empty dayNrTaskRuns[dayNr.key] }">
-		<div class="bold">
+		<table>
+			<caption class="planday bold">
 			<spring:eval var="dayFirstTaskRun"
 				expression="dayNrTaskRuns.get(dayNr.key).first()" scope="request" />
 			<spring:eval var="dayLastTaskRun"
@@ -22,8 +18,7 @@ ${dayNrDayTs }
 				locale="${jodaLocale }" />
 			<joda:format value="${dayFirstTaskRun.begin }" pattern=" EEE"
 				locale="${jodaLocale }" />
-		</div>
-		<table>
+			</caption>
 			<tr>
 				<c:forEach var="plancolumn" items="${planChronoFormat.plancolumns }">
 					<c:choose>
@@ -59,15 +54,8 @@ ${dayNrDayTs }
 								<rg:taskDrugEdit
 									idprefix="d${taskRun.defDay }h${taskRun.begin.hourOfDay }"
 									name="td" tree="${drugT}">
-									${drugT.drug }
-								<c:choose>
-									<c:when test="${drugT.drug }">
-								${drugT.drugO.drug }
-									</c:when>
-									<c:otherwise>
-								${drugT.mtlO }
-									</c:otherwise>
-								</c:choose>
+									
+									<rg:task1Text task1T="${drugT}" />
 								</rg:taskDrugEdit>
 							</c:when>
 							<c:when test="${plancolumn=='dose'}">

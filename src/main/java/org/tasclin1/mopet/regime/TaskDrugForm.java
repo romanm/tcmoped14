@@ -35,7 +35,9 @@ public class TaskDrugForm implements Serializable {
 
     public void setIdt(Integer idt) {
 	this.idt = idt;
+	log.debug(idt + " " + targetT);
 	setTargetT();
+	log.debug(idt + " " + targetT);
     }
 
     /**
@@ -98,6 +100,7 @@ public class TaskDrugForm implements Serializable {
 
     public void setType(String type) {
 	this.type = type;
+	log.debug(type + " " + targetT);
     }
 
     public Integer getFromday() {
@@ -159,6 +162,7 @@ public class TaskDrugForm implements Serializable {
 	}
 	if (null == targetT.getDayO())
 	    targetT.setMtlO(new Day());
+	idt = targetT.getId();
     }
 
 }

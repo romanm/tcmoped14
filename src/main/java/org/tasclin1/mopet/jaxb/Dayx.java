@@ -1,5 +1,7 @@
 package org.tasclin1.mopet.jaxb;
 
+import java.util.ArrayList;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -21,13 +23,15 @@ public class Dayx extends Treex {
 	}
     }
 
-    Timesx times;
+    ArrayList<Timesx> times;
 
-    public Timesx getTimes() {
+    public ArrayList<Timesx> getTimes() {
+	if (null == times)
+	    times = new ArrayList<Timesx>();
 	return times;
     }
 
-    public void setTimes(Timesx times) {
+    public void setTimes(ArrayList<Timesx> times) {
 	this.times = times;
     }
 

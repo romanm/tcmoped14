@@ -9,13 +9,11 @@
 		description="Current folder object" />
 
 	<tr>
-		<rg:taskDrugEdit name="td" tree="${taskDrugT }">
-		<!-- 
-			${taskDrugT.mtlO.drug }
-		 -->
+		<rg:taskDrugEdit name="td" tree="${taskDrugT }" colspan="3">
 			<rg:task1Text task1T="${taskDrugT}" />
 		</rg:taskDrugEdit>
 
+<!-- 
 		<c:set var="drugDoseT" value="${taskDrugT.drugDoseT}" />
 		<rg:taskDrugEdit name="td" tree="${drugDoseT }">
 			<rg:doseText doseT="${drugDoseT }" />
@@ -26,6 +24,8 @@
 			<rg:taskDrugEdit name="span" tree="${taskDrugT.drugAppT }">
 				<rg:appText appT="${taskDrugT.drugAppT}" />
 			</rg:taskDrugEdit></td>
+ -->
+
 		<spring:eval var="drugDayT" expression="taskDrugT.getDrugDayT(0)" />
 		<rg:taskDrugEdit name="td" tree="${drugDayT}">
 			<rg:dayText dayT="${drugDayT }" />
@@ -36,8 +36,12 @@
 			<rg:timesText timesT="${drugDayTimesT}" />
 		</rg:taskDrugEdit>
 		<td><rg:timesNr timesT="${drugDayTimesT}" /></td>
+<!-- 
+ -->
 	</tr>
-	<c:set var="drugRows" value="1" />
+
+	<!-- 
+	<c:set var="ddNumber" value="1" />
 	<c:forEach var="drugDrugT" items="${taskDrugT.childTs }">
 		<c:if test="${'drug'==drugDrugT.tabName }">
 			<tr>
@@ -45,7 +49,7 @@
 				<c:set var="drugDoseT" value="${drugDrugT.drugDoseT}" />
 				<td class="small">${drugDoseT.mtlO.value} ${drugDoseT.mtlO.unit}</td>
 				<spring:eval var="drugDayT"
-					expression="taskDrugT.getDrugDayT(drugRows)" />
+					expression="taskDrugT.getDrugDayT(ddNumber)" />
 				<c:if test="${not empty drugDayT}">
 					<td></td>
 					<rg:taskDrugEdit name="td" tree="${drugDayT}">
@@ -59,43 +63,11 @@
 					<td><rg:timesNr timesT="${drugDayTimesT}" /></td>
 				</c:if>
 			</tr>
-			<c:set var="drugRows" value="${drugRows+1 }" />
+			<c:set var="ddNumber" value="${ddNumber+1 }" />
 		</c:if>
 	</c:forEach>
-		<spring:eval var="timesesNr" expression="taskOneTimeses.get(taskDrugT).size()" />
-	<c:forEach var="timesNr" begin="${drugRows}" end="${timesesNr-1}">
-		<c:set var="timesT" value="${taskOneTimeses[taskDrugT][timesNr]}" />
-		<spring:eval var="withDay"
-			expression="0==timesT.getParentT().getChildTs()
-		.indexOf(timesT)" />
-		<tr>
-			<c:choose>
-				<c:when test="${withDay }">
-					<td colspan="3">
-					</td>
-					<rg:taskDrugEdit name="td" tree="${timesT.parentT}">
-						<rg:dayText dayT="${timesT.parentT}" />
-					</rg:taskDrugEdit>
-					<rg:taskDrugEdit name="td" tree="${timesT}">
-						<rg:timesText timesT="${timesT}" />
-					</rg:taskDrugEdit>
-					<td><rg:timesNr timesT="${timesT}" /></td>
-				</c:when>
-				<c:otherwise>
-					<td colspan="4">
-					<!-- 
-					${drugRows } timesNr=${timesNr} ${timesT.id } ### ${withDay
-						}
-					 -->
-						</td>
-						<rg:taskDrugEdit name="td" tree="${timesT}">
-							<rg:timesText timesT="${timesT}" />
-						</rg:taskDrugEdit>
-						<td><rg:timesNr timesT="${timesT}" /></td>
-				</c:otherwise>
-			</c:choose>
-		</tr>
-	</c:forEach>
+	 -->
+<!-- 
 	<c:if test="${not empty drugNoticeExprM[taskDrugT] }">
 		<tr>
 			<td colspan="5"><c:forEach var="neT"
@@ -110,5 +82,6 @@
 				</c:forEach></td>
 		</tr>
 	</c:if>
+ -->
 
 </jsp:root>

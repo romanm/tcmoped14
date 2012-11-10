@@ -21,8 +21,15 @@
 			<c:forEach var="taskTaskT" items="${regimeT.childTs }">
 				<c:if test="${'task'==taskTaskT.tabName }">
 					<tr>
-						<th id="task_${taskTaskT.id }" class="task select">
-							${taskTaskT.mtlO.task }
+						<th colspan="2" id="task_${taskTaskT.id }" class="task select">
+							<c:choose>
+								<c:when test="${'support'==taskTaskT.mtlO.task }">
+									<spring:message code="ui_taskBlock_support"/>
+								</c:when>
+								<c:otherwise>
+								${taskTaskT.mtlO.task }
+								</c:otherwise>
+							</c:choose>
 						</th>
 					</tr>
 					<rg:edTaskDrugsTRs taskT="${taskTaskT }" />
@@ -32,6 +39,11 @@
 				<td><a id="startFlow" class="toMoDi"
 					href="cere-ed?idRegime=${idRegime}&amp;a=new_drug">+new drug</a></td>
 			</tr>
+
+		<rg:edTaskBlockTR blockName="labor"/>
+		<rg:edTaskBlockTR blockName="finding"/>
+		<rg:edTaskBlockTR blockName="notice"/>
+
 		</tbody>
 	</table>
 

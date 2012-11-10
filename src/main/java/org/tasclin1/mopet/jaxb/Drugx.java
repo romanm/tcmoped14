@@ -1,7 +1,5 @@
 package org.tasclin1.mopet.jaxb;
 
-import java.util.ArrayList;
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -10,7 +8,8 @@ import org.apache.commons.logging.LogFactory;
 import org.tasclin1.mopet.domain.Tree;
 
 @XmlRootElement(name = "drug")
-public class Drugx extends Treex {
+public class Drugx extends TaskOnex {
+    // public class Drugx extends Treex {
     protected final Log log = LogFactory.getLog(getClass());
 
     Dosex dose;
@@ -31,18 +30,6 @@ public class Drugx extends Treex {
 
     public void setDose(Dosex dose) {
 	this.dose = dose;
-    }
-
-    ArrayList<Dayx> day;
-
-    public ArrayList<Dayx> getDay() {
-	if (null == day)
-	    day = new ArrayList<Dayx>();
-	return day;
-    }
-
-    public void setDay(ArrayList<Dayx> day) {
-	this.day = day;
     }
 
     @XmlAttribute

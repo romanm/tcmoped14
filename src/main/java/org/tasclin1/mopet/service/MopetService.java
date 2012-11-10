@@ -133,39 +133,6 @@ public class MopetService {
 
     }
 
-    @Transactional(readOnly = true)
-    public Tree readNodes4(Integer id, Model model) {
-	Tree t0 = setTreeWithMtlO(id, model);
-	for (Tree t1 : t0.getChildTs()) {
-	    setMtlO(t1, model);
-	    for (Tree t2 : t1.getChildTs()) {
-		setMtlO(t2, model);
-		for (Tree t3 : t2.getChildTs()) {
-		    setMtlO(t3, model);
-		    for (Tree t4 : t3.getChildTs()) {
-			setMtlO(t4, model);
-		    }
-		}
-	    }
-	}
-	return t0;
-    }
-
-    @Transactional(readOnly = true)
-    public Tree readNodes3(Integer id, Model model) {
-	Tree t0 = setTreeWithMtlO(id, model);
-	for (Tree t1 : t0.getChildTs()) {
-	    setMtlO(t1, model);
-	    for (Tree t2 : t1.getChildTs()) {
-		setMtlO(t2, model);
-		for (Tree t3 : t2.getChildTs()) {
-		    setMtlO(t3, model);
-		}
-	    }
-	}
-	return t0;
-    }
-
     // patient
 
     @Transactional(readOnly = true)
@@ -397,8 +364,6 @@ public class MopetService {
 				    new TaskRun(timesT, dayNr, model);
 				}
 			    } else if (0 != timesT.getRefT().getTaskRuns().size()) {// refT is calculated
-				log.debug("----------------" + timesT.getId() + "/" + timesT.getRef());
-				log.debug("----------------" + timesT.getRefT());
 				for (Integer dayNr : timesT.getParentT().getDayO().getHashSet()) {
 				    for (TaskRun refTaskRun : timesT.getRefT().getTaskRuns()) {
 					if (refTaskRun.getDefDay().equals(dayNr)) {
@@ -427,6 +392,8 @@ public class MopetService {
 	}
     }
 
+    public final static String taskOneTimeses = "taskOneTimeses";
+    public final static String regimeTimesTs = "regimeTimesTs";
     public final static String daysHoursTaskRuns = "daysHoursTaskRuns";
     public final static String dayNrTaskRuns = "dayNrTaskRuns";
     public final static String regimeTaskRuns = "regimeTaskRuns";
@@ -442,34 +409,64 @@ public class MopetService {
 	model.addAttribute(fs_treeFromId, new HashMap<Integer, Tree>());
 	Tree regimeT = setTreeWithMtlO(idRegime, model);
 	model.addAttribute(REGIMET, regimeT);
-	List<Tree> regimeTimesTs = regimeTimesTs(regimeT, model);
-	model.addAttribute("regimeTimesTs", regimeTimesTs);
+	model.addAttribute(MopetService.regimeTimesTs, new ArrayList<Tree>());
+	model.addAttribute(MopetService.taskOneTimeses, new HashMap<Tree, List<Tree>>());
+
+	readNodes4(regimeT, model);
+	for (Tree t : regimeT.getDocNodes()) {
+	}
 	initRegimeDocT(model);
     }
 
-    private List<Tree> regimeTimesTs(Tree regimeT, Model model) {
-	List<Tree> regimeTimesTs = new ArrayList<Tree>();
-	for (Tree t1 : regimeT.getChildTs()) {
+    private void readNodes4(Tree t0, Model model) {
+	for (Tree t1 : t0.getChildTs()) {
 	    setMtlO(t1, model);
 	    for (Tree t2 : t1.getChildTs()) {
 		setMtlO(t2, model);
 		for (Tree t3 : t2.getChildTs()) {
-		    setMtlTimesO(t3, regimeTimesTs, model);
+		    setMtlO(t3, model);
 		    for (Tree t4 : t3.getChildTs()) {
-			setMtlTimesO(t4, regimeTimesTs, model);
+			setMtlO(t4, model);
 		    }
 		}
 	    }
 	}
-	for (Tree t : regimeT.getDocNodes()) {
-	}
-	return regimeTimesTs;
     }
 
-    private void setMtlTimesO(Tree tree, List<Tree> regimeTimesTs, Model model) {
-	setMtlO(tree, model);
-	if (tree.isTimes() && tree.getParentT().getParentT().isDrug())
-	    regimeTimesTs.add(tree);
+    @Transactional(readOnly = true)
+    public Tree readNodes4(Integer id, Model model) {
+	log.debug(1);
+	Tree t0 = setTreeWithMtlO(id, model);
+	readNodes4(t0, model);
+
+	// for (Tree t1 : t0.getChildTs()) {
+	// setMtlO(t1, model);
+	// for (Tree t2 : t1.getChildTs()) {
+	// setMtlO(t2, model);
+	// for (Tree t3 : t2.getChildTs()) {
+	// setMtlO(t3, model);
+	// for (Tree t4 : t3.getChildTs()) {
+	// setMtlO(t4, model);
+	// }
+	// }
+	// }
+	// }
+	return t0;
+    }
+
+    @Transactional(readOnly = true)
+    public Tree readNodes3(Integer id, Model model) {
+	Tree t0 = setTreeWithMtlO(id, model);
+	for (Tree t1 : t0.getChildTs()) {
+	    setMtlO(t1, model);
+	    for (Tree t2 : t1.getChildTs()) {
+		setMtlO(t2, model);
+		for (Tree t3 : t2.getChildTs()) {
+		    setMtlO(t3, model);
+		}
+	    }
+	}
+	return t0;
     }
 
     // regime END
@@ -480,8 +477,31 @@ public class MopetService {
 	    treeFromId.put(tree.getId(), tree);
 	}
 
-	if (null == tree.getIdClass())
-	    return;
+	if (null != tree.getIdClass()) {
+	    MObject mO = readMtlO(tree);
+	    tree.setMtlO(mO);
+	}
+	// if (tree.isTimes() && tree.getParentT().getParentT().isDrug())
+	Tree taskOneT = tree.getParentT().getParentT();
+	if (tree.isTimes() && taskOneT.isTaskOne()) {
+	    List<Tree> regimeTimesTs = (List<Tree>) model.asMap().get(MopetService.regimeTimesTs);
+	    // in xml is null
+	    if (null != regimeTimesTs) {
+		regimeTimesTs.add(tree);
+	    }
+	    Map<Tree, List<Tree>> taskOneTimeses = (Map<Tree, List<Tree>>) model.asMap().get(
+		    MopetService.taskOneTimeses);
+	    // in xml is null
+	    if (null != taskOneTimeses) {
+		if (!taskOneTimeses.containsKey(taskOneT))
+		    taskOneTimeses.put(taskOneT, new ArrayList<Tree>());
+		taskOneTimeses.get(taskOneT).add(tree);
+	    }
+	}
+
+    }
+
+    private MObject readMtlO(Tree tree) {
 	MObject mO = null;
 	String tabName = tree.getTabName();
 	if ("folder".equals(tabName))
@@ -520,8 +540,7 @@ public class MopetService {
 	    mO = em.find(Expr.class, tree.getIdClass());
 	else if ("studyarm".equals(tabName))
 	    mO = em.find(Arm.class, tree.getIdClass());
-
-	tree.setMtlO(mO);
+	return mO;
     }
 
     private Map<Integer, Tree> getTreeFromId(Model model) {

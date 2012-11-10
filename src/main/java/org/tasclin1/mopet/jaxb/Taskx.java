@@ -59,6 +59,18 @@ public class Taskx extends Treex {
 	this.task = task;
     }
 
+    ArrayList<Laborx> labor;
+
+    public ArrayList<Laborx> getLabor() {
+	if (null == labor)
+	    labor = new ArrayList<Laborx>();
+	return labor;
+    }
+
+    public void setLabor(ArrayList<Laborx> labor) {
+	this.labor = labor;
+    }
+
     ArrayList<Drugx> drug;
 
     public ArrayList<Drugx> getDrug() {
@@ -70,5 +82,12 @@ public class Taskx extends Treex {
     public void setDrug(ArrayList<Drugx> drug) {
 	this.drug = drug;
     }
+
+    /*
+     * ArrayList<TaskOnex> taskOne; public ArrayList<TaskOnex> getTaskOne() { if (null == taskOne) taskOne = new
+     * ArrayList<TaskOnex>(); return taskOne; }
+     * 
+     * public void setTaskOne(ArrayList<TaskOnex> taskOne) { this.taskOne = taskOne; }
+     */
 
 }

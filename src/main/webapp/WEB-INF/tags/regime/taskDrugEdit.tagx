@@ -8,20 +8,36 @@
 		required="true" description="The html tag name" />
 	<jsp:directive.attribute name="idprefix" type="java.lang.String"
 		required="false" description="The html tag name" />
+	<jsp:directive.attribute name="colspan" type="java.lang.Integer"
+		required="false" description="The html tag name" />
 
-<c:set var="tagId" value="${idprefix}${not empty idprefix?'.':''}${tree.tabName }_${tree.id}" />
-<jsp:element name="${name}">
-	<jsp:attribute name="id">${tagId }</jsp:attribute>
-<!-- 
-	<jsp:attribute name="id">${tree.tabName }_${tree.id}</jsp:attribute>
- -->
-	<jsp:attribute name="class">select ${tree.tabName }</jsp:attribute>
+<c:set var="tagId" value="${idprefix}${not empty idprefix?'.':''
+}${tree.tabName }_${tree.id}" />
+ <c:set var="body">
 		<a id="a${tagId }" class="toMoDi"
-			onclick="dojo.addClass(this, 'notice');"
+			onclick="dojo.addClass(this, 'noticeCss');"
 			href="${contextPath}/cere-ed?idRegime=${idRegime}&amp;idt=${tree.id 
 			}&amp;a=ed_${tree.tabName }">
 				<jsp:doBody />
 		</a>
+ </c:set>
+<c:choose>
+	<c:when test="${'td'==name and not empty colspan  }">
+
+<jsp:element name="${name}">
+	<jsp:attribute name="colspan">${colspan}</jsp:attribute>
+	<jsp:attribute name="class">select ${tree.tabName }</jsp:attribute>
+	<jsp:attribute name="id">${tagId }</jsp:attribute>
+ ${body }
 </jsp:element>
+	</c:when>
+	<c:otherwise>
+<jsp:element name="${name}">
+	<jsp:attribute name="class">select ${tree.tabName }</jsp:attribute>
+	<jsp:attribute name="id">${tagId }</jsp:attribute>
+ ${body }
+</jsp:element>
+	</c:otherwise>
+</c:choose>
 
 </jsp:root>
