@@ -29,6 +29,27 @@ import org.tasclin1.mopet.regime.TaskRun;
 // @SequenceGenerator(name="DBID",sequenceName="dbid")
 public class Tree implements Serializable {
 
+    @Transient
+    Integer durationValueSecond;
+
+    public Integer getAppDurationSecond() {
+	if (null == durationValueSecond) {
+	    durationValueSecond = 0;
+	    Tree drugAppT = getParentT().getParentT().getDrugAppT();
+	    if (null != drugAppT) {
+		App appO = drugAppT.getAppO();
+		durationValueSecond = appO.getDurationValue();
+		if ("min".equals(appO.getUnit()))
+		    durationValueSecond *= 60;
+		if ("h".equals(appO.getUnit()))
+		    durationValueSecond *= 60 * 60;
+		if ("d".equals(appO.getUnit()))
+		    durationValueSecond *= 60 * 60 * 24;
+	    }
+	}
+	return durationValueSecond;
+    }
+
     /**
      * Get child tree with value of this object as integer.
      * @return Tree object with parent object value as integer

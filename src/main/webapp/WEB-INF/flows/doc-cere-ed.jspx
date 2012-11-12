@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
+	xmlns:joda="http://www.joda.org/joda/time/tags"
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
@@ -52,4 +53,44 @@
 			link2modalDialog(e.id);
 		});
 	</script>
+
+<!-- debug -->
+	<jsp:scriptlet>
+		org.joda.time.DateTime now = new org.joda.time.DateTime();
+		now = now.minusMillis(now.getMillisOfDay());
+		pageContext.setAttribute("now", now);
+		//out.print("Hello " + now.millisOfDay().get());
+	</jsp:scriptlet>
+	<table>
+		<c:forEach var="me" items="${timesOrderMap}" varStatus="stat">
+			<c:if test="${stat.first}">
+				<c:set var="firstRelativeSec" value="${0-me.key }" />
+			</c:if>
+			<tr>
+				<td><rg:timesNr timesT="${me.value}" />.</td>
+				<c:set var="relativeTimesInSec" value="${me.key+firstRelativeSec}" />
+				<!-- 
+				<td>${me.key }</td>
+				<td>
+				${relativeTimesInSec }
+				</td>
+				 -->
+  <spring:eval var="currentRelativeTimes" expression="now.withMillisOfDay(relativeTimesInSec*1000+5000)"/>
+  <joda:format var="HHmmss" value="${currentRelativeTimes}" pattern="HH:mm:ss"  />
+				<td title="${HHmmss}">
+  +<joda:format value="${currentRelativeTimes}" pattern="HH:mm"  />
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+	<!-- 
+<c:forEach var="timesT" items="${regimeTimesTs }" varStatus="stat">
+<div>
+${stat.index+1}
+...
+${timesT }
+</div>
+</c:forEach>
+ -->
+<!-- debug END-->
 </jsp:root>
