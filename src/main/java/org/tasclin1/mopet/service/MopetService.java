@@ -406,8 +406,10 @@ public class MopetService {
 
     @Transactional(readOnly = true)
     public void readRegimeDocT(Integer idRegime, Model model) {
-	model.addAttribute(fs_treeFromId, new HashMap<Integer, Tree>());
+	HashMap<Integer, Tree> treeFromId = new HashMap<Integer, Tree>();
+	model.addAttribute(fs_treeFromId, treeFromId);
 	Tree regimeT = setTreeWithMtlO(idRegime, model);
+	treeFromId.put(regimeT.getIdClass(), regimeT);
 	model.addAttribute(REGIMET, regimeT);
 	model.addAttribute(MopetService.regimeTimesTs, new ArrayList<Tree>());
 	model.addAttribute(MopetService.taskOneTimeses, new HashMap<Tree, List<Tree>>());
@@ -425,8 +427,7 @@ public class MopetService {
 	TreeMap<Integer, Tree> timesOrderMap = new TreeMap<Integer, Tree>();
 	model.addAttribute("timesOrderMap", timesOrderMap);
 	for (Tree timesT : regimeTimesTs) {
-	    log.debug(timesT.getId() + " " + timesT.getTimesO() + " " + timesT.getTimesO().getAbs() + " "
-		    + timesT.getTimesO().getAbs().contains("="));
+	    log.debug(timesT);
 	    if (null != timesT.getTimesO() && timesT.getTimesO().getAbs().contains("="))
 		continue;
 	    log.debug(timesT.getRef());
@@ -435,7 +436,7 @@ public class MopetService {
 		log.debug(key);
 	    } else {
 		log.debug(timesT);
-		Tree refT = setRefT(model, timesT);
+		Tree refT = setRefT(model, timesT, regimeT);
 		log.debug(refT.getId() + "==" + regimeT.getId());
 		if (refT == regimeT) {
 		    log.debug(2);
@@ -472,9 +473,14 @@ public class MopetService {
 	}
     }
 
-    private Tree setRefT(Model model, Tree timesT) {
+    private Tree setRefT(Model model, Tree timesT, Tree regimeT2) {
 	Map<Integer, Tree> treeFromId = (Map<Integer, Tree>) model.asMap().get(MopetService.fs_treeFromId);
 	Tree refT = treeFromId.get(timesT.getRef());
+	log.debug(refT);
+	log.debug(timesT.getRef() + "==" + regimeT2.getIdClass());
+	if (null == refT && regimeT2.getIdClass().equals(timesT.getRef()))
+	    refT = regimeT2;
+	log.debug(refT);
 	timesT.setRefT(refT);
 	return refT;
     }

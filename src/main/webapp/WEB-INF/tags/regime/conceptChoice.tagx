@@ -21,7 +21,7 @@
 			<c:set var="isChoice" value="${isChoiceT.ref==armT.id }" />
 			<div style="float: left;" class="arm select ${isChoice?'noticeCss':''}" id="armsel_${armT.id }">
 				<rg:titlePane id="arm_${armT.id }" title="arm_${armT.mtlO.arm }"
-				isOpened="${isChoice}"
+				isOpened="${isChoice or empty patientT}"
 				>
 					<c:choose>
 						<c:when test="${empty armT.childTs}">

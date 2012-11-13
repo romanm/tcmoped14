@@ -10,16 +10,14 @@
 		type="org.tasclin1.mopet.domain.Tree" required="true"
 		description="The tree object" />
 
-		<spring:eval var="nr"
-				expression="regimeTimesTs.indexOf(timesT)+1" />
-		<c:choose>
-			<c:when test="${10>nr }">
-				<c:out value="${nr}" />
-			</c:when>
-			<c:otherwise>
-		<spring:eval
-				expression="timesT.getCharNr(nr)" />
-			</c:otherwise>
-		</c:choose>
+			<spring:eval var="nr" expression="regimeTimesTs.indexOf(timesT)+1" />
+			<c:choose>
+				<c:when test="${10>nr }">
+					<c:out value="${nr}" />
+				</c:when>
+				<c:otherwise>
+					<spring:eval expression="timesT.getCharNr(nr)" />
+				</c:otherwise>
+			</c:choose>
 
-	</jsp:root>
+</jsp:root>

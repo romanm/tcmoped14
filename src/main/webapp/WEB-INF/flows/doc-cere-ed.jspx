@@ -69,13 +69,23 @@
 			<tr>
 				<td><rg:timesNr timesT="${me.value}" />.</td>
 				<c:set var="relativeTimesInSec" value="${me.key+firstRelativeSec}" />
+				<c:set var="relativeTimesInMilis" value="${relativeTimesInSec*1000+5000}" />
+				<c:if test="${relativeTimesInMilis>86399999}">
+					<c:set var="relativeTimesInMilis" value="86399990" />
+					<!-- 
+					TODO
+					org.joda.time.IllegalFieldValueException: 
+					Value 86405000 for millisOfDay must be in the range [0,86399999]
+					 -->
+				</c:if>
 				<!-- 
 				<td>${me.key }</td>
 				<td>
 				${relativeTimesInSec }
 				</td>
 				 -->
-  <spring:eval var="currentRelativeTimes" expression="now.withMillisOfDay(relativeTimesInSec*1000+5000)"/>
+  <spring:eval var="currentRelativeTimes"
+   expression="now.withMillisOfDay(relativeTimesInMilis)"/>
   <joda:format var="HHmmss" value="${currentRelativeTimes}" pattern="HH:mm:ss"  />
 				<td title="${HHmmss}">
   +<joda:format value="${currentRelativeTimes}" pattern="HH:mm"  />
