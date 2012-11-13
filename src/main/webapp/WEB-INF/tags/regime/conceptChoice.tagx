@@ -11,9 +11,18 @@
 		<legend class="choice select" id="c_${choiceT.id}">
 			<spring:message code="conceptChoice" />
 		</legend>
+		<c:forEach var="isChoicePvT" items="${choiceT.childTs }">
+			<c:if test="${not empty isChoicePvT.ref}">
+				<c:set var="isChoiceT" value="${isChoicePvT}" />
+			</c:if>
+		</c:forEach>
 		<c:forEach var="armT" items="${choiceT.childTs}">
-			<div style="float: left;" class="arm select" id="armsel_${armT.id }">
-				<rg:titlePane id="arm_${armT.id }" title="arm_${armT.mtlO.arm }">
+			<c:if test="${armT.arm }">
+			<c:set var="isChoice" value="${isChoiceT.ref==armT.id }" />
+			<div style="float: left;" class="arm select ${isChoice?'noticeCss':''}" id="armsel_${armT.id }">
+				<rg:titlePane id="arm_${armT.id }" title="arm_${armT.mtlO.arm }"
+				isOpened="${isChoice}"
+				>
 					<c:choose>
 						<c:when test="${empty armT.childTs}">
 							<div id="a_${armT.id}" class="select">..</div>
@@ -24,6 +33,7 @@
 					</c:choose>
 				</rg:titlePane>
 			</div>
+			</c:if>
 		</c:forEach>
 	</fieldset>
 </jsp:root>

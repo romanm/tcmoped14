@@ -24,7 +24,7 @@
 		</c:otherwise>
 	</c:choose>
 
-	<div id="${id}" title="${t}">
+	<div id="${id}" title="${t}" >
 		<jsp:doBody />
 		<c:if test="${empty isOpened}">
 			<c:set var="isOpened" value="true" />

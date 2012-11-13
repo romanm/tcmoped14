@@ -434,6 +434,7 @@ public class MopetService {
 		int key = correcturKey2next(timesOrderMap, 0);
 		log.debug(key);
 	    } else {
+		log.debug(timesT);
 		Tree refT = setRefT(model, timesT);
 		log.debug(refT.getId() + "==" + regimeT.getId());
 		if (refT == regimeT) {

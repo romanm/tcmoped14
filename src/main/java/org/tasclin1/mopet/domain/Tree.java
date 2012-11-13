@@ -195,6 +195,10 @@ public class Tree implements Serializable {
 	return getMtlO() instanceof Notice || "notice".equals(getTabName());
     }
 
+    public boolean isArm() {
+	return getMtlO() instanceof Arm || "arm".equals(getTabName());
+    }
+
     public boolean isApp() {
 	return getMtlO() instanceof App || "app".equals(getTabName());
     }
