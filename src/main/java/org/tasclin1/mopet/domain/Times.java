@@ -24,6 +24,15 @@ public class Times implements MObject, Serializable, Comparable<Times> {
     @Transient
     protected final Log log = LogFactory.getLog(getClass());
 
+    public Integer getConnectionIntervalSecond() {
+	Integer relValueSecond = relvalue;
+	if ("M".equals(relunit))
+	    relValueSecond *= 60;
+	else if ("H".equals(relunit))
+	    relValueSecond *= 60 * 60;
+	return relValueSecond;
+    }
+
     public Integer getId() {
 	return id;
     }

@@ -16,7 +16,9 @@
 		<tbody>
 			<c:set var="dayOfMonth" value="111" />
 			<c:forEach var="historyT" items="${patientT.childTs }">
+			<c:if test="${not empty historyT.ofDateT}">
 				<spring:eval var="currentDayOfMonth" expression="historyT.ofDateT.history.mdateDT.dayOfMonth()"/>
+			</c:if>
 				<c:if test="${currentDayOfMonth!=dayOfMonth}">
 					<c:set var="dayOfMonth" value="${currentDayOfMonth}" />
 					<tr class="planday">
@@ -52,14 +54,17 @@
 									<td><spring:message code="history_diagnose" /></td>
 									<td>${historyT.mtlO.diagnose}</td>
 								</c:when>
-								<c:when test="${historyT.labor}">
-									<td>
-										<spring:message code="${historyT.tabName }_${historyT.mtlO.labor}" />
-									</td>
+								<c:when test="${historyT.finding or historyT.labor }">
+									<td><rg:historyVariable historyT="${historyT }" /></td>
 									<td><rg:historyValue historyT="${historyT }" /></td>
 								</c:when>
-								<c:when test="${historyT.finding }">
-									<td><rg:historyVariable historyT="${historyT }" /></td>
+								<c:when test="${historyT.labor}">
+									<td>
+									<!-- 
+										<spring:message code="${historyT.tabName }_${historyT.mtlO.labor}" />
+								 -->
+									 a2
+									</td>
 									<td><rg:historyValue historyT="${historyT }" /></td>
 								</c:when>
 								<c:otherwise>

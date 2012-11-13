@@ -10,7 +10,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.MutableDateTime;
 import org.springframework.ui.Model;
-import org.tasclin1.mopet.domain.App;
 import org.tasclin1.mopet.domain.Times;
 import org.tasclin1.mopet.domain.Tree;
 import org.tasclin1.mopet.service.MopetService;
@@ -58,7 +57,7 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 	begin = mutableDateTime;
 	regimeTaskRuns.put(begin.getMillis(), this);
 	// correctur begin END
-	Integer durationValueSecond = getAppDurationSecond();
+	Integer durationValueSecond = timesT.getAppDurationSecond();
 	end = endFromBegin().secondOfDay().add(durationValueSecond);
 
 	modelThisDay(model);
@@ -100,15 +99,8 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 	this.timesT = timesT;
 	defDay = refTaskRun.getDefDay();
 
-	Integer durationValueSecond = getAppDurationSecond();
-	Times refTimesO = timesT.getTimesO();
-
-	Integer relValueSecond = refTimesO.getRelvalue();
-	String relUnit = refTimesO.getRelunit();
-	if ("M".equals(relUnit))
-	    relValueSecond *= 60;
-	else if ("H".equals(relUnit))
-	    relValueSecond *= 60 * 60;
+	Integer durationValueSecond = timesT.getAppDurationSecond();
+	Integer relValueSecond = timesT.getTimesO().getConnectionIntervalSecond();
 
 	// apporder
 	// ↘↖ - leading
@@ -117,7 +109,7 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 	// 1 -↑↖- beginBeforeBegin
 	// 2 -↘↓- endAfterEnd
 	// 3 -↓↖- endBeforeBegin
-	String apporder = refTimesO.getApporder();
+	String apporder = timesT.getTimesO().getApporder();
 	if ("0".equals(apporder)) {
 	    begin = refTaskRun.getEnd().copy().secondOfDay().add(relValueSecond);
 	    end = endFromBegin().secondOfDay().add(durationValueSecond);
@@ -137,7 +129,7 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
     }
 
     public String symbolToHour(int h) {
-	if (0 == getAppDurationSecond() && begin.getHourOfDay() == h)
+	if (0 == timesT.getAppDurationSecond() && begin.getHourOfDay() == h)
 	    return addMinuteDottDuration(begin.getMinuteOfHour(), "&#160;") + "*";
 	String symbol = ".";
 
@@ -146,8 +138,8 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 	    int minuteOfHour = 0;
 	    if (end.getHourOfDay() > begin.getHourOfDay()) {
 		minuteOfHour = 60 - begin.getMinuteOfDay();
-	    } else if (getAppDurationSecond() > 0) {
-		minuteOfHour = getAppDurationSecond() / 60;
+	    } else if (timesT.getAppDurationSecond() > 0) {
+		minuteOfHour = timesT.getAppDurationSecond() / 60;
 	    }
 	    symbol += addMinuteDottDuration(minuteOfHour, "·");
 	}
@@ -176,25 +168,7 @@ public class TaskRun implements Serializable, Comparable<TaskRun> {
 	return symbol;
     }
 
-    Integer durationValueSecond;
-
-    public Integer getAppDurationSecond() {
-	if (null == durationValueSecond) {
-	    durationValueSecond = 0;
-	    Tree drugAppT = timesT.getParentT().getParentT().getDrugAppT();
-	    if (null != drugAppT) {
-		App appO = drugAppT.getAppO();
-		durationValueSecond = appO.getDurationValue();
-		if ("min".equals(appO.getUnit()))
-		    durationValueSecond *= 60;
-		if ("h".equals(appO.getUnit()))
-		    durationValueSecond *= 60 * 60;
-		if ("d".equals(appO.getUnit()))
-		    durationValueSecond *= 60 * 60 * 24;
-	    }
-	}
-	return durationValueSecond;
-    }
+    // Integer durationValueSecond;
 
     private MutableDateTime endFromBegin() {
 	return begin.copy().millisOfSecond().add(10);

@@ -6,7 +6,21 @@
 	<jsp:directive.attribute name="historyT"
 		type="org.tasclin1.mopet.domain.Tree" required="true"
 		description="Current folder object" />
-		
-	<spring:message code="${historyT.tabName }_${historyT.mtlO.finding }" />
 
+	<c:choose>
+		<c:when
+			test="${
+			historyT.finding
+			and
+			(
+			'weight'==historyT.mtlO.finding
+			or 'height'==historyT.mtlO.finding
+			)
+			}">
+			<spring:message code="${historyT.tabName }_${historyT.mtlO.finding }" />
+		</c:when>
+		<c:when test="${ historyT.finding}"> ${historyT.mtlO.finding } </c:when>
+		<c:when test="${ historyT.labor}"> ${historyT.mtlO.labor } </c:when>
+		<c:otherwise> ${historyT.mtlO} </c:otherwise>
+	</c:choose>
 </jsp:root>

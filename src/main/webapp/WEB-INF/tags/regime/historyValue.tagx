@@ -26,6 +26,7 @@
 	</c:choose>
 	<c:choose>
 		<c:when test="${'bsaType'==historyT.mtlO.unit }" />
+		<c:when test="${'yes_no'==historyT.mtlO.unit }" />
 		<c:otherwise>
 			<c:out value=" ${historyT.mtlO.unit} " />
 		</c:otherwise>
