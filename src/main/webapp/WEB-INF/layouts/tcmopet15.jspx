@@ -30,6 +30,10 @@
 
 <head>
 <title><tiles:insertAttribute name="title" /></title>
+<c:url var="faviconIco" value="/resources/images/favicon.ico" />
+<link rel="icon" type="image/x-ico" href="${faviconIco }" />
+<link rel="shortcut icon" type="image/x-icon" href="${faviconIco }" />
+
 <c:url var="tundraCss" value="/resources/dijit/themes/tundra/tundra.css" />
 <link type="text/css" rel="stylesheet" href="${tundraCss }" />
 <c:url var="mopetScreenCss" value="/resources/styles/mopet-screen.css" />
