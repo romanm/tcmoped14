@@ -5,6 +5,8 @@
 		http://www.springframework.org/schema/webflow 
 		http://www.springframework.org/schema/webflow/spring-webflow.xsd">
 
+	<secured attributes="ROLE_USER" />
+
 	<var name="model"	class="org.springframework.ui.ExtendedModelMap" />
 
 	<input name="idRegime" required="true" type="int"/>

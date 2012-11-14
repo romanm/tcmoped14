@@ -48,7 +48,8 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
     <bean class="org.springframework.ui.context.support.ResourceBundleThemeSource" id="themeSource"/>
 
     <!-- Store preferred theme configuration in a cookie -->
-    <bean class="org.springframework.web.servlet.theme.CookieThemeResolver" id="themeResolver" p:cookieName="theme" p:defaultThemeName="standard"/>
+    <bean class="org.springframework.web.servlet.theme.CookieThemeResolver" id="themeResolver" 
+    p:cookieName="theme" p:defaultThemeName="standard"/>
 
 	<!-- Map paths directly to view names without controller processing. Use the view-name attribute if necessary: by convention the view name equals the path without the leading slash 
 	<mvc:view-controller path="/" view-name="intro" />
