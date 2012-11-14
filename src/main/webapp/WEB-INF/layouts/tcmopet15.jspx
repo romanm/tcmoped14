@@ -3,6 +3,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
 	xmlns:spring="http://www.springframework.org/tags"
+	xmlns:security="http://www.springframework.org/security/tags"
 	xmlns:tiles="http://tiles.apache.org/tags-tiles"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime">
 	<jsp:directive.page contentType="text/html; charset=UTF-8"
@@ -93,20 +94,33 @@
 			</a>
 			</div>
 			<div class="floatRight">
-				<h5>
-					<c:out value="TasClin " />
-				</h5>
-				<h3>
-					<c:out value="MOPET " />
-				</h3>
-					<c:out value=" " />
-					<!-- 
-					<c:out value="." />
-					 -->
-					<rg:language locale="${locale}" nolink="true" />
+				<h5> <c:out value="TasClin " /> </h5>
+				<span style="background-color: white;">
+				<img src="${faviconIco}" />
+				</span>
+				<h3> <c:out value="MOPET " /> </h3>
+				<c:out value=" " />
+				<!-- 
+				<c:out value="." />
+				 -->
+				<rg:language locale="${locale}" nolink="true" />
+				<div style="text-align: right">
+					<c:url var="loggedUrl" value="/log" />
+					<security:authorize ifAllGranted="ROLE_USER">
+						<spring:message code="ui_welcome"/>,
+						${pageContext.request.userPrincipal.name}
+						|
+						<a href="${loggedUrl}out"> logout </a>
+					</security:authorize>
+					<security:authorize ifAllGranted="ROLE_ANONYMOUS">
+						<a href="${loggedUrl}in"> login </a>
+					</security:authorize>
+				</div>
 			</div>
 		</div>
-		<br/>
+		<div class="clearBoth">
+			<!-- //required for FF3 and Opera -->
+		</div>
 		<br/>
 		<tiles:insertAttribute name="sidebar" />
 		<input id="urlRoot" type="hidden" name="urlRoot" value="${urlRoot }" />

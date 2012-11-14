@@ -10,6 +10,7 @@ body {font-family:"Gill Sans MT","Gill Sans",GillSans,Verdana,sans-serif}
 .small{font-size: 0.8em}
 .floatLeft {float: left;}
 .floatRight {float: right}
+.clearBoth {clear:both;}
 
 tr.planday th, tr.planday td {
     border-top: 3px double;

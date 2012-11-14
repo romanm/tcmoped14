@@ -12,6 +12,8 @@
 			default-target-url="/hotels/search" authentication-failure-url="/login?login_error=1" />
 		<security:logout logout-url="/logout" logout-success-url="/logoutSuccess" />
 		<security:intercept-url pattern="/folder*" access="ROLE_USER"/>
+		<security:intercept-url pattern="/**/study*" access="ROLE_USER"/>
+		<security:intercept-url pattern="/**/cere*" access="ROLE_USER"/>
 	</security:http>
 	
 	<!--
