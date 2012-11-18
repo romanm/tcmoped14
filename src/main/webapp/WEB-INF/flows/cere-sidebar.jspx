@@ -63,6 +63,9 @@
 			</div>
 		</rg:titlePane>
 	</rg:titlePane>
+	
+<rg:timesOrder />
+	
 	<br />
 	<rg:link2originalDoc docT="${regimeT }" />
 </jsp:root>

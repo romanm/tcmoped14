@@ -129,7 +129,11 @@ public class MopetController {
     Integer idStudy, @PathVariable
     String regimeView, @PathVariable
     Integer idRegime, Model model) {
+	// Tree tree = mopetService.checkId(idRegime);
+	// if (null == tree)
+	// return "redirect:/";
 	readRegime(idFolder, idStudy, regimeView, idRegime, model);
+	// return "/f=" + idFolder + "/s=" + idStudy + "/cere-" + regimeView + "=" + idRegime;
     }
 
     private HttpServletRequest getRequest() {

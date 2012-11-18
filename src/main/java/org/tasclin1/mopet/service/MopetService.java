@@ -426,72 +426,102 @@ public class MopetService {
 	List<Tree> regimeTimesTs = (List<Tree>) model.asMap().get(MopetService.regimeTimesTs);
 	TreeMap<Integer, Tree> timesOrderMap = new TreeMap<Integer, Tree>();
 	model.addAttribute("timesOrderMap", timesOrderMap);
+	Map<Tree, Integer> timesBeginMills = new HashMap<Tree, Integer>();
+	model.addAttribute("timesBeginMills", timesBeginMills);
 	for (Tree timesT : regimeTimesTs) {
-	    log.debug(timesT);
 	    if (null != timesT.getTimesO() && timesT.getTimesO().getAbs().contains("="))
 		continue;
-	    log.debug(timesT.getRef());
+	    log.debug(timesT);
+	    // log.debug(timesT.getRef());
 	    if (null == timesT.getRef()) {
-		int key = correcturKey2next(timesOrderMap, 0);
-		log.debug(key);
+		log.debug(1);
+		calcTimesOrder(model, timesT, 0, 1);
 	    } else {
-		log.debug(timesT);
+		log.debug(2);
+		// log.debug(timesT);
 		Tree refT = setRefT(model, timesT, regimeT);
 		log.debug(refT.getId() + "==" + regimeT.getId());
 		if (refT == regimeT) {
-		    log.debug(2);
-		    int beginRefTask = 0;
-		    int durationRefTask = 1;// 1S
-		    int endRefTask = beginRefTask + durationRefTask;
-		    Integer durationValueSecond = timesT.getAppDurationSecond();
-		    Integer connectionIntervalSecond = timesT.getTimesO().getConnectionIntervalSecond();
-		    // apporder
-		    // ↘↖ - leading
-		    // ↑↓ - driven
-		    // 0 -↘↑- beginAfterEnd
-		    // 1 -↑↖- beginBeforeBegin
-		    // 2 -↘↓- endAfterEnd
-		    // 3 -↓↖- endBeforeBegin
-		    String apporder = timesT.getTimesO().getApporder();
-		    int beginTask = 0;
-		    if ("0".equals(apporder)) {
-			beginTask = endRefTask + connectionIntervalSecond;
-			beginTask = correcturKey2next(timesOrderMap, beginTask);
-		    } else if ("1".equals(apporder)) {
-			beginTask = beginRefTask - connectionIntervalSecond;
-			beginTask = correcturKey2previous(timesOrderMap, beginTask);
-		    } else if ("2".equals(apporder)) {
-			beginTask = endRefTask + connectionIntervalSecond - durationValueSecond;
-			beginTask = correcturKey2next(timesOrderMap, beginTask);
-		    } else if ("3".equals(apporder)) {
-			beginTask = endRefTask - connectionIntervalSecond - durationValueSecond;
-			beginTask = correcturKey2previous(timesOrderMap, beginTask);
+		    log.debug(3);
+		    calcTimesOrder(model, timesT, 0, 1);
+		} else {// ref to other times
+		    log.debug(4);
+		    boolean containsValue = timesOrderMap.containsValue(refT);
+		    if (containsValue) {
+			Integer beginRefTask = timesBeginMills.get(refT);
+			int durationRefTask = refT.getAppDurationSecond();
+			log.debug("----------------------------" + beginRefTask + "+" + durationRefTask);
+			calcTimesOrder(model, timesT, beginRefTask, durationRefTask);
 		    }
-		    timesOrderMap.put(beginTask, timesT);
 		}
 	    }
 	}
     }
 
+    private void calcTimesOrder(Model model, Tree timesT, int beginRefTask, int durationRefTask) {
+	log.debug(1);
+	Map<Integer, Tree> timesOrderMap = (Map<Integer, Tree>) model.asMap().get("timesOrderMap");
+	Map<Tree, Integer> timesBeginMills = (Map<Tree, Integer>) model.asMap().get("timesBeginMills");
+
+	int endRefTask = beginRefTask + durationRefTask;
+	Integer durationValueSecond = timesT.getAppDurationSecond();
+	Integer connectionIntervalSecond = 0;
+	String apporder = "x";
+	if (null != timesT.getTimesO()) {
+	    connectionIntervalSecond = timesT.getTimesO().getConnectionIntervalSecond();
+	    apporder = timesT.getTimesO().getApporder();
+	}
+	log.debug("apporder=" + apporder + " " + timesT);
+	// apporder
+	// ↘↖ - leading
+	// ↑↓ - driven
+	// 0 -↘↑- beginAfterEnd
+	// 1 -↑↖- beginBeforeBegin
+	// 2 -↘↓- endAfterEnd
+	// 3 -↓↖- endBeforeBegin
+	int beginTask = correcturKey2next(timesOrderMap, 0);
+	if ("0".equals(apporder)) {
+	    beginTask = endRefTask + connectionIntervalSecond;
+	    beginTask = correcturKey2next(timesOrderMap, beginTask);
+	} else if ("1".equals(apporder)) {
+	    beginTask = beginRefTask - connectionIntervalSecond;
+	    beginTask = correcturKey2previous(timesOrderMap, beginTask);
+	} else if ("2".equals(apporder)) {
+	    beginTask = endRefTask + connectionIntervalSecond - durationValueSecond;
+	    beginTask = correcturKey2next(timesOrderMap, beginTask);
+	} else if ("3".equals(apporder)) {
+	    beginTask = beginRefTask - connectionIntervalSecond - durationValueSecond;
+	    log.debug(beginTask + "=" + endRefTask + "-" + connectionIntervalSecond + "-" + durationValueSecond + "\n"
+		    + timesT);
+	    beginTask = correcturKey2previous(timesOrderMap, beginTask);
+	    log.debug("beginTask=" + beginTask);
+	}
+	timesOrderMap.put(beginTask, timesT);
+	timesBeginMills.put(timesT, beginTask);
+
+	String string = "\n";
+	for (Integer integer : timesOrderMap.keySet()) {
+	    string += "" + integer + " id=" + timesOrderMap.get(integer).getId() + "\n";
+	}
+	log.debug(string);
+    }
+
     private Tree setRefT(Model model, Tree timesT, Tree regimeT2) {
 	Map<Integer, Tree> treeFromId = (Map<Integer, Tree>) model.asMap().get(MopetService.fs_treeFromId);
 	Tree refT = treeFromId.get(timesT.getRef());
-	log.debug(refT);
-	log.debug(timesT.getRef() + "==" + regimeT2.getIdClass());
 	if (null == refT && regimeT2.getIdClass().equals(timesT.getRef()))
 	    refT = regimeT2;
-	log.debug(refT);
 	timesT.setRefT(refT);
 	return refT;
     }
 
-    private int correcturKey2previous(TreeMap<Integer, Tree> timesOrderMap, int key) {
+    private int correcturKey2previous(Map<Integer, Tree> timesOrderMap, int key) {
 	while (timesOrderMap.containsKey(key))
 	    key--;
 	return key;
     }
 
-    private int correcturKey2next(TreeMap<Integer, Tree> timesOrderMap, int key) {
+    private int correcturKey2next(Map<Integer, Tree> timesOrderMap, int key) {
 	while (timesOrderMap.containsKey(key))
 	    key++;
 	return key;
