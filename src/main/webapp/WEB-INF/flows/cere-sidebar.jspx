@@ -43,29 +43,25 @@
 		<c:if test="${empty patientT }">
 		</c:if>
 		<c:if test="${not empty patientT }">
-			<div>
-				<spring:message code="menu_moveStation" />
-			</div>
-			<div>
-				<spring:message code="menu_archivPatient" />
-			</div>
+			<div> <spring:message code="menu_moveStation" /> </div>
+			<div> <spring:message code="menu_archivPatient" /> </div>
 		</c:if>
 		<rg:titlePane id="menu_2" mtitle="menu_extra" isOpened="${false}">
-			<div>
-				<spring:message code="menu_sameDayTogether" />
-			</div>
+			<div> <spring:message code="menu_sameDayTogether" /> </div>
 			<hr />
-			<div>
-				<spring:message code="menu_newLabor" />
-			</div>
-			<div>
-				<spring:message code="menu_newFinding" />
-			</div>
+			<div> <spring:message code="menu_newLabor" /> </div>
+			<div> <spring:message code="menu_newFinding" /> </div>
 		</rg:titlePane>
 	</rg:titlePane>
-	
-<rg:timesOrder />
-	
+
+	<jsp:scriptlet>
+		org.joda.time.DateTime now = new org.joda.time.DateTime();
+		now = now.minusMillis(now.getMillisOfDay());
+		pageContext.setAttribute("now", now);
+		//out.print("Hello " + now.millisOfDay().get());
+	</jsp:scriptlet>
+	<c:set var="now" value="${now}" scope="request" />
+	<rg:timesOrder />
 	<br />
 	<rg:link2originalDoc docT="${regimeT }" />
 </jsp:root>

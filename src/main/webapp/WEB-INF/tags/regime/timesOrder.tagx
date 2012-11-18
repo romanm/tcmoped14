@@ -5,6 +5,9 @@
 	xmlns:joda="http://www.joda.org/joda/time/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
+<rg:titlePane id="db_1" mtitle="ui_menu" isOpened="${true}">
+
+<div class="scroll">
 	<table>
 		<c:forEach var="me" items="${timesOrderMap}" varStatus="stat">
 			<c:if test="${stat.first}">
@@ -42,6 +45,10 @@
 			</tr>
 		</c:forEach>
 	</table>
+</div>
+
+</rg:titlePane>
+
 	<!-- 
 <c:forEach var="timesT" items="${regimeTimesTs }" varStatus="stat">
 <div>

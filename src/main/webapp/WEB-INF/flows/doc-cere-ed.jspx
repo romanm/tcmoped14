@@ -55,12 +55,7 @@
 	</script>
 
 <!-- debug -->
-	<jsp:scriptlet>
-		org.joda.time.DateTime now = new org.joda.time.DateTime();
-		now = now.minusMillis(now.getMillisOfDay());
-		pageContext.setAttribute("now", now);
-		//out.print("Hello " + now.millisOfDay().get());
-	</jsp:scriptlet>
+	
 	<c:set var="now"  value="${now}" scope="request"/>
 
 </jsp:root>

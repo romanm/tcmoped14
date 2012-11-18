@@ -422,13 +422,25 @@ public class MopetService {
     }
 
     private void initRegimeTimesOrdner(Model model) {
-	Tree regimeT = (Tree) model.asMap().get(REGIMET);
-	List<Tree> regimeTimesTs = (List<Tree>) model.asMap().get(MopetService.regimeTimesTs);
 	TreeMap<Integer, Tree> timesOrderMap = new TreeMap<Integer, Tree>();
 	model.addAttribute("timesOrderMap", timesOrderMap);
 	Map<Tree, Integer> timesBeginMills = new HashMap<Tree, Integer>();
 	model.addAttribute("timesBeginMills", timesBeginMills);
+	calcTimesOrder(model);
+	calcTimesOrder(model);
+	calcTimesOrder(model);
+	calcTimesOrder(model);
+    }
+
+    private void calcTimesOrder(Model model) {
+	Tree regimeT = (Tree) model.asMap().get(REGIMET);
+	List<Tree> regimeTimesTs = (List<Tree>) model.asMap().get(MopetService.regimeTimesTs);
+	Map<Integer, Tree> timesOrderMap = (Map<Integer, Tree>) model.asMap().get("timesOrderMap");
+	Map<Tree, Integer> timesBeginMills = (Map<Tree, Integer>) model.asMap().get("timesBeginMills");
+
 	for (Tree timesT : regimeTimesTs) {
+	    if (timesOrderMap.containsValue(timesT))
+		continue;
 	    if (null != timesT.getTimesO() && timesT.getTimesO().getAbs().contains("="))
 		continue;
 	    log.debug(timesT);
@@ -446,12 +458,13 @@ public class MopetService {
 		    calcTimesOrder(model, timesT, 0, 1);
 		} else {// ref to other times
 		    log.debug(4);
-		    boolean containsValue = timesOrderMap.containsValue(refT);
-		    if (containsValue) {
+		    if (timesOrderMap.containsValue(refT)) {
 			Integer beginRefTask = timesBeginMills.get(refT);
 			int durationRefTask = refT.getAppDurationSecond();
 			log.debug("----------------------------" + beginRefTask + "+" + durationRefTask);
 			calcTimesOrder(model, timesT, beginRefTask, durationRefTask);
+		    } else {
+
 		    }
 		}
 	    }
@@ -503,7 +516,7 @@ public class MopetService {
 	for (Integer integer : timesOrderMap.keySet()) {
 	    string += "" + integer + " id=" + timesOrderMap.get(integer).getId() + "\n";
 	}
-	log.debug(string);
+	// log.debug(string);
     }
 
     private Tree setRefT(Model model, Tree timesT, Tree regimeT2) {

@@ -12,6 +12,10 @@ body {font-family:"Gill Sans MT","Gill Sans",GillSans,Verdana,sans-serif}
 .floatRight {float: right}
 .clearBoth {clear:both;}
 
+div.scroll
+{height: 400px; overflow: scroll;
+}
+
 tr.planday th, tr.planday td {
     border-top: 3px double;
 }
