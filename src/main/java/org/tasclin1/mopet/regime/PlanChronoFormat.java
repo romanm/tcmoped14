@@ -10,10 +10,6 @@ public class PlanChronoFormat {
 	return plancolumns;
     }
 
-    public void setPlancolumns(List<Plancolumns> plancolumns) {
-	this.plancolumns = plancolumns;
-    }
-
     public PlanChronoFormat() {
 	plancolumns = new ArrayList<Plancolumns>();
 	plancolumns.add(Plancolumns.times);

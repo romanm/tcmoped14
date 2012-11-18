@@ -16,17 +16,27 @@
 
 	<jsp:directive.attribute name="style" type="java.lang.String"
 		required="false"
-		description="Indication style hhmm lg|skew dotted|numbered" />
+		description="Indication style plushhmm|hhmm lg|skew dotted|numbered" />
 
 	<c:if test="${empty style }">
 		<!-- 
 		<c:set var="style" value="x x" />
 		<c:set var="style" value="skew dotted" />
-		 -->
 		<c:set var="style" value="skew numbered" />
+		 -->
+		<c:set var="style" value="plushhmm" />
 	</c:if>
 	<c:set var="leerTimes" value=".&#160;&#160;:&#160;&#160;."
 		scope="application" />
+	<c:choose>
+			<c:when  test="${not empty taskRun and fn:contains(style,'plushhmm') }">
+			<c:set var="dayFirstMillis" value="${timesBeginMills[taskRun.timesT] }" />
+			<c:set var="relativeTimesInSec" value="${dayFirstMillis+firstRelativeSec}" />
+			<rg:relativeTimesInMillis relativeTimesInSec="${relativeTimesInSec}" />
+			+<joda:format
+					value="${currentRelativeTimes}" pattern="HH:mm" />
+			</c:when>
+			<c:otherwise>
 	<c:choose>
 		<c:when  test="${not empty taskRun and fn:contains(style,'hhmm') }">
 			<joda:format var="timesText" value="${taskRun.begin }" pattern="kk:mm" />
@@ -35,7 +45,7 @@
 			<c:set var="timesText" value="${leerTimes }" />
 		</c:otherwise>
 	</c:choose>
-	<c:choose>
+		<c:choose>
 			<c:when test="${not empty timesT.ref}">
 				<c:set var="timesT_Nr"><rg:timesNr timesT="${timesT}" /></c:set>
 				<c:set var="refTimesT_Nr"><rg:timesNr timesT="${treeFromId[timesT.ref]}" /></c:set>
@@ -106,4 +116,7 @@
 <span class="small">
 <c:out value="${timesTextRelation }" />
 </span>
+		</c:otherwise>
+	</c:choose>
+
 </jsp:root>

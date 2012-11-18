@@ -5,13 +5,14 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-	<c:set var="style" value="hhmm skew" />
 	<c:forEach var="dayNr" items="${dayNrDayTs }">
 	<c:if test="${not empty dayNrTaskRuns[dayNr.key] }">
 		<table>
 			<caption class="planday bold">
 			<spring:eval var="dayFirstTaskRun"
 				expression="dayNrTaskRuns.get(dayNr.key).first()" scope="request" />
+			<c:set var="dayFirstMillis" value="${timesBeginMills[dayFirstTaskRun.timesT] }" />
+			<c:set var="firstRelativeSec" value="${0-dayFirstMillis }" />
 			<spring:eval var="dayLastTaskRun"
 				expression="dayNrTaskRuns.get(dayNr.key).last()" scope="request" />
 			<joda:format value="${dayFirstTaskRun.begin }" style="L-"
@@ -47,8 +48,13 @@
 						items="${planChronoFormat.plancolumns }">
 						<c:choose>
 							<c:when test="${plancolumn=='times'}">
-								<td><rg:timesText timesT="${timesT}" taskRun="${taskRun }"
-										style="${style }" /></td>
+								<td>
+								<!-- 
+									<c:set var="style" value="hhmm skew" />
+								 -->
+									<c:set var="style" value="plushhmm" />
+									<rg:timesText timesT="${timesT}" taskRun="${taskRun }" style="${style }" />
+								</td>
 							</c:when>
 							<c:when test="${plancolumn=='drug'}">
 								<rg:taskDrugEdit
