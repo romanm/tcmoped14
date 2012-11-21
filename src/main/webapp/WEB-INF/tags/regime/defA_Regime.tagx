@@ -6,8 +6,12 @@
 		type="org.tasclin1.mopet.domain.Tree" required="true"
 		description="Current folder object" />
 	<div class="regimeContent task select" id="task_${taskT.id }">
-		<a href="${contextPath}/id=${taskT.id }"> <rg:regimeWithImg
-				taskO="${taskT.mtlO }" />
+			<c:set var="taskId" value="${taskT.id}" />
+			<c:if test="${empty patientT }">
+				<c:set var="taskId" value="${taskT.mtlO.id}" />
+			</c:if>
+		<a href="${contextPath}/id=${taskId}">
+			<rg:regimeWithImg taskO="${taskT.mtlO }" />
 		</a>
 		<c:if test="${'p.study'==tilesUrl }">
 			<c:forEach var="pRegimeT" items="${patientT.childTs }">

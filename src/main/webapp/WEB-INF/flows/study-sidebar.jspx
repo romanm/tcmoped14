@@ -20,4 +20,12 @@
 	</rg:titlePane>
 	<rg:link2originalDoc docT="${conceptT }" />
 
+	<div>
+		<spring:message code="ui_previousVersion"/>
+		<div>
+		<c:url var="lOws2" value="/../${link_ows2}/concept=${conceptT.id }" />
+		<a href="${lOws2 }"> ows2 </a>
+		</div>
+	</div>
+
 </jsp:root>

@@ -34,9 +34,13 @@
 		<img class="flag" src="${img}" alt="${locale}" title="${locale}"/>
 			</c:when>
 			<c:otherwise>
-		<a href="${url}" title="${locale}"> <img class="flag" src="${img}"
-			alt="${locale}" />
-		</a>
+		<div>
+			<a href="${url}" title="${locale}"> 
+				<img class="flag" src="${img}" alt="${locale}" />
+				<c:out value=" " />
+				<spring:message code="weSpeak_${locale}"/>
+			</a>
+		</div>
 			</c:otherwise>
 		</c:choose>
 		<c:out value=" " />

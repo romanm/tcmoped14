@@ -8,17 +8,22 @@
 
 	<c:set var="relativeTimesInMillis"
 		value="${relativeTimesInSec*1000+5000}" />
+		<!-- 
+		${relativeTimesInMillis}
+		...
+		${relativeTimesInSec}
 	<c:if test="${relativeTimesInMillis>86399999}">
 		<c:set var="relativeTimesInMillis" value="86399990" />
+	</c:if>
+		 -->
+	<spring:eval var="currentRelativeTimes"
+		expression="now.plusMillis(relativeTimesInMillis)" 
+		scope="request"
+		/>
 		<!-- 
 					TODO
 					org.joda.time.IllegalFieldValueException: 
 					Value 86405000 for millisOfDay must be in the range [0,86399999]
 					 -->
-	</c:if>
-	<spring:eval var="currentRelativeTimes"
-		expression="now.withMillisOfDay(relativeTimesInMillis)" 
-		scope="request"
-		/>
 
 </jsp:root>

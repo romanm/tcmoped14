@@ -4,7 +4,6 @@
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 	xmlns:spring="http://www.springframework.org/tags">
 
-	<div>
 		<rg:titlePane id="menu_1" mtitle="ui_menu" isOpened="${true}">
 		<!-- 
 			<a id="nf_1" href="newfolder">
@@ -32,7 +31,12 @@
 		}));
 		*/
 	</script>
-			
 		</rg:titlePane>
-	</div>
+		<div>
+			<spring:message code="ui_previousVersion"/>
+			<div>
+			<c:url var="lOws2" value="/../${link_ows2}/explorer=${idFolder }" />
+			<a href="${lOws2 }"> ows2 </a>
+			</div>
+		</div>
 </jsp:root>
