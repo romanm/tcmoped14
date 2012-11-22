@@ -34,6 +34,7 @@
 		//out.print("Hello " + now.millisOfDay().get());
 	</jsp:scriptlet>
 	<c:set var="now" value="${now}" scope="request" />
+	<spring:message var="link_ows1" code="link_ows1" scope="request"/>
 	<spring:message var="link_ows2" code="link_ows2" scope="request"/>
 	
 	<html xmlns="http://www.w3.org/1999/xhtml">

@@ -25,6 +25,8 @@
 		<div>
 		<c:url var="lOws2" value="/../${link_ows2}/concept=${conceptT.id }" />
 		<a href="${lOws2 }"> ows2 </a>
+		<br/>
+		<a href="${link_ows1}/protocol?id=${conceptT.id}&amp;part=sd" target="_blank"> ows1 </a>
 		</div>
 	</div>
 
