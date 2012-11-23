@@ -15,58 +15,84 @@ function makeContextMenu(classDoseArray){
 		}
 	}));
 }
-/**
- * Move menu item 
- * @param isMyClass
- * @param childId
- */
-function moveMenuItem(isMyClass,childId){
-	var ctxMenuName="contextMenuContainer";
-	if(isMyClass){
-		ctxMenuName="contextMenu";
-	}
-	var ctxMenu=dijit.byId(ctxMenuName);
+function removeMenuItem(childId){
+	var ctxMenu=dijit.byId("contextMenuContainer");
+	move2ctxMenu(ctxMenu,childId);
+}
+function move2ctxMenu(ctxMenu,childId){
 	var childE=dijit.byId(childId);
 	if(childE!=null){
 		ctxMenu.addChild(childE);
 	}
 }
-function menuSeparator(id){
-	Spring.addDecoration(new Spring.ElementDecoration({
-		elementId:id, widgetType:"dijit.MenuSeparator", widgetModule:"dijit.Menu"
-	}));
+/**
+ * Init menu item. Move to right context menu div tag.
+ * @param isMyClass
+ * @param childId
+ */
+function initMenuItem(isMyClass,childId){
+	var ctxMenuName="contextMenuContainer";
+	if(isMyClass){
+		ctxMenuName="contextMenu";
+	}
+	var ctxMenu=dijit.byId(ctxMenuName);
+	move2ctxMenu(ctxMenu,childId);
 }
 
-function init(){
-	console.log("init BEGIN");
+function initContextMenu(){
+	console.log("initContextMenu BEGIN");
 	// make select only for contextmenu, only by right maus klick, make not select for link maus klick
 	dojo.query(".select").connect("oncontextmenu", function(e) {
 		var editE=correcturSelectElement(e.target);
+				dojo.require("dojox.xml.parser");
 		if(dojo.hasClass(editE,"selected")){
 			dojo.removeClass(editE, "selected");
 		}
 		dojo.query(".selected").removeClass("selected");
+
 		dojo.addClass(editE, "selected");
-		//move menu item
+		//remove menu item
+		console.log(1);
+		var cmc=dijit.byId("contextMenuContainer");
+		dojo.forEach(dijit.byId("contextMenu").getChildren(),function(mi){
+			cmc.addChild(mi);
+		})
+		initMenuItem(true,				"cmiEdit");
+		initMenuItem(true,				"cms_openEdit");
+		initMenuItem(true,				"cmiCopy");
+		initMenuItem(true,				"cmiPaste");
+		initMenuItem(true,				"cm1s1");
+		if(dojo.byId("regimeView").value.indexOf("plan")>=0){
+			removeMenuItem("cmiUp");
+			removeMenuItem("cmiDown");
+		}else{
+			initMenuItem(true,				"cmiUp");
+			initMenuItem(true,				"cmiDown");
+		}
+		//init menu item
 		var isDrugDose		= hasClass(editE, "drug")||hasClass(editE, "dose");
 		var isNewDDNotice	= hasClass(editE, "dose")||hasClass(editE, "day");
 		var isMiUpdate		= isDrugDose||isNewDDNotice
 		||hasClass(editE, "taskNotice")||hasClass(editE, "schema");
-		moveMenuItem(isMiUpdate,				"mi_cmus1");
-		moveMenuItem(hasClass(editE, "drug"),	"cmiDrugInDrug");
-		moveMenuItem(isDrugDose||hasClass(editE, "day"),	"cmiAddRule");
-		moveMenuItem(isNewDDNotice||isDrugDose,	"cmiAddDrugDoseNotice");
-		moveMenuItem(hasClass(editE, "schema"),	"mi_editCycle");
-		moveMenuItem(hasClass(editE, "taskNotice"),	"addNotice");
-		moveMenuItem(hasClass(editE, "schema"),		"mi_newDrug");
-		moveMenuItem(hasClass(editE, "schema"),		"mi_newSupportDrug");
-		moveMenuItem(hasClass(editE, "schema"),		"mi_newOnDemandDrug");
-		moveMenuItem(hasClass(editE, "arm"),		"cmArmName");
-		moveMenuItem(hasClass(editE, "cmDayDelay"),	"cmDayDelay");
-		moveMenuItem(isDrugDose,				"innerTask");
-		//move menu item END
+		initMenuItem(isMiUpdate,				"cmus1");
+		initMenuItem(hasClass(editE, "drug"),	"cmiDrugInDrug");
+		initMenuItem(isDrugDose||hasClass(editE, "day"),	"cmiAddRule");
+		initMenuItem(isNewDDNotice||isDrugDose,	"cmiAddDrugDoseNotice");
+		initMenuItem(hasClass(editE, "schema"),	"mi_editCycle");
+		initMenuItem(hasClass(editE, "taskNotice"),	"addNotice");
+		initMenuItem(hasClass(editE, "schema"),		"mi_newDrug");
+		initMenuItem(hasClass(editE, "schema"),		"mi_newSupportDrug");
+		initMenuItem(hasClass(editE, "schema"),		"mi_newOnDemandDrug");
+		initMenuItem(hasClass(editE, "arm"),		"cmArmName");
+		initMenuItem(hasClass(editE, "cmDayDelay"),	"cmDayDelay");
+		initMenuItem(isDrugDose,				"innerTask");
+		initMenuItem(true,				"cm1s2");
+		initMenuItem(true,				"cmiJaxb");
+		initMenuItem(true,				"cmiCopyIdForLocal");
+		initMenuItem(true,				"cmiPasteFromRepository");
+		//init menu item END
 	});
-	console.log("init END");
+	console.log("initContextMenu END");
 }
 function hasClass(editE,className){return dojo.hasClass(editE,className);}
 function cmiJaxbPaste(){
@@ -116,6 +142,20 @@ function cmiPasteFromRepository(){
 	console.log("href "+href);
 	node_aPasteFromRepository.setAttribute("href",href);
 	node_aPasteFromRepository.click();
+}
+function cmiOpenEdit(){
+	var selectedE = getSelectedE();
+	console.log(selectedE);
+var sa=	dojo.query(".selected a")[0];
+	console.log(sa);
+	sa.click();
+	//alert("Id for paste local server: "+selectedE.id);
+}
+function cmiEdit(){
+	cmiOpenEdit();
+}
+function cmiOpen(){
+	cmiOpenEdit();
 }
 function cmiCopyIdForLocal(){
 	var selectedE = getSelectedE();
@@ -241,5 +281,10 @@ function menuItem(id,classes,click){
 	Spring.addDecoration(new Spring.ElementDecoration({
 		elementId:id, widgetType:"dijit.MenuItem", widgetModule:"dijit.Menu",
 		widgetAttrs : {iconClass:classes, onClick: click}
+	}));
+}
+function menuSeparator(id){
+	Spring.addDecoration(new Spring.ElementDecoration({
+		elementId:id, widgetType:"dijit.MenuSeparator", widgetModule:"dijit.Menu"
 	}));
 }

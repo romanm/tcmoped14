@@ -36,28 +36,24 @@
 
 	<div style="visibility: hidden;">
 		<div id="contextMenuContainer">
-			<rg:menuItem id="cmiDrugInDrug"
-				classes="dijitEditorIcon dijitEditorIconCopy" />
+			<rg:menuItem id="cmiDrugInDrug" classes="dijitEditorIcon dijitEditorIconCopy" />
 			<rg:menuItem id="cmiAddDrugDoseNotice" classes="noteIcon" />
 			<rg:menuItem id="cmiAddRule" classes="noteIcon" />
+			<rg:menuSeparator id="cms_openEdit" />
+			<rg:menuItem id="cmiOpen" classes="noteIcon" />
+			<rg:menuItem id="cmiEdit" classes="noteIcon" />
 		</div>
 		<div id="contextMenu">
-			<rg:menuItem id="cmiCopy"
-				classes="dijitEditorIcon dijitEditorIconCopy" />
-			<rg:menuItem id="cmiPaste"
-				classes="dijitEditorIcon dijitEditorIconPaste" />
-			<rg:menuItem id="cmiDelete"
-				classes="dijitEditorIcon dijitEditorIconDelete" />
+			<rg:menuItem id="cmiCopy" classes="dijitEditorIcon dijitEditorIconCopy" />
+			<rg:menuItem id="cmiPaste" classes="dijitEditorIcon dijitEditorIconPaste" />
+			<rg:menuItem id="cmiDelete" classes="dijitEditorIcon dijitEditorIconDelete" />
 			<rg:menuSeparator id="cm1s1" />
 			<rg:menuItem id="cmiUp" classes="dijitEditorIcon dijitEditorIconCopy" />
-			<rg:menuItem id="cmiDown"
-				classes="dijitEditorIcon dijitEditorIconCopy" />
+			<rg:menuItem id="cmiDown" classes="dijitEditorIcon dijitEditorIconCopy" />
 			<rg:menuSeparator id="cm1s2" />
 			<rg:menuItem id="cmiJaxb" classes="noteIcon" />
-			<rg:menuItem id="cmiCopyIdForLocal"
-				classes="dijitEditorIcon dijitEditorIconCopy" />
-			<rg:menuItem id="cmiPasteFromRepository"
-				classes="dijitEditorIcon dijitEditorIconPaste" />
+			<rg:menuItem id="cmiCopyIdForLocal" classes="dijitEditorIcon dijitEditorIconCopy" />
+			<rg:menuItem id="cmiPasteFromRepository" classes="dijitEditorIcon dijitEditorIconPaste" />
 		</div>
 	</div>
 	
@@ -71,7 +67,7 @@
 		}));
 		makeContextMenu(dojo.query('.concept, .choice, .arm, .task, .drug, .dose, .day, .times'));
 		dojo.addOnLoad(function() {
-			init();
+			initContextMenu();
 		});
 	</script>
 	
@@ -86,7 +82,7 @@
 			aPasteFromRepository
 		</a>
 		<script type="text/javascript">
-				link2modalDialog("aPasteFromRepository");
+			link2modalDialog("aPasteFromRepository");
 		</script>
 	</div>
 

@@ -134,6 +134,7 @@
 		<br/>
 		<tiles:insertAttribute name="sidebar" />
 		<input id="urlRoot" type="hidden" name="urlRoot" value="${urlRoot }" />
+		<input id="regimeView" type="hidden" name="regimeView" value="${regimeView}" />
 		<rg:contextMenu/>
 	</div>
 </body>
