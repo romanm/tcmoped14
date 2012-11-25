@@ -81,9 +81,6 @@
 <script type="text/javascript" src="${mopetJs }">
 <!-- //required for FF3 and Opera -->
 </script>
-<c:set var="tilesUrl" scope="request">
-	<tiles:insertAttribute name="tilesUrl" />
-</c:set>
 </head>
 <body class="tundra">
 	<div id="headline">
@@ -136,6 +133,8 @@
 		<input id="urlRoot" type="hidden" name="urlRoot" value="${urlRoot }" />
 		<input id="regimeView" type="hidden" name="regimeView" value="${regimeView}" />
 		<input id="studyView" type="hidden" name="studyView" value="${studyView}" />
+		<c:set var="tilesUrl" scope="request"><tiles:insertAttribute name="tilesUrl" /></c:set>
+		<input id="tilesUrl" type="hidden" name="tilesUrl" value="${tilesUrl}" />
 		<rg:contextMenu/>
 	</div>
 </body>

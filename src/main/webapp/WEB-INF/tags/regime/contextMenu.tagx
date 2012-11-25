@@ -40,6 +40,7 @@
 			<rg:menuItem id="cmiAddDrugDoseNotice" classes="noteIcon" />
 			<rg:menuItem id="cmiAddRule" classes="noteIcon" />
 			<rg:menuSeparator id="cms_openEdit" />
+			<rg:menuItem id="cmiBack" classes="noteIcon" />
 			<rg:menuItem id="cmiOpen" classes="noteIcon" />
 			<rg:menuItem id="cmiOpenInNewTab" classes="noteIcon" />
 			<rg:menuItem id="cmiEdit" classes="noteIcon" />
@@ -72,7 +73,8 @@
 		});
 	</script>
 	
-	<div style="visibility: hidden;">
+	<div style="visibility: hidden;">tcm14
+		<a id="hiddenBlankLink" href="/" target="_blank">hiddenLink</a>
 		<a id="aPasteFromRepository" 
 			href="/tcm14/importNodeForm?idRegime=1327794&amp;">
 		<!-- 

@@ -62,10 +62,14 @@ function initContextMenu(){
 		console.log(dojo.byId("studyView").value);
 		if(dojo.hasClass(editE,"choice")){
 		}else if(dojo.hasClass(editE,"arm")){
-		}else if(dojo.hasClass(editE,"task")
-			&& dojo.byId("studyView").value.indexOf("sg")>=0){
+		}else if(
+				(dojo.hasClass(editE,"task")
+			&& dojo.byId("studyView").value.indexOf("sg")>=0)
+		|| ("folder"==dojo.byId("tilesUrl").value)	
+		){
 			initMenuItem(true,				"cmiOpen");
 			initMenuItem(true,				"cmiOpenInNewTab");
+			initMenuItem(true,				"cmiBack");
 			initMenuItem(true,				"cms_openEdit");
 		}else{
 			initMenuItem(true,				"cmiEdit");
@@ -154,6 +158,9 @@ function cmiPasteFromRepository(){
 	node_aPasteFromRepository.setAttribute("href",href);
 	node_aPasteFromRepository.click();
 }
+function cmiBack(){
+	window.history.back();
+}
 function cmiOpenEdit(){
 	var sa=	dojo.query(".selected a")[0];
 	sa.click();
@@ -166,8 +173,9 @@ function cmiOpen(){
 }
 function cmiOpenInNewTab(){
 	var sa=	dojo.query(".selected a")[0];
-	sa.setAttribute("target","_blank");
-	sa.click();
+	var hiddenBlankLink=dojo.byId("hiddenBlankLink");
+	hiddenBlankLink.setAttribute("href",sa.getAttribute("href"));
+	hiddenBlankLink.click();
 }
 function cmiCopyIdForLocal(){
 	var selectedE = getSelectedE();

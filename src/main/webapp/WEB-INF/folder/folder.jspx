@@ -23,7 +23,7 @@
 				</div>
 			</c:when>
 			<c:when test="${'protocol'==docT.tabName }">
-				<div class="conceptContent">
+				<div class="conceptContent concept select">
 					<a href="id=${docT.id }"> ${docT.mtlO.protocol} </a>
 				</div>
 			</c:when>
