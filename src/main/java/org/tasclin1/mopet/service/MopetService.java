@@ -401,6 +401,7 @@ public class MopetService {
     public final static String regimeDrugDayTs = "regimeDrugDayTs";
     public final static String drugNoticeExprM = "drugNoticeExprM";
     public final static String regimeView = "regimeView";
+    public final static String studyView = "studyView";
     public final static String REGIMET = "regimeT";
     final static String fs_treeFromId = "treeFromId";
 

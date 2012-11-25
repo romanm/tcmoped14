@@ -41,6 +41,7 @@
 			<rg:menuItem id="cmiAddRule" classes="noteIcon" />
 			<rg:menuSeparator id="cms_openEdit" />
 			<rg:menuItem id="cmiOpen" classes="noteIcon" />
+			<rg:menuItem id="cmiOpenInNewTab" classes="noteIcon" />
 			<rg:menuItem id="cmiEdit" classes="noteIcon" />
 		</div>
 		<div id="contextMenu">

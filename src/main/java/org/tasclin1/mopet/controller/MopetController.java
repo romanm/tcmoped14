@@ -118,11 +118,6 @@ public class MopetController {
 	model.addAttribute("docId", idRegime);
     }
 
-    private void addRegimeView(String regimeView, Model model) {
-	model.addAttribute(MopetService.regimeView, regimeView);
-	getRequest().getSession().setAttribute(MopetService.regimeView, regimeView);
-    }
-
     @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-{regimeView}={idRegime}", method = RequestMethod.GET)
     public void folderConceptRegime(@PathVariable
     Integer idFolder, @PathVariable
@@ -188,10 +183,13 @@ public class MopetController {
     }
 
     private void readConcept(Integer idFolder, String studyPart, Integer idStudy, Model model) {
+	log.debug(1);
+	addStudyView(studyPart, model);
 	mopetService.readFolderO2doc(idFolder, model);
 	mopetService.readConceptDocT(idStudy, model);
 	getRequest().getSession().setAttribute("studyPart", studyPart);
 	model.addAttribute("docId", idStudy);
+	log.debug(getRequest().getSession().getAttribute("studyView"));
     }
 
     @RequestMapping(value = "/doc-study={id}", method = RequestMethod.GET)
@@ -311,11 +309,21 @@ public class MopetController {
 	return "redirect:/";
     }
 
+    private void addRegimeView(String regimeView, Model model) {
+	model.addAttribute(MopetService.regimeView, regimeView);
+	getRequest().getSession().setAttribute(MopetService.regimeView, regimeView);
+    }
+
     private String getRegimeView() {
 	String regimeView = (String) getRequest().getSession().getAttribute("regimeView");
 	if (null == regimeView)
 	    regimeView = "ed";
 	return regimeView;
+    }
+
+    private void addStudyView(String studyView, Model model) {
+	model.addAttribute(MopetService.studyView, studyView);
+	getRequest().getSession().setAttribute(MopetService.studyView, studyView);
     }
 
     private String getStudyView() {

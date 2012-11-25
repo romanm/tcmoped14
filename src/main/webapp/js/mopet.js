@@ -52,13 +52,25 @@ function initContextMenu(){
 
 		dojo.addClass(editE, "selected");
 		//remove menu item
-		console.log(1);
 		var cmc=dijit.byId("contextMenuContainer");
 		dojo.forEach(dijit.byId("contextMenu").getChildren(),function(mi){
 			cmc.addChild(mi);
 		})
-		initMenuItem(true,				"cmiEdit");
-		initMenuItem(true,				"cms_openEdit");
+		//init menu item
+		console.log(editE);
+		console.log(dojo.hasClass(editE,"task"));
+		console.log(dojo.byId("studyView").value);
+		if(dojo.hasClass(editE,"choice")){
+		}else if(dojo.hasClass(editE,"arm")){
+		}else if(dojo.hasClass(editE,"task")
+			&& dojo.byId("studyView").value.indexOf("sg")>=0){
+			initMenuItem(true,				"cmiOpen");
+			initMenuItem(true,				"cmiOpenInNewTab");
+			initMenuItem(true,				"cms_openEdit");
+		}else{
+			initMenuItem(true,				"cmiEdit");
+			initMenuItem(true,				"cms_openEdit");
+		}
 		initMenuItem(true,				"cmiCopy");
 		initMenuItem(true,				"cmiPaste");
 		initMenuItem(true,				"cm1s1");
@@ -69,7 +81,6 @@ function initContextMenu(){
 			initMenuItem(true,				"cmiUp");
 			initMenuItem(true,				"cmiDown");
 		}
-		//init menu item
 		var isDrugDose		= hasClass(editE, "drug")||hasClass(editE, "dose");
 		var isNewDDNotice	= hasClass(editE, "dose")||hasClass(editE, "day");
 		var isMiUpdate		= isDrugDose||isNewDDNotice
@@ -144,18 +155,19 @@ function cmiPasteFromRepository(){
 	node_aPasteFromRepository.click();
 }
 function cmiOpenEdit(){
-	var selectedE = getSelectedE();
-	console.log(selectedE);
-var sa=	dojo.query(".selected a")[0];
-	console.log(sa);
+	var sa=	dojo.query(".selected a")[0];
 	sa.click();
-	//alert("Id for paste local server: "+selectedE.id);
 }
 function cmiEdit(){
 	cmiOpenEdit();
 }
 function cmiOpen(){
 	cmiOpenEdit();
+}
+function cmiOpenInNewTab(){
+	var sa=	dojo.query(".selected a")[0];
+	sa.setAttribute("target","_blank");
+	sa.click();
 }
 function cmiCopyIdForLocal(){
 	var selectedE = getSelectedE();
