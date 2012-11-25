@@ -15,8 +15,13 @@ import org.tasclin1.mopet.jaxb.Appx;
 import org.tasclin1.mopet.jaxb.Dayx;
 import org.tasclin1.mopet.jaxb.Dosex;
 import org.tasclin1.mopet.jaxb.Drugx;
+import org.tasclin1.mopet.jaxb.FindingPatientx;
 import org.tasclin1.mopet.jaxb.Laborx;
-import org.tasclin1.mopet.jaxb.Taskx;
+import org.tasclin1.mopet.jaxb.OfDate;
+import org.tasclin1.mopet.jaxb.Patientx;
+import org.tasclin1.mopet.jaxb.Pvariablex;
+import org.tasclin1.mopet.jaxb.TaskPatientx;
+import org.tasclin1.mopet.jaxb.TaskRegimex;
 import org.tasclin1.mopet.jaxb.Timesx;
 import org.tasclin1.mopet.jaxb.Treex;
 import org.tasclin1.mopet.service.MopetService;
@@ -70,6 +75,8 @@ public class JaxbController {
 	    mtlX = regimeTaskx(t0);
 	} else if (t0.isDrug()) {
 	    mtlX = regimeDrugx(t0);
+	} else if (t0.isPatient()) {
+	    mtlX = regimePatientx(t0);
 	} else if (t0.isDose()) {
 	    mtlX = new Dosex(t0);
 	} else if (t0.isDay()) {
@@ -82,8 +89,51 @@ public class JaxbController {
 	return mtlX;
     }
 
-    private Taskx regimeTaskx(Tree taskT) {
-	Taskx taskx = new Taskx(taskT);
+    private Patientx regimePatientx(Tree taskT) {
+	Patientx patientx = new Patientx(taskT);
+	for (Tree t1 : taskT.getChildTs())
+	    if (t1.isTask()) {
+		patientx.getTask().add(taskPatientx(t1));
+	    } else if (t1.isFinding()) {
+		patientx.getFinding().add(findingPatientx(t1));
+	    }
+	return patientx;
+    }
+
+    private FindingPatientx findingPatientx(Tree t0) {
+	FindingPatientx findingPatientx = new FindingPatientx(t0);
+	for (Tree t1 : t0.getChildTs()) {
+	    addOfDate(findingPatientx, t1);
+	}
+	return findingPatientx;
+    }
+
+    private TaskPatientx taskPatientx(Tree taskT) {
+	TaskPatientx taskPatientx = new TaskPatientx(taskT);
+	for (Tree t1 : taskT.getChildTs()) {
+	    addOfDate(taskPatientx, t1);
+	    if (t1.isPvariable()) {
+		Pvariablex pvariablex = new Pvariablex(t1);
+		if ("cycle".equals(t1.getPvalueO().getPvariable())) {
+		    taskPatientx.setPvCycle(pvariablex);
+		}
+	    }
+	}
+	log.debug(taskPatientx);
+	return taskPatientx;
+    }
+
+    private void addOfDate(OfDate patientHistoryx, Tree t1) {
+	if (t1.isPvariable()) {
+	    Pvariablex pvariablex = new Pvariablex(t1);
+	    if ("ofDate".equals(t1.getPvalueO().getPvariable())) {
+		patientHistoryx.setPvOfDate(pvariablex);
+	    }
+	}
+    }
+
+    private TaskRegimex regimeTaskx(Tree taskT) {
+	TaskRegimex taskx = new TaskRegimex(taskT);
 	for (Tree t1 : taskT.getChildTs())
 	    if (t1.isDrug()) {
 		// taskx.getTaskOne().add(regimeDrugx(t1));

@@ -560,6 +560,14 @@ public class Tree implements Serializable {
 	return (Task) getMtlO();
     }
 
+    public Patient getParentO() {
+	return (Patient) getMtlO();
+    }
+
+    public Pvariable getPvalueO() {
+	return (Pvariable) getMtlO();
+    }
+
     @Transient
     private Set<TaskRun> taskRuns;
 
@@ -573,4 +581,5 @@ public class Tree implements Serializable {
     public char getCharNr(int i) {
 	return (char) (87 + i);
     }
+
 }
