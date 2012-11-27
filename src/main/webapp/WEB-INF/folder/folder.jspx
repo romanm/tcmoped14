@@ -23,9 +23,9 @@
 				</div>
 			</c:when>
 			<c:when test="${'protocol'==docT.tabName }">
-				<div class="conceptContent concept select">
-					<a href="id=${docT.id }"> ${docT.mtlO.protocol} </a>
-				</div>
+				<rg:conceptName conceptT="${docT }" tag="div" withImg="true" withLink="true"
+				cssClass="concept select"
+				/>
 			</c:when>
 			<c:when test="${'drug'==docT.tabName }">
 				<div >

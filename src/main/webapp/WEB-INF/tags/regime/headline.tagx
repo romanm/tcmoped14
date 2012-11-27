@@ -53,10 +53,7 @@
 		</c:if>
 		<c:if test="${not empty conceptT }">
 		&gt;
-			<img src="${contextPath }/resources/images/History16.gif" />
-			<a class="conceptContent" href="${contextPath }/id=${conceptT.id}"
-				>${conceptT.mtlO.protocol}
-			</a>
+			<rg:conceptName conceptT="${conceptT }" tag="span" withImg="true" withLink="true"/>
 			<c:if test="${not empty regimeT}">
 			&gt;
 				<rg:regimeName taskT="${regimeT }" tag="span" withImg="true" withLink="true"/>

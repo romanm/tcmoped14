@@ -5,39 +5,18 @@
 	<jsp:directive.attribute name="taskT"
 		type="org.tasclin1.mopet.domain.Tree" required="true"
 		description="Current folder object" />
-		<jsp:directive.attribute name="tag" description="true" />
-		<jsp:directive.attribute name="cssClass" description="false" />
-		<jsp:directive.attribute name="withLink" type="java.lang.Boolean"		 description="false" />
-		<jsp:directive.attribute name="withImg" type="java.lang.Boolean"		 description="false" />
-		<jsp:directive.attribute name="taskId" type="java.lang.Integer"		 description="false" />
-		
-<c:if test="${empty taskId }">
-	<c:set var="taskId" value="${taskT.id}" />
-</c:if>
+	<jsp:directive.attribute name="tag" required="true" />
+	<jsp:directive.attribute name="cssClass" required="false" />
+	<jsp:directive.attribute name="linkId" type="java.lang.Integer" required="false" />
+	<jsp:directive.attribute name="withLink" type="java.lang.Boolean" required="false" />
+	<jsp:directive.attribute name="withImg" type="java.lang.Boolean" required="false" />
 
-<c:set var="toView">
-	<c:out value="${taskT.taskO.task }" />
-</c:set>
-	
-<jsp:element name="${tag}">
-	<jsp:attribute name="class">regimeContent ${cssClass }</jsp:attribute>
-		<c:if test="${withImg }">
-		<!-- 
-	<img src="${contextPath }/resources/images/Task16.gif" />
-		 -->
-			<img src="${contextPath }/resources/images/syringe.gif" />
-		</c:if>
+	<rg:docName docT="${taskT }" tag="${tag }" cssClass="${cssClass }" 
+			linkId="${linkId }" withImg="${withImg }" withLink="${withLink }"
+			img="syringe.gif" 
+			cssDocClass="regimeContent"
+			>
+		<c:out value="${taskT.taskO.task }" />
+	</rg:docName>
 
-	<c:choose>
-		<c:when test="${withLink }">
-		<a class="regimeContent" href="${contextPath }/id=${taskId}">
-			<c:out value="${toView }" />
-		</a>
-		</c:when>
-		<c:otherwise>
-			<c:out value="${toView }" />
-		</c:otherwise>
-	</c:choose>
-
-	</jsp:element>
 </jsp:root>

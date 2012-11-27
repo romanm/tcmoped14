@@ -12,7 +12,7 @@
 				<c:set var="taskId" value="${taskT.mtlO.id}" />
 			</c:if>
 		
-		<rg:regimeName taskT="${taskT }" taskId="${taskId }" tag="span" withImg="true" withLink="true"/>
+		<rg:regimeName taskT="${taskT }" linkId="${taskId }" tag="span" withImg="true" withLink="true"/>
 		
 		<c:if test="${'p.study'==tilesUrl }">
 			<c:forEach var="pRegimeT" items="${patientT.childTs }">
