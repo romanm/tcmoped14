@@ -83,6 +83,12 @@
 </script>
 </head>
 <body class="tundra">
+		<input id="urlRoot" type="hidden" name="urlRoot" value="${urlRoot }" />
+		<input id="regimeView" type="hidden" name="regimeView" value="${regimeView}" />
+		<input id="studyView" type="hidden" name="studyView" value="${studyView}" />
+		<c:set var="tilesUrl" scope="request"><tiles:insertAttribute name="tilesUrl" /></c:set>
+		<input id="tilesUrl" type="hidden" name="tilesUrl" value="${tilesUrl}" />
+
 	<div id="headline">
 		<rg:headline />
 	</div>
@@ -128,13 +134,7 @@
 		<div class="clearBoth">
 			<!-- //required for FF3 and Opera -->
 		</div>
-		<br/>
 		<tiles:insertAttribute name="sidebar" />
-		<input id="urlRoot" type="hidden" name="urlRoot" value="${urlRoot }" />
-		<input id="regimeView" type="hidden" name="regimeView" value="${regimeView}" />
-		<input id="studyView" type="hidden" name="studyView" value="${studyView}" />
-		<c:set var="tilesUrl" scope="request"><tiles:insertAttribute name="tilesUrl" /></c:set>
-		<input id="tilesUrl" type="hidden" name="tilesUrl" value="${tilesUrl}" />
 		<rg:contextMenu/>
 	</div>
 </body>

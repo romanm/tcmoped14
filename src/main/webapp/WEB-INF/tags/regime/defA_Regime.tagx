@@ -5,14 +5,15 @@
 	<jsp:directive.attribute name="taskT"
 		type="org.tasclin1.mopet.domain.Tree" required="true"
 		description="Current folder object" />
+
 	<div class="regimeContent task select" id="task_${taskT.id }">
 			<c:set var="taskId" value="${taskT.id}" />
 			<c:if test="${empty patientT }">
 				<c:set var="taskId" value="${taskT.mtlO.id}" />
 			</c:if>
-		<a href="${contextPath}/id=${taskId}">
-			<rg:regimeWithImg taskO="${taskT.mtlO }" />
-		</a>
+		
+		<rg:regimeName taskT="${taskT }" taskId="${taskId }" tag="span" withImg="true" withLink="true"/>
+		
 		<c:if test="${'p.study'==tilesUrl }">
 			<c:forEach var="pRegimeT" items="${patientT.childTs }">
 				<c:if test="${pRegimeT.ref==taskT.id }">

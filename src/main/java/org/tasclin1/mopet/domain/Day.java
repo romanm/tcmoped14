@@ -183,18 +183,19 @@ public class Day implements MObject, Serializable {
     }
 
     public Set<Integer> getHashSet() {
-	log.debug(hashSet);
+	// log.debug(hashSet);
 	if (null == hashSet) {
 	    hashSet = new HashSet<Integer>();
-	    log.debug(getNewtype());
-	    log.debug(getNewtype().length());
+	    // log.debug(getNewtype());
+	    // log.debug(getNewtype().length());
 	    if ("a".equals(getNewtype())) {
 		hashSet.addAll(getAbsSet());
 	    } else if ("p".equals(getNewtype())) {
 		hashSet.addAll(getPeriodSet());
 	    } else if ("l".equals(getNewtype())) {
-		log.debug(abs);
-		if (abs.contains("-"))
+		// log.debug(abs);
+		if (abs.length() == 0) {
+		} else if (abs.contains("-"))
 		    hashSet.addAll(getPeriodSet());
 		else
 		    hashSet.add(Integer.parseInt(abs));

@@ -49,20 +49,17 @@
 		</c:choose>
 		<c:if test="${not empty patientT }">
 		&gt;
-		<a class="patientContent" href="${contextPath }/id=${patientT.id}">
-				<rg:patientName patientO="${patientT.mtlO }" />
-			</a>
+				<rg:patientLink patientT="${patientT }" tag="span"/>
 		</c:if>
 		<c:if test="${not empty conceptT }">
 		&gt;
 			<img src="${contextPath }/resources/images/History16.gif" />
-			<a class="conceptContent" href="${contextPath }/id=${conceptT.id}">${conceptT.mtlO.protocol}
+			<a class="conceptContent" href="${contextPath }/id=${conceptT.id}"
+				>${conceptT.mtlO.protocol}
 			</a>
 			<c:if test="${not empty regimeT}">
 			&gt;
-			<a class="regimeContent" href="${contextPath }/id=${regimeT.id}">
-					<rg:regimeWithImg taskO="${regimeT.mtlO }" />
-				</a>
+				<rg:regimeName taskT="${regimeT }" tag="span" withImg="true" withLink="true"/>
 			</c:if>
 		</c:if>
 	</c:if>
@@ -71,9 +68,7 @@
 		<c:choose>
 			<c:when test="${not empty regimeT}">
 				&gt;
-				<a class="regimeContent" href="${contextPath }/id=${regimeT.id}">
-					<rg:regimeWithImg taskO="${regimeT.mtlO }" />
-				</a>
+				<rg:regimeName taskT="${regimeT }" tag="span" withImg="true" withLink="true"/>
 			</c:when>
 		</c:choose>
 	</c:if>

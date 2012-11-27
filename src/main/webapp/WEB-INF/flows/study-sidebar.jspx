@@ -3,6 +3,8 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 	xmlns:spring="http://www.springframework.org/tags">
+
+
 	<h2>
 		<spring:message code="ui_title_views" />
 	</h2>

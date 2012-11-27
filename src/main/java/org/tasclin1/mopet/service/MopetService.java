@@ -22,6 +22,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.tasclin1.mopet.controller.MopetController;
 import org.tasclin1.mopet.controller.NewFolderBean;
 import org.tasclin1.mopet.domain.App;
 import org.tasclin1.mopet.domain.Arm;
@@ -140,6 +141,8 @@ public class MopetService {
 	Tree patientT = setTreeWithMtlO(idPatient, model);
 	model.addAttribute("patientT", patientT);
 	model.addAttribute("patientO", patientT.getMtlO());
+	MopetController.getRequest().getSession().setAttribute("sessionPatientT", patientT);
+	model.addAttribute("sessionPatientT", patientT);
 	return patientT;
     }
 

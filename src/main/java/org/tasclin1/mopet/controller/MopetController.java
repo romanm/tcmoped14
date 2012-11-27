@@ -116,6 +116,9 @@ public class MopetController {
 	mopetService.readRegimeDocT(idRegime, model);
 	// mopetService.initRegimeDocT(model);
 	model.addAttribute("docId", idRegime);
+	Tree sessionPatientT = (Tree) getRequest().getSession().getAttribute("sessionPatientT");
+	if (null != sessionPatientT)
+	    model.addAttribute("sessionPatientT", sessionPatientT);
     }
 
     @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-{regimeView}={idRegime}", method = RequestMethod.GET)
@@ -131,7 +134,7 @@ public class MopetController {
 	// return "/f=" + idFolder + "/s=" + idStudy + "/cere-" + regimeView + "=" + idRegime;
     }
 
-    private HttpServletRequest getRequest() {
+    public static HttpServletRequest getRequest() {
 	HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 		.getRequest();
 	return request;
