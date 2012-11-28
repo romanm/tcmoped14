@@ -107,14 +107,33 @@ public class MopetService {
 	Folder folderO = readFolderO2doc(idFolder, model);
 	Tree folderT = setTreeWithMtlO(idFolder, model);
 	model.addAttribute("folderT", folderT);
-	for (Tree tree : folderT.getChildTs())
+	for (Tree tree : folderT.getChildTs()) {
 	    setMtlO(tree, model);
+	    if (tree.isConcept())
+		addConceptRegime(tree, model);
+	}
 	while (!"folder".equals(folderO.getParentF().getFolder())) {
 	    folderO = folderO.getParentF();
 	    folderT = folderT.getParentT();
 	    setMtlO(folderT, model);
 	}
 	model.addAttribute("firstFolderO", folderO);
+    }
+
+    private void addConceptRegime(Tree conceptT, Model model) {
+	if (!model.asMap().containsKey("conceptRegime"))
+	    model.addAttribute("conceptRegime", new HashMap<Tree, List<Tree>>());
+	for (Tree defT : conceptT.getChildTs())
+	    if ("definition".equals(defT.getTabName())) {
+		ArrayList<Tree> arrayList = new ArrayList<Tree>();
+		for (Tree regimeT : defT.getChildTs())
+		    if (regimeT.isTask()) {
+			setMtlO(regimeT, model);
+			arrayList.add(regimeT);
+		    }
+		((Map<Tree, List<Tree>>) model.asMap().get("conceptRegime")).put(conceptT, arrayList);
+		break;
+	    }
     }
 
     @Transactional(readOnly = true)

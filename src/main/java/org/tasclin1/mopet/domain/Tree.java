@@ -175,6 +175,10 @@ public class Tree implements Serializable {
 	return getMtlO() instanceof Finding || "finding".equals(getTabName());
     }
 
+    public boolean isConcept() {
+	return getMtlO() instanceof Concept || "protocol".equals(getTabName());
+    }
+
     public boolean isTask() {
 	return getMtlO() instanceof Task || "task".equals(getTabName());
     }

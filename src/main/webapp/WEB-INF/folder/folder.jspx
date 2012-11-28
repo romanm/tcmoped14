@@ -28,6 +28,10 @@
 				<rg:conceptName conceptT="${docT }" tag="div" withImg="true" withLink="true"
 				cssClass="concept select"
 				/>
+				<c:forEach var="regimeT" items="${conceptRegime[docT] }" varStatus="vs">
+					<c:out value="${vs.first?'':', ' }"/>
+					<rg:regimeName taskT="${regimeT }" tag="span" withLink="true" withImg="true"/>
+				</c:forEach>
 			</c:when>
 			<c:when test="${'drug'==docT.tabName }">
 				<div >
