@@ -4,6 +4,11 @@
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 	xmlns:spring="http://www.springframework.org/tags">
 
+	<rg:folderName tag="h3" folderT="${folderT}" withImg="true"/>
+
+	<rg:patientLink patientT="${sessionPatientT }" tag="div"/>
+	<br/>
+
 		<rg:titlePane id="menu_1" mtitle="ui_menu" isOpened="${true}">
 		<!-- 
 			<a id="nf_1" href="newfolder">

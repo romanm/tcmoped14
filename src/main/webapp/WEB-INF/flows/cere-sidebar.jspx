@@ -11,6 +11,7 @@
 	<h2>
 		<spring:message code="ui_title_views" />
 	</h2>
+
 	<ul>
 		<li><a href="cere-ed=${regimeT.id }"> <spring:message
 					code="uiTherapySchema" />

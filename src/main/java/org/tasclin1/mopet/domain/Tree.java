@@ -532,6 +532,10 @@ public class Tree implements Serializable {
 	return (Notice) getMtlO();
     }
 
+    public Folder getFolderO() {
+	return (Folder) getMtlO();
+    }
+
     public Finding getFindingO() {
 	return (Finding) getMtlO();
     }

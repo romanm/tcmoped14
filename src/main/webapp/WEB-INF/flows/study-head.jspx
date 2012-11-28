@@ -4,9 +4,8 @@
 	xmlns:spring="http://www.springframework.org/tags"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-<h1 class="conceptContent">
-${conceptT.mtlO.protocol }
-</h1>
+	<rg:conceptName conceptT="${conceptT }" tag="h1" withImg="true"/>
+
 <c:if test="${'p.study'==tilesUrl }">
 		<rg:patientHead/>
 	</c:if>

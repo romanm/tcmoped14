@@ -38,13 +38,13 @@
 
 	<c:out value=" | " />
 	<a href="${contextPath }"> home </a>
-	<c:if test="${not empty folderO }">
+	<c:if test="${not empty folderT}">
 		<c:choose>
 			<c:when test="${tilesUrl=='folder'}">
-				<rg:bcFullFolder currentFolderO="${folderO }" />
+				<rg:bcFullFolder currentFolderT="${folderT}" />
 			</c:when>
 			<c:otherwise>
-				<rg:bcA_Folder currentFolderO="${folderO}" />
+				<rg:bcA_Folder currentFolderT="${folderT}" />
 			</c:otherwise>
 		</c:choose>
 		<c:if test="${not empty patientT }">

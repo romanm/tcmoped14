@@ -50,8 +50,12 @@
 			<rg:menuItem id="cmiPaste" classes="dijitEditorIcon dijitEditorIconPaste" />
 			<rg:menuItem id="cmiDelete" classes="dijitEditorIcon dijitEditorIconDelete" />
 			<rg:menuSeparator id="cm1s1" />
+			<!-- 
 			<rg:menuItem id="cmiUp" classes="dijitEditorIcon dijitEditorIconCopy" />
 			<rg:menuItem id="cmiDown" classes="dijitEditorIcon dijitEditorIconCopy" />
+			 -->
+			<rg:menuItem id="cmiUp" classes="noteIcon" />
+			<rg:menuItem id="cmiDown" classes="noteIcon" />
 			<rg:menuSeparator id="cm1s2" />
 			<rg:menuItem id="cmiJaxb" classes="noteIcon" />
 			<rg:menuItem id="cmiCopyIdForLocal" classes="dijitEditorIcon dijitEditorIconCopy" />

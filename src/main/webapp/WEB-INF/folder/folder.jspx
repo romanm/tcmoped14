@@ -2,13 +2,15 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime">
-	<h1>${folderO.folder }</h1>
+
+	<rg:folderName tag="h1" folderT="${folderT}" withImg="true"/>
+
 	<div>
 		Subfolders:
 		<c:forEach var="subFolderT" items="${folderT.childTs }">
 			<c:if test="${'folder'==subFolderT.tabName }">
 				<c:out value=" " />
-				<rg:bcA_Folder currentFolderO="${subFolderT.mtlO}" withoutGt="true" />
+				<rg:bcA_Folder currentFolderT="${subFolderT}" withoutGt="true" />
 			</c:if>
 		</c:forEach>
 		<hr />

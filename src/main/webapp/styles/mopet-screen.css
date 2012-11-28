@@ -39,6 +39,9 @@ div#titleInline h3
 #sidebar { width: 20%; bottom: 0.1em; right: 0.1em;
 	background: url("../images/bg_dotted.png") repeat;
 }
+#sidebar ul{
+	padding-left: 18px;
+}
 #content div.home{
 	margin:auto;
 }

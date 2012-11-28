@@ -4,6 +4,10 @@
 	xmlns:rg="urn:jsptagdir:/WEB-INF/tags/regime"
 	xmlns:spring="http://www.springframework.org/tags">
 
+	<rg:conceptName conceptT="${conceptT }" tag="h3" withImg="true" cssClass="small"/>
+
+	<rg:patientLink patientT="${sessionPatientT }" tag="div"/>
+
 
 	<h2>
 		<spring:message code="ui_title_views" />

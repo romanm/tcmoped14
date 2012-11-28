@@ -109,17 +109,23 @@ public class MopetService {
 	model.addAttribute("folderT", folderT);
 	for (Tree tree : folderT.getChildTs())
 	    setMtlO(tree, model);
-	while (!"folder".equals(folderO.getParentF().getFolder()))
+	while (!"folder".equals(folderO.getParentF().getFolder())) {
 	    folderO = folderO.getParentF();
+	    folderT = folderT.getParentT();
+	    setMtlO(folderT, model);
+	}
 	model.addAttribute("firstFolderO", folderO);
     }
 
     @Transactional(readOnly = true)
     public Folder readFolderO2doc(Integer idFolder, Model model) {
-	model.addAttribute(idFolder);
-	Folder folderO = em.find(Folder.class, idFolder);
-	model.addAttribute("folderO", folderO);
-	return folderO;
+	Tree folderT = readTreeWithMtlO(idFolder, model);
+	/*
+	 * model.addAttribute(idFolder); Folder folderO = em.find(Folder.class, idFolder); model.addAttribute("folderO",
+	 * folderO);
+	 */
+	model.addAttribute("folderT", folderT);
+	return folderT.getFolderO();
     }
 
     // folder END
