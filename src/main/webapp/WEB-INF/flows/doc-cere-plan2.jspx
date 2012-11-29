@@ -45,11 +45,6 @@
 				<c:set var="dayT" value="${timesT.parentT }" />
 				<c:set var="drugT" value="${dayT.parentT }" />
 				<c:set var="firstInDay" value="${stat.first}" scope="request"/>
-				<tr>
-					<td>
-					${stat.first}
-					</td>
-				</tr>
 				<tr class="${timesT.parentT.parentT.parentT==regimeT?'bold':'' }">
 					<c:forEach var="plancolumn"
 						items="${planChronoFormat.plancolumns }">
