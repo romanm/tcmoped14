@@ -30,7 +30,9 @@
 				/>
 				<c:forEach var="regimeT" items="${conceptRegime[docT] }" varStatus="vs">
 					<c:out value="${vs.first?'':', ' }"/>
-					<rg:regimeName taskT="${regimeT }" tag="span" withLink="true" withImg="true"/>
+					<rg:regimeName taskT="${regimeT }" tag="span" withLink="true" withImg="true"
+					cssClass="task select"
+					/>
 				</c:forEach>
 			</c:when>
 			<c:when test="${'drug'==docT.tabName }">

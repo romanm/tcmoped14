@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:spring="http://www.springframework.org/tags">
@@ -7,7 +8,7 @@
 		required="true" description="relativeTimesInSec " />
 
 	<c:set var="relativeTimesInMillis"
-		value="${relativeTimesInSec*1000+5000}" />
+		value="${(relativeTimesInSec+5+dayLossCorrectur)*1000}" />
 		<!-- 
 		${relativeTimesInMillis}
 		...
@@ -20,6 +21,22 @@
 		expression="now.plusMillis(relativeTimesInMillis)" 
 		scope="request"
 		/>
+
+		<c:if test="${firstInDay }">
+			<c:if test="${currentRelativeTimes.dayOfMonth != now.dayOfMonth}">
+				<spring:eval var="period" 
+				expression="new org.joda.time.Period(currentRelativeTimes, now)"/>
+				<!-- 
+				${period.hours }h${period.minutes }m${period.seconds }s
+				 -->
+				<c:set var="dayLossCorrectur" value="${((period.hours*60)+period.minutes)*60+period.seconds }"
+		scope="request"/>
+	<spring:eval var="currentRelativeTimes"
+		expression="currentRelativeTimes.plusMillis(dayLossCorrectur*1000)" 
+		scope="request"/>
+			</c:if>
+		</c:if>
+
 		<!-- 
 					TODO
 					org.joda.time.IllegalFieldValueException: 

@@ -9,16 +9,16 @@
 	<c:if test="${not empty dayNrTaskRuns[dayNr.key] }">
 		<table>
 			<caption class="planday bold">
-			<spring:eval var="dayFirstTaskRun"
-				expression="dayNrTaskRuns.get(dayNr.key).first()" scope="request" />
-			<c:set var="dayFirstMillis" value="${timesBeginMills[dayFirstTaskRun.timesT] }" />
-			<c:set var="firstRelativeSec" value="${0-dayFirstMillis }" />
-			<spring:eval var="dayLastTaskRun"
-				expression="dayNrTaskRuns.get(dayNr.key).last()" scope="request" />
-			<joda:format value="${dayFirstTaskRun.begin }" style="L-"
-				locale="${jodaLocale }" />
-			<joda:format value="${dayFirstTaskRun.begin }" pattern=" EEE"
-				locale="${jodaLocale }" />
+				<spring:eval var="dayFirstTaskRun"
+					expression="dayNrTaskRuns.get(dayNr.key).first()" scope="request" />
+				<c:set var="dayFirstMillis" value="${timesBeginMills[dayFirstTaskRun.timesT] }" />
+				<c:set var="firstRelativeSec" value="${0-dayFirstMillis }" />
+				<spring:eval var="dayLastTaskRun"
+					expression="dayNrTaskRuns.get(dayNr.key).last()" scope="request" />
+				<joda:format value="${dayFirstTaskRun.begin }" style="L-"
+					locale="${jodaLocale }" />
+				<joda:format value="${dayFirstTaskRun.begin }" pattern=" EEE"
+					locale="${jodaLocale }" />
 			</caption>
 			<tr>
 				<c:forEach var="plancolumn" items="${planChronoFormat.plancolumns }">
@@ -39,10 +39,17 @@
 					</c:choose>
 				</c:forEach>
 			</tr>
-			<c:forEach var="taskRun" items="${dayNrTaskRuns[dayNr.key] }">
+			<c:set var="dayLossCorrectur" value="0" scope="request"/>
+			<c:forEach var="taskRun" items="${dayNrTaskRuns[dayNr.key] }" varStatus="stat">
 				<c:set var="timesT" value="${taskRun.timesT }" />
 				<c:set var="dayT" value="${timesT.parentT }" />
 				<c:set var="drugT" value="${dayT.parentT }" />
+				<c:set var="firstInDay" value="${stat.first}" scope="request"/>
+				<tr>
+					<td>
+					${stat.first}
+					</td>
+				</tr>
 				<tr class="${timesT.parentT.parentT.parentT==regimeT?'bold':'' }">
 					<c:forEach var="plancolumn"
 						items="${planChronoFormat.plancolumns }">

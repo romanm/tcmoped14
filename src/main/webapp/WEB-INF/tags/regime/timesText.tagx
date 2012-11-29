@@ -30,11 +30,11 @@
 		scope="application" />
 	<c:choose>
 			<c:when test="${not empty taskRun and fn:contains(style,'plushhmm') }">
-			<c:set var="dayFirstMillis" value="${timesBeginMills[taskRun.timesT] }"/>
-			<c:set var="relativeTimesInSec" value="${dayFirstMillis+firstRelativeSec}"/>
-			<rg:relativeTimesInMillis relativeTimesInSec="${relativeTimesInSec}" />
-			+<joda:format
-					value="${currentRelativeTimes}" pattern="HH:mm" />
+				<c:set var="dayFirstMillis" value="${timesBeginMills[taskRun.timesT] }"/>
+				<c:set var="relativeTimesInSec" value="${dayFirstMillis+firstRelativeSec}"/>
+				<rg:relativeTimesInMillis relativeTimesInSec="${relativeTimesInSec}" />
+				+<joda:format
+						value="${currentRelativeTimes}" pattern="HH:mm" />
 			</c:when>
 			<c:otherwise>
 	<c:choose>

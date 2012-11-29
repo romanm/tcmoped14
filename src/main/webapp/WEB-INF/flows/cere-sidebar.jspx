@@ -7,27 +7,34 @@
 	<rg:regimeName taskT="${regimeT }" tag="h3" withImg="true" cssClass="small"/>
 
 	<rg:patientLink patientT="${sessionPatientT }" tag="div"/>
-
+<br/>
+<!-- 
 	<h2>
 		<spring:message code="ui_title_views" />
 	</h2>
+ -->
 
-	<ul>
-		<li><a href="cere-ed=${regimeT.id }"> <spring:message
-					code="uiTherapySchema" />
-		</a></li>
-		<li><a href="cere-plan2=${regimeT.id }"> <spring:message
-					code="uiChemoTherapyPlan" />
-		</a> <c:if test="${'plan2'==sessionScope['regimeView']}">
+	<rg:titlePane id="view_1" mtitle="ui_title_views" isOpened="${true}">
+		<ul>
+			<li><a href="cere-ed=${regimeT.id }"> <spring:message
+						code="uiTherapySchema" />
+			</a></li>
+			<li><a href="cere-plan2=${regimeT.id }"> <spring:message
+						code="uiChemoTherapyPlan" />
+			</a> 
+			<c:if test="${'plan2'==sessionScope['regimeView']}">
 				<ul>
 					<li><spring:message code="uiChemoTherapyPlan_infoCheck" /></li>
 					<li><spring:message code="uiChemoTherapyPlan_drugNoteCheck" /></li>
 				</ul>
-			</c:if></li>
-		<li><a href="cere-week=${regimeT.id}"> <spring:message
-					code="uiChemoTherapyWeek" />
-		</a></li>
-	</ul>
+			</c:if>
+			</li>
+			<li><a href="cere-week=${regimeT.id}"> <spring:message
+						code="uiChemoTherapyWeek" />
+			</a></li>
+		</ul>
+	</rg:titlePane>
+
 	<rg:titlePane id="menu_1" mtitle="ui_menu" isOpened="${true}">
 		<div>
 			<spring:message code="menu_newDrug" />
@@ -54,9 +61,7 @@
 			<div> <spring:message code="menu_newFinding" /> </div>
 		</rg:titlePane>
 	</rg:titlePane>
-<!-- 
 	<rg:timesOrder />
- -->
 	<br />
 	<rg:link2originalDoc docT="${regimeT }" />
 	

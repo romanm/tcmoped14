@@ -7,17 +7,20 @@
 	<rg:conceptName conceptT="${conceptT }" tag="h3" withImg="true" cssClass="small"/>
 
 	<rg:patientLink patientT="${sessionPatientT }" tag="div"/>
-
-
+<br/>
+<!-- 
 	<h2>
 		<spring:message code="ui_title_views" />
 	</h2>
-
+ -->
+<rg:titlePane id="view_1" mtitle="ui_title_views" isOpened="${true}">
 	<ul>
 		<li><a href="study-sg=${conceptT.id }"> <spring:message
 					code="study_part_sg" />
 		</a></li>
 	</ul>
+	</rg:titlePane>
+	
 	<rg:titlePane id="menu_1" mtitle="ui_menu" isOpened="${true}">
 		<div><spring:message code="menu_newRegime" /></div>
 		<div><spring:message code="menu_editConceptNameAndO" /></div>
