@@ -14,9 +14,9 @@
 		description="The tree object" />
 
 	<!-- 
-	<c:set var="class" value="x" />
+	<c:set var="mclass" value="x" />
 		 -->
-	<c:set var="class" value="interval" />
+	<c:set var="mclass" value="interval" />
 	<c:choose>
 		<c:when test="${'head'==viewType}">
 			<c:forEach var="h" begin="${dayFirstTaskRun.begin.hourOfDay }"
@@ -34,7 +34,7 @@
 			<c:forEach var="h" begin="${dayFirstTaskRun.begin.hourOfDay }"
 				end="${dayLastTaskRun.end.hourOfDay}">
 				<td><c:choose>
-						<c:when test="${'interval'==class }">
+						<c:when test="${'interval'==mclass }">
 							<spring:eval expression="taskRun.symbolToHour(h)" />
 						</c:when>
 						<c:otherwise>

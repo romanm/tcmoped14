@@ -8,6 +8,7 @@
 	<!-- 
 <c:out value="${patientO.forename}, ${patientO.patient}" />
  -->
+ <img src="${contextPath }/resources/images/patient16.jpg" />
 	<c:out value="${patientO.patient}, ${patientO.forename}" />
 	<span class="small"> <c:out value=" (${patientO.sex})" />
 	</span>
