@@ -1,5 +1,10 @@
 package org.tasclin1.mopet.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
@@ -103,7 +108,8 @@ public class MopetController {
     Integer idStudy, @PathVariable
     String regimeView, @PathVariable
     Integer idRegime, Model model) {
-	mopetService.readPatientDocShort(idPatient, model);
+	Tree patientT = mopetService.readPatientDocShort(idPatient, model);
+	lastUsedDocuments(model, patientT);
 	readRegime(idFolder, idStudy, regimeView, idRegime, model);
     }
 
@@ -112,13 +118,40 @@ public class MopetController {
     private void readRegime(Integer idFolder, Integer idStudy, String regimeView, Integer idRegime, Model model) {
 	addRegimeView(regimeView, model);
 	mopetService.readFolderO2doc(idFolder, model);
-	mopetService.readConceptT(idStudy, model);
+	Tree conceptT = mopetService.readConceptT(idStudy, model);
+	lastUsedDocuments(model, conceptT);
 	mopetService.readRegimeDocT(idRegime, model);
 	// mopetService.initRegimeDocT(model);
 	model.addAttribute("docId", idRegime);
 	Tree sessionPatientT = (Tree) getRequest().getSession().getAttribute("sessionPatientT");
 	if (null != sessionPatientT)
 	    model.addAttribute("sessionPatientT", sessionPatientT);
+	Tree docT = (Tree) model.asMap().get(MopetService.REGIMET);
+	lastUsedDocuments(model, docT);
+    }
+
+    private void lastUsedDocuments(Model model, Tree docT) {
+	Map<Integer, Tree> lastUsedDocuments = (Map<Integer, Tree>) getRequest().getSession().getAttribute(
+		"lastUsedDocuments");
+	List<Integer> lastUsedDocumentsList = (List<Integer>) getRequest().getSession().getAttribute(
+		"lastUsedDocumentsList");
+	if (null == lastUsedDocuments) {
+	    lastUsedDocuments = new HashMap<Integer, Tree>();
+	    lastUsedDocumentsList = new ArrayList<Integer>();
+	    getRequest().getSession().setAttribute("lastUsedDocuments", lastUsedDocuments);
+	    getRequest().getSession().setAttribute("lastUsedDocumentsList", lastUsedDocumentsList);
+	    model.addAttribute("lastUsedDocuments", lastUsedDocuments);
+	    model.addAttribute("lastUsedDocumentsList", lastUsedDocumentsList);
+	}
+	if (!lastUsedDocuments.containsKey(docT.getId())) {
+	    lastUsedDocuments.put(docT.getId(), docT);
+	    lastUsedDocumentsList.add(0, docT.getId());
+	}
+	if (lastUsedDocuments.size() > 10) {
+	    Integer lastId = lastUsedDocumentsList.get(lastUsedDocumentsList.size() - 1);
+	    Tree lastDocT = lastUsedDocuments.get(lastId);
+	    lastUsedDocuments.remove(lastDocT);
+	}
     }
 
     @RequestMapping(value = "/f={idFolder}/s={idStudy}/cere-{regimeView}={idRegime}", method = RequestMethod.GET)
@@ -171,7 +204,8 @@ public class MopetController {
     Integer idPatient, @PathVariable
     String studyPart, @PathVariable
     Integer idStudy, Model model) {
-	mopetService.readPatientDocShort(idPatient, model);
+	Tree patientT = mopetService.readPatientDocShort(idPatient, model);
+	lastUsedDocuments(model, patientT);
 	readConcept(idFolder, studyPart, idStudy, model);
     }
 
@@ -189,7 +223,8 @@ public class MopetController {
 	log.debug(1);
 	addStudyView(studyPart, model);
 	mopetService.readFolderO2doc(idFolder, model);
-	mopetService.readConceptDocT(idStudy, model);
+	Tree conceptT = mopetService.readConceptDocT(idStudy, model);
+	lastUsedDocuments(model, conceptT);
 	getRequest().getSession().setAttribute("studyPart", studyPart);
 	model.addAttribute("docId", idStudy);
 	log.debug(getRequest().getSession().getAttribute("studyView"));
@@ -236,7 +271,8 @@ public class MopetController {
     Integer idFolder, @PathVariable
     Integer idPatient, Model model) {
 	mopetService.readFolderO2doc(idFolder, model);
-	mopetService.readPatientDoc(model, idPatient);
+	Tree patientT = mopetService.readPatientDoc(model, idPatient);
+	lastUsedDocuments(model, patientT);
 	model.addAttribute("docId", idPatient);
     }
 

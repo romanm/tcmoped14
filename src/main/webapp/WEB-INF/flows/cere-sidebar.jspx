@@ -62,6 +62,9 @@
 		</rg:titlePane>
 	</rg:titlePane>
 	<rg:timesOrder />
+	<rg:titlePane id="luDoc" mtitle="lastUsedDocuments" isOpened="${true}">
+		<rg:lastUsedDocuments cssClass="small"/>
+	</rg:titlePane>
 	<br />
 	<rg:link2originalDoc docT="${regimeT }" />
 	

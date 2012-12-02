@@ -27,6 +27,10 @@
 		<div><spring:message code="menu_defineSchemaVariant" /></div>
 		<div><spring:message code="menu_newChoose" /></div>
 	</rg:titlePane>
+		<rg:titlePane id="luDoc" mtitle="lastUsedDocuments" isOpened="${true}">
+		<rg:lastUsedDocuments cssClass="small"/>
+	</rg:titlePane>
+	
 	<rg:link2originalDoc docT="${conceptT }" />
 
 	<div>

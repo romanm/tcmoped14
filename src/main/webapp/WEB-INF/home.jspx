@@ -19,5 +19,10 @@
 			<a href="${contextPath }/folder=${drugF.id}">Medikament folder </a>
 		</div>
 	</div>
+	<hr />
+	<div>
+		lastUsedDocuments
+		<rg:lastUsedDocuments/>
+	</div>
 
 </jsp:root>

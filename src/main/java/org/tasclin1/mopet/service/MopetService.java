@@ -267,7 +267,7 @@ public class MopetService {
     }
 
     @Transactional(readOnly = true)
-    public void readConceptDocT(Integer idStudy, Model model) {
+    public Tree readConceptDocT(Integer idStudy, Model model) {
 	Tree conceptT = readConceptT(idStudy, model);
 	for (Tree t1 : conceptT.getChildTs()) {
 	    if ("definition".equals(t1.getTabName()))
@@ -297,6 +297,7 @@ public class MopetService {
 	 * for (Tree t1 : conceptT.getChildTs()) { setMtlO(t1); if ("definition".equals(t1.getTabName())) {
 	 * model.addAttribute("conceptDefinitionT", t1); for (Tree tree2 : t1.getChildTs()) setMtlO(tree2); } }
 	 */
+	return conceptT;
     }
 
     // concept END
@@ -361,10 +362,10 @@ public class MopetService {
 		if (timesT.isTimes()) {
 		    if (0 == timesT.getTaskRuns().size()) {
 			if (null == timesT.getRef()) {
-			    log.debug("-------without ref---------");
-			    log.debug(timesT.getParentT().getDayO());
+			    // log.debug("-------without ref---------");
+			    // log.debug(timesT.getParentT().getDayO());
 			    Set<Integer> hashSet = timesT.getParentT().getDayO().getHashSet();
-			    log.debug(hashSet);
+			    // log.debug(hashSet);
 			    for (Integer dayNr : hashSet) {
 				log.debug(1);
 				Times timesO = timesT.getTimesO();
