@@ -11,11 +11,11 @@
 
 	<!-- Scans for application @Components to deploy -->
 	<context:component-scan base-package="org.springframework.webflow.samples.booking" />
-	<!-- 
+	<!--
 	<context:component-scan base-package="org.tasclin1.mopet.controller" />
 	<context:component-scan base-package="org.tasclin1.mopet.service" />
 	<context:component-scan base-package="org.tasclin1.mopet.jabx" />
-	 -->
+	-->
 	<context:component-scan base-package="org.tasclin1.mopet" />
 
 	<!-- Imports the configurations of the different infrastructure systems of the application -->
@@ -26,10 +26,20 @@
 	<import resource="db-structure-config.xml" />
 
 <!-- 
-	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	<bean id="messageSource" 
+	class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="basename" value="classpath:messages"/>
 		<property name="defaultEncoding"	value="UTF-8" />
 		<property name="fileEncodings"		value="UTF-8" />
 	</bean>
  -->
+
+	<bean id="repositoryConfig" 
+	class="org.apache.jackrabbit.core.config.RepositoryConfig"
+		factory-method="create">
+		<constructor-arg index="0" 
+		value="/home/roman/opt/apache-tomcat-7.0.33/myWarJackrabbit1/repository.xml" />
+		<constructor-arg index="1" value="." />
+	</bean>
+
 </beans>

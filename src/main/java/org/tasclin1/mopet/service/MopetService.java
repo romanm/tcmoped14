@@ -15,6 +15,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.jackrabbit.core.config.RepositoryConfig;
 import org.joda.time.MutableDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -55,6 +56,10 @@ public class MopetService {
     protected final Log log = LogFactory.getLog(getClass());
 
     @Autowired
+    @Qualifier("repositoryConfig")
+    private RepositoryConfig repositoryConfig;
+
+    @Autowired
     @Qualifier("dbStructurService")
     private DbstructurService dbStructurService;
 
@@ -85,6 +90,8 @@ public class MopetService {
 
     // home
     public void home(Model model) {
+	log.debug("----------------" + repositoryConfig);
+	log.debug("---------------- 1");
 	log.debug("----------------" + dbStructurService);
 	Folder patientF = (Folder) em.createQuery("SELECT f FROM Folder f WHERE f.folder=:folder")
 		.setParameter("folder", "patient").getSingleResult();
