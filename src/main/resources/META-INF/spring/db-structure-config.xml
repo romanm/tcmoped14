@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	">
+
+	<bean id="dbStructurService" class="org.tasclin1.mopet.service.DbstructurService">
+		<property name="simpleJdbc" ref="simpleJdbc" />
+		<property name="name" value="Leere DB" />
+		<property name="dbUpdateL">
+			<list>
+				<bean class="org.tasclin1.mopet.service.DbUpdate" p:date="2012-10-25 01:01:01">
+					<property name="ifNotDbObj" value="SELECT * FROM folder " />
+					<property name="sqlL">
+						<list>
+							<value>ALTER SEQUENCE dbid RESTART WITH 1000</value>
+						</list>
+					</property>
+				</bean>
+				<bean class="org.tasclin1.mopet.service.DbUpdate" p:date="2012-10-25 01:01:04">
+					<property name="ifNotDbObj"
+						value="SELECT * FROM folder where folder='folder'" />
+					<property name="sqlL">
+						<list>
+							<value>ALTER SEQUENCE dbid RESTART WITH 1000</value>
+							<value>SELECT
+ 'INSERT INTO tree (id,tab_name,did,idclass,iddoc) VALUES
+	('||nextval('dbid')||',"folder",'||currval('dbid')||','||currval('dbid')||','||currval('dbid')||')' 
+ AS n1
+ , 'INSERT INTO folder (idfolder,folder,fdid) VALUES	('||currval('dbid')||',"folder",'||currval('dbid')||')' 
+ AS n2
+ , 'INSERT INTO history (idhistory,mdate,idauthor) VALUES		('||currval('dbid')||',"'||now()||'",'||currval('dbid')||')' 
+ AS n3
+</value>
+							<value>SELECT
+								'INSERT INTO tree (id,tab_name,did,idclass,iddoc) VALUES
+								('||nextval('dbid')||',"folder",'||f1.idfolder||','||currval('dbid')||','||t1.iddoc||')'
+								AS n1,
+								'INSERT INTO folder (idfolder,folder,fdid) VALUES
+								('||currval('dbid')||',"patient",'||f1.idfolder||')' AS
+								n2,
+								'INSERT INTO history (idhistory,mdate,idauthor) VALUES
+								('||currval('dbid')||',"'||now()||'",'||idauthor||')' AS n3
+								FROM folder f1,tree t1,history WHERE f1.folder='folder' AND
+								t1.id=f1.idfolder AND t1.id=idhistory
+							</value>
+							<value>SELECT
+								'INSERT INTO tree (id,tab_name,did,idclass,iddoc) VALUES
+								('||nextval('dbid')||',"folder",'||f1.idfolder||','||currval('dbid')||','||t1.iddoc||')'
+								AS n1,
+								'INSERT INTO folder (idfolder,folder,fdid) VALUES
+								('||currval('dbid')||',"protocol",'||f1.idfolder||')' AS
+								n2,
+								'INSERT INTO history (idhistory,mdate,idauthor) VALUES
+								('||currval('dbid')||',"'||now()||'",'||idauthor||')' AS n3
+								FROM folder f1,tree t1,history WHERE f1.folder='folder' AND
+								t1.id=f1.idfolder AND t1.id=idhistory
+							</value>
+							<value>SELECT
+								'INSERT INTO tree (id,tab_name,did,idclass,iddoc) VALUES
+								('||nextval('dbid')||',"folder",'||f1.idfolder||','||currval('dbid')||','||t1.iddoc||')'
+								AS n1,
+								'INSERT INTO folder (idfolder,folder,fdid) VALUES
+								('||currval('dbid')||',"drug",'||f1.idfolder||')' AS
+								n2,
+								'INSERT INTO history (idhistory,mdate,idauthor) VALUES
+								('||currval('dbid')||',"'||now()||'",'||idauthor||')' AS n3
+								FROM folder f1,tree t1,history WHERE f1.folder='folder' AND
+								t1.id=f1.idfolder AND t1.id=idhistory
+							</value>
+							<value>SELECT
+								'INSERT INTO tree (id,tab_name,did,idclass,iddoc) VALUES
+								('||nextval('dbid')||',"folder",'||f1.idfolder||','||currval('dbid')||','||t1.iddoc||')'
+								AS n1,
+								'INSERT INTO folder (idfolder,folder,fdid) VALUES
+								('||currval('dbid')||',"task",'||f1.idfolder||')' AS
+								n2,
+								'INSERT INTO history (idhistory,mdate,idauthor) VALUES
+								('||currval('dbid')||',"'||now()||'",'||idauthor||')' AS n3
+								FROM folder f1,tree t1,history WHERE f1.folder='folder' AND
+								t1.id=f1.idfolder AND t1.id=idhistory
+							</value>
+							<value>SELECT
+								'INSERT INTO tree (id,tab_name,did,idclass,iddoc) VALUES
+								('||nextval('dbid')||',"folder",'||f1.idfolder||','||currval('dbid')||','||t1.iddoc||')'
+								AS n1,
+								'INSERT INTO folder (idfolder,folder,fdid) VALUES
+								('||currval('dbid')||',"labor",'||f1.idfolder||')' AS
+								n2,
+								'INSERT INTO history (idhistory,mdate,idauthor) VALUES
+								('||currval('dbid')||',"'||now()||'",'||idauthor||')' AS n3
+								FROM folder f1,tree t1,history WHERE f1.folder='folder' AND
+								t1.id=f1.idfolder AND t1.id=idhistory
+							</value>
+							<value>SELECT
+								'INSERT INTO tree (id,tab_name,did,idclass,iddoc) VALUES
+								('||nextval('dbid')||',"folder",'||f1.idfolder||','||currval('dbid')||','||t1.iddoc||')'
+								AS n1,
+								'INSERT INTO folder (idfolder,folder,fdid) VALUES
+								('||currval('dbid')||',"finding",'||f1.idfolder||')' AS
+								n2,
+								'INSERT INTO history (idhistory,mdate,idauthor) VALUES
+								('||currval('dbid')||',"'||now()||'",'||idauthor||')' AS n3
+								FROM folder f1,tree t1,history WHERE f1.folder='folder' AND
+								t1.id=f1.idfolder AND t1.id=idhistory
+							</value>
+							<value>SELECT
+								'INSERT INTO tree (id,tab_name,did,idclass,iddoc) VALUES
+								('||nextval('dbid')||',"folder",'||f1.idfolder||','||currval('dbid')||','||t1.iddoc||')'
+								AS n1,
+								'INSERT INTO folder (idfolder,folder,fdid) VALUES
+								('||currval('dbid')||',"dose",'||f1.idfolder||')' AS
+								n2,
+								'INSERT INTO history (idhistory,mdate,idauthor) VALUES
+								('||currval('dbid')||',"'||now()||'",'||idauthor||')' AS n3
+								FROM folder f1,tree t1,history WHERE f1.folder='folder' AND
+								t1.id=f1.idfolder AND t1.id=idhistory
+							</value>
+							<value>SELECT
+								'INSERT INTO tree (id,tab_name,did,idclass,iddoc) VALUES
+								('||nextval('dbid')||',"folder",'||f1.idfolder||','||currval('dbid')||','||t1.iddoc||')'
+								AS n1,
+								'INSERT INTO folder (idfolder,folder,fdid) VALUES
+								('||currval('dbid')||',"day",'||f1.idfolder||')' AS
+								n2,
+								'INSERT INTO history (idhistory,mdate,idauthor) VALUES
+								('||currval('dbid')||',"'||now()||'",'||idauthor||')' AS n3
+								FROM folder f1,tree t1,history WHERE f1.folder='folder' AND
+								t1.id=f1.idfolder AND t1.id=idhistory
+							</value>
+							<value>SELECT
+								'INSERT INTO tree (id,tab_name,did,idclass,iddoc) VALUES
+								('||nextval('dbid')||',"folder",'||f1.idfolder||','||currval('dbid')||','||t1.iddoc||')'
+								AS n1,
+								'INSERT INTO folder (idfolder,folder,fdid) VALUES
+								('||currval('dbid')||',"times",'||f1.idfolder||')' AS
+								n2,
+								'INSERT INTO history (idhistory,mdate,idauthor) VALUES
+								('||currval('dbid')||',"'||now()||'",'||idauthor||')' AS n3
+								FROM folder f1,tree t1,history WHERE f1.folder='folder' AND
+								t1.id=f1.idfolder AND t1.id=idhistory
+							</value>
+							<value>SELECT
+								'INSERT INTO tree (id,tab_name,did,idclass,iddoc) VALUES
+								('||nextval('dbid')||',"folder",'||f1.idfolder||','||currval('dbid')||','||t1.iddoc||')'
+								AS n1,
+								'INSERT INTO folder (idfolder,folder,fdid) VALUES
+								('||currval('dbid')||',"notice",'||f1.idfolder||')' AS
+								n2,
+								'INSERT INTO history (idhistory,mdate,idauthor) VALUES
+								('||currval('dbid')||',"'||now()||'",'||idauthor||')' AS n3
+								FROM folder f1,tree t1,history WHERE f1.folder='folder' AND
+								t1.id=f1.idfolder AND t1.id=idhistory
+							</value>
+
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+</beans>
