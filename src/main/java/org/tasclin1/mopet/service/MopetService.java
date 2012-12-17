@@ -90,7 +90,7 @@ public class MopetService {
 
     // home
     public void home(Model model) {
-	log.debug("----------------" + repositoryConfig);
+	lernRepository();
 	log.debug("---------------- 1");
 	log.debug("----------------" + dbStructurService);
 	Folder patientF = (Folder) em.createQuery("SELECT f FROM Folder f WHERE f.folder=:folder")
@@ -104,6 +104,18 @@ public class MopetService {
 	Folder drugF = (Folder) em.createQuery("SELECT f FROM Folder f WHERE f.folder=:folder")
 		.setParameter("folder", "drug").getSingleResult();
 	model.addAttribute("drugF", drugF);
+    }
+
+    private void lernRepository() {
+	log.debug("----------------" + repositoryConfig);
+	// System.out.println("" + repositoryConfig.getFileSystem());
+	// FileSystem fileSystem = repositoryConfig.getFileSystem();
+	// String[] list = repositoryConfig.getFileSystem().list(".");
+	// System.out.print(list.length + " dirs. ");
+	// for (String string : list) {
+	// System.out.print("dir: " + string + ", ");
+	// }
+
     }
 
     // home END
