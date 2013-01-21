@@ -8,3 +8,6 @@ darunter insbesondere Onkologie entwickelt worden.
 
 Planung und Durchführung 
 von onkologischen Therapiepläne und studienprotokollbasierten Behandlungen ist vorgesehen.
+
+Press release
+http://oncoworkstation123.wordpress.com/
